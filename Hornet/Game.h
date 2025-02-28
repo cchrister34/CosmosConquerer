@@ -5,6 +5,7 @@
 #include "HtMouse.h"
 #include "HtAudio.h"
 #include "GameTimer.h"
+#include "Spaceship.h"
 
 
 // 17/06/2023
@@ -50,6 +51,7 @@ public:
 
 private:
     GameTimer m_timer;
+    Spaceship* pSpaceship;
 
 
 

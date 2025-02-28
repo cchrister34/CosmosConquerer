@@ -2,8 +2,7 @@ Generic Hornet App is built on the Hornet engine created by Chris Rook of Northu
 It uses SDL2, STL_image, STL_mixer and STL_ttf.
 Licence details, links and further information are available in the docs folder.
 
-Game program written by ** Insert name **
-a dopey idiot who is too lazy to update the credits page.
+Game program written by Callum Christer
 
 Images, fonts, sounds and music have been taken from the following sources.
 
@@ -45,16 +44,12 @@ https://pixabay.com
 explosion4.wav by Sound Effect by Dennis from Pixabay
 https://pixabay.com/sound-effects/small-explosion-129477/
 
-spaceship1.png crate1 and crate2 
-from http://millionthvector.blogspot.com/p/free-sprites.html
-using Creative Commons Attribution 4.0 https://creativecommons.org/licenses/by/4.0/
-
-rock1, rock2, rock3, rock4 are modified NASA images
-
 Music1 by Gvidon Бардюжа-Лёвкин from Pixabay
 https://pixabay.com/music/beats-twisted-138700/
 
 launchshort.wav and thrustloop.wav by Pixabay https://pixabay.com/
 
+Spaceship by Redshrike from OpenGameArt.org
+https://opengameart.org/content/space-ship-building-bits-volume-1
 
 
