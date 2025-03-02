@@ -28,6 +28,7 @@ protected:
 	double m_angle;				// Angle of rotation of the image. 0 is upright. Angle in radians clockwise
 	int m_imageNumber;			// Index of the current image in m_images;
 	double m_transparency;
+    double m_mass;
 	// Call these function in RenderDebug to display information when debugging
 	void AddDebugLine(const char* title, int value);
 	void AddDebugLine(const char* title, double value);
@@ -118,6 +119,8 @@ public:
 
 	// Returns true if collidable
 	bool IsCollidable();
+
+    double GetMass() const;
 
 	// Sets the draw depth of the object. Small numbers are "background". larger numbers
 	// are "foreground". You should set this before adding the object to the object

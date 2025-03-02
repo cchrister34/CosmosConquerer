@@ -100,6 +100,9 @@
     <ClCompile Include="Spaceship.cpp">
       <Filter>Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HtAudio.h">
@@ -163,6 +166,9 @@
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Spaceship.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
       <Filter>Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

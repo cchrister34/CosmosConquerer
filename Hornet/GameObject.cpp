@@ -200,6 +200,11 @@ bool GameObject::IsCollidable()
 	return m_collidable;
 }
 
+double GameObject::GetMass() const
+{
+	return m_mass;
+}
+
 void GameObject::LoadImage(const char* filename)
 {
 	m_images.push_back(HtGraphics::instance.LoadPicture(filename));

@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Angle.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="ErrorLogger.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -162,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angle.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="ErrorLogger.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Game.h" />
