@@ -13,9 +13,3 @@ private:
     double m_lifetime;
     Circle2D m_collisionArea;
 };
-
-//Constants
-
-const double BULLET_LIFETIME = 1.0;
-const double RADIUS = 12;
-const double FADEOUT_TIME = 0.5;

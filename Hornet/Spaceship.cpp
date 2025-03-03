@@ -12,7 +12,7 @@ void Spaceship::Update(double frametime)
     m_position = m_position + m_velocity * frametime;
     m_shootdelay -= frametime;
 
-    if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_D))
+    if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_W))
     {
         //Sound
         if (!isEnginePlaying)
@@ -24,11 +24,10 @@ void Spaceship::Update(double frametime)
         acceleration.setBearing(m_angle, THRUST);
         m_velocity = m_velocity + acceleration * frametime;
 
-        //Friction
-        const double MAGINCREMENT = 1.0;
-        double drag = m_velocity.magnitude() * MAGINCREMENT;
-        Vector2D friction = m_velocity.unitVector() * -drag;
-        m_velocity = m_velocity + friction * frametime;
+        //Friction;
+        Vector2D friction = -m_velocity.unitVector();
+        friction = friction * (m_velocity.magnitude() * FRICTION_STRENGTH * frametime);
+        acceleration = friction;
     }
     else if (isEnginePlaying)
     {
@@ -38,26 +37,30 @@ void Spaceship::Update(double frametime)
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_SPACE) && m_shootdelay < 0)
     {
-        const double BULLET_MAGNITUDE = 60;
-        const double BULLET_SPEED = 800.0;
         m_bulletPosition.setBearing(m_angle, BULLET_MAGNITUDE);
         m_bulletPosition = m_bulletPosition + m_position;
-        Bullet* p_Bullet = new Bullet();
+        Bullet* pBullet = nullptr;
+        pBullet = new Bullet;
+        if (!pBullet)
+        {
+            //Memory Leak
+        }
+        else
+        {
+            Vector2D bulletPosition = m_bulletPosition;
+
+            m_bulletSpeed.setBearing(m_angle, BULLET_SPEED);
+            m_bulletSpeed = m_bulletSpeed + m_velocity;
+
+            Vector2D bulletVelocity = m_bulletSpeed;
 
 
-        Vector2D bulletPosition = m_bulletPosition;
+            pBullet->Initialise(bulletPosition, bulletVelocity);
+            ObjectManager::instance.AddItem(pBullet);
 
-        m_bulletSpeed.setBearing(m_angle, BULLET_SPEED);
-        m_bulletSpeed = m_bulletSpeed + m_velocity;
-
-        Vector2D bulletVelocity = m_bulletSpeed;
-
-
-        p_Bullet->Initialise(bulletPosition, bulletVelocity);
-        ObjectManager::instance.AddItem(p_Bullet);
-
-        m_shootdelay = SHOOTDELAY;
-        m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
+            m_shootdelay = SHOOT_DELAY;
+            m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
+        }
     }
 }
 
@@ -68,16 +71,15 @@ void Spaceship::ProcessCollision(GameObject& other)
 
 void Spaceship::Initialise()
 {
-    m_position.set(0,0);
+    m_position.set(0,-900);
     m_velocity.set(0, 0);
-    LoadImage("assets/spaceship.png");
-    m_scale = 2.0;
-    m_angle = 90;
-    m_engineSound = HtAudio::instance.LoadSound("assets/thrustloop.wav");
+    LoadImage(SHIP_IMAGE.c_str()); //c_str used to convert sting to const char
+    m_scale = SHIP_SIZE; 
+    m_engineSound = HtAudio::instance.LoadSound(ENGINE_SOUND.c_str());
 
-    m_shootdelay = SHOOTDELAY;
-    m_bulletSound = HtAudio::instance.LoadSound("assets/zap.wav");
-    m_explosionBang = HtAudio::instance.LoadSound("assets/explosion1.wav");
+    m_shootdelay = SHOOT_DELAY;
+    m_bulletSound = HtAudio::instance.LoadSound(BULLET_SOUND);
+    m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND);
 
     SetCollidable();
 }

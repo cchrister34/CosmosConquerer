@@ -1,5 +1,13 @@
 #include "Bullet.h"
 
+//Constants
+const double FADEOUT_TIME = 0.5;
+const double BULLET_LIFETIME = 1.0;
+const double RADIUS = 12;
+const double BULLET_SCALE = 1.5;
+const int BULLET_TRANSPARENCY = 1;
+const std::string BULLET_IMAGE = "assets/beams.png";
+
 Bullet::Bullet() :GameObject(ObjectType::BULLET)
 {
 }
@@ -14,7 +22,7 @@ void Bullet::Update(double frametime)
     }
     if (m_lifetime < FADEOUT_TIME)
     {
-        m_transparency = 1 - (m_lifetime / FADEOUT_TIME);
+        m_transparency = BULLET_TRANSPARENCY - (m_lifetime / FADEOUT_TIME);
     }
 
     m_collisionArea.PlaceAt(m_position, RADIUS);
@@ -27,10 +35,10 @@ void Bullet::Initialise(Vector2D position, Vector2D velocity)
     m_position = position;
     m_velocity = velocity;
 
-    LoadImage("assets/beams.png");
+    LoadImage(BULLET_IMAGE.c_str());
     m_lifetime = BULLET_LIFETIME;
     m_angle = m_velocity.angle();
-    m_scale = 2.0;
+    m_scale = BULLET_SCALE;
 
     SetCollidable();
     m_collisionArea.PlaceAt(m_position, RADIUS);
