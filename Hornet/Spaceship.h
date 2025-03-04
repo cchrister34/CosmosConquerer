@@ -9,6 +9,7 @@ public:
     void Update(double frametime) override;
     void ProcessCollision(GameObject& other) override;
     void Initialise();
+    void SetFriction(bool active);
     IShape2D& GetCollisionShape() override;
 private:
     Vector2D m_velocity;
@@ -24,5 +25,5 @@ private:
     int m_explosionSoundChannel;
     Vector2D m_bulletPosition;
     Vector2D m_bulletSpeed;
-
+    bool m_isFrictionActive = true;
 };

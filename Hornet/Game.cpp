@@ -59,6 +59,13 @@ void Game::Update(double frametime)
 // You may want to stop sound effects.
 void Game::OnSuspend()
 {
+    HtAudio::instance.StopAllChannels();
+    HtCamera::instance.UseCamera(false);
+
+    if (pSpaceship)
+    {
+        pSpaceship->SetFriction(false);
+    }
 
 }
 
@@ -68,7 +75,12 @@ void Game::OnSuspend()
 // best to just let the game create new sounds if needed.
 void Game::OnResume()
 {
+    HtCamera::instance.UseCamera(true);
 
+    if (pSpaceship)
+    {
+        pSpaceship->SetFriction(true);
+    }
 }
 
 // You can use this to clear up any memory, if needed
@@ -79,6 +91,7 @@ void Game::EndOfGame()
 
     //This line automatically deletes all managed objects
     ObjectManager::instance.DeleteAllObjects();
+    pSpaceship = nullptr;
 }
 
 void Game::EndOfProgram()

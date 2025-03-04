@@ -5,7 +5,7 @@
 #include "ObjectManager.h"
 
 //
-const double THRUST = 230.0;
+const double THRUST = 100.0;
 const int ROTATIONLEFT = -90;
 const int ROTATIONRIGHT = 90;
 const double SHOOT_DELAY = 0.3;
@@ -27,7 +27,7 @@ void Spaceship::Update(double frametime)
     m_position = m_position + m_velocity * frametime;
     m_shootdelay -= frametime;
 
-    HtCamera::instance.PlaceAt(Vector2D(0, m_position.YValue));
+    //HtCamera::instance.PlaceAt(Vector2D(0, m_position.YValue));
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_W))
     {
@@ -42,9 +42,12 @@ void Spaceship::Update(double frametime)
         m_velocity = m_velocity + acceleration * frametime;
 
         //Friction;
-        Vector2D friction = -m_velocity.unitVector();
-        friction = friction * (m_velocity.magnitude() * FRICTION_STRENGTH * frametime);
-        acceleration = friction;
+        if (m_isFrictionActive)
+        {
+            Vector2D friction = -m_velocity.unitVector();
+            friction = friction * (m_velocity.magnitude() * FRICTION_STRENGTH * frametime);
+            acceleration = friction;
+        }
     }
     else if (isEnginePlaying)
     {
@@ -99,11 +102,10 @@ void Spaceship::ProcessCollision(GameObject& other)
 
 void Spaceship::Initialise()
 {
-    m_position.set(-1600,0);
+    m_position.set(0,-900);
     m_velocity.set(0, 0);
     LoadImage(SHIP_IMAGE.c_str()); //c_str used to convert sting to const char
     m_scale = SHIP_SIZE; 
-    m_angle = 90;
     m_engineSound = HtAudio::instance.LoadSound(ENGINE_SOUND.c_str());
 
     m_shootdelay = SHOOT_DELAY;
@@ -113,8 +115,14 @@ void Spaceship::Initialise()
     SetCollidable();
 }
 
+void Spaceship::SetFriction(bool active)
+{
+    m_isFrictionActive = active;
+}
+
 
 IShape2D& Spaceship::GetCollisionShape()
 {
     return m_collisionShape;
 }
+

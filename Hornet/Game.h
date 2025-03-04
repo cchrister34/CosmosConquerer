@@ -51,7 +51,7 @@ public:
 
 private:
     GameTimer m_timer;
-    Spaceship* pSpaceship = nullptr;
+    Spaceship* pSpaceship; //automatically assigns pSpaceship to nullptr
 
 
 
