@@ -154,6 +154,7 @@
     <ClCompile Include="HtGraphics.cpp" />
     <ClCompile Include="HtKeyboard.cpp" />
     <ClCompile Include="HtMouse.cpp" />
+    <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="HtGraphics.h" />
     <ClInclude Include="HtKeyboard.h" />
     <ClInclude Include="HtMouse.h" />
+    <ClInclude Include="Rock.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="objecttypes.h" />

@@ -6,8 +6,8 @@
 
 //
 const double THRUST = 200.0;
-const int ROTATION_SPEED = -90;
-const double ANGULAR_FRICTION = 0.1;
+const int ROTATION_SPEED = 60;
+const double ANGULAR_FRICTION = 0.4;
 const double SHOOT_DELAY = 0.3;
 const double SHIP_SIZE = 1.25;
 const double FRICTION_STRENGTH = 2.0;
@@ -39,7 +39,7 @@ void Spaceship::Update(double frametime)
         }
 
         //Friction;
-        if (m_isFrictionActive)
+        if (m_isFrictionActive) //Used to prevent the effects of friction occuring when game is paused.
         {
            m_acceleration.setBearing(m_angle, THRUST);
            m_acceleration = m_acceleration - m_velocity * FRICTION_STRENGTH;
@@ -55,12 +55,12 @@ void Spaceship::Update(double frametime)
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_A))
     {
-        m_angularVelocity += ROTATION_SPEED * frametime;
+        m_angularVelocity -= ROTATION_SPEED * frametime;
     }
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_D))
     {
-        m_angularVelocity -= ROTATION_SPEED * frametime;
+        m_angularVelocity += ROTATION_SPEED * frametime;
     }
 
     m_angularVelocity -= m_angularVelocity * ANGULAR_FRICTION * frametime;

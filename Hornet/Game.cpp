@@ -18,6 +18,13 @@ void Game::StartOfGame()
     pSpaceship = new Spaceship(ObjectType::SPACESHIP);
     pSpaceship->Initialise();
     ObjectManager::instance.AddItem(pSpaceship); //object manager handles deletion and sets the pointer to null.
+    
+    for (Rock* pRock : pTheRocks)
+    {
+        pRock = new Rock();
+        pRock->Initialise();
+        ObjectManager::instance.AddItem(pRock);
+    }
 }
 
 // Function runs each frame.

@@ -6,6 +6,7 @@
 #include "HtAudio.h"
 #include "GameTimer.h"
 #include "Spaceship.h"
+#include "Rock.h"
 
 
 // 17/06/2023
@@ -52,8 +53,7 @@ public:
 private:
     GameTimer m_timer;
     Spaceship* pSpaceship; //automatically assigns pSpaceship to nullptr
-
-
+    Rock* pTheRocks[12];
 
 };
 
