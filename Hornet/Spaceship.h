@@ -14,6 +14,7 @@ public:
 private:
     Vector2D m_velocity;
     Vector2D m_acceleration;
+    double m_angularVelocity;
     SoundIndex m_engineSound;
     int m_engineSoundChannel;
     bool isEnginePlaying;

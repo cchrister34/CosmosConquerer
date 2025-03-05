@@ -5,12 +5,12 @@
 #include "ObjectManager.h"
 
 //
-const double THRUST = 250.0;
-const int ROTATIONLEFT = -90;
-const int ROTATIONRIGHT = 90;
+const double THRUST = 200.0;
+const int ROTATION_SPEED = -90;
+const double ANGULAR_FRICTION = 0.1;
 const double SHOOT_DELAY = 0.3;
 const double SHIP_SIZE = 1.25;
-const double FRICTION_STRENGTH = 1.3;
+const double FRICTION_STRENGTH = 2.0;
 const double BULLET_MAGNITUDE = 60;
 const double BULLET_SPEED = 800.0;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
@@ -41,10 +41,10 @@ void Spaceship::Update(double frametime)
         //Friction;
         if (m_isFrictionActive)
         {
-          m_acceleration.setBearing(m_angle, THRUST);
-          m_acceleration = m_acceleration - m_velocity * FRICTION_STRENGTH;
-          m_velocity = m_velocity + m_acceleration * frametime;
-          m_position = m_position + m_velocity * frametime;
+           m_acceleration.setBearing(m_angle, THRUST);
+           m_acceleration = m_acceleration - m_velocity * FRICTION_STRENGTH;
+           m_velocity = m_velocity + m_acceleration * frametime;
+           m_position = m_position + m_velocity * frametime;
         }
     }
     else if (isEnginePlaying)
@@ -55,14 +55,16 @@ void Spaceship::Update(double frametime)
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_A))
     {
-        m_angle = m_angle + ROTATIONLEFT * frametime;
+        m_angularVelocity += ROTATION_SPEED * frametime;
     }
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_D))
     {
-        m_angle = m_angle + ROTATIONRIGHT * frametime;
+        m_angularVelocity -= ROTATION_SPEED * frametime;
     }
 
+    m_angularVelocity -= m_angularVelocity * ANGULAR_FRICTION * frametime;
+    m_angle += m_angularVelocity * frametime;
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_SPACE) && m_shootdelay < 0)
     {
