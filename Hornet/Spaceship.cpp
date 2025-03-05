@@ -5,12 +5,12 @@
 #include "ObjectManager.h"
 
 //
-const double THRUST = 100.0;
+const double THRUST = 250.0;
 const int ROTATIONLEFT = -90;
 const int ROTATIONRIGHT = 90;
 const double SHOOT_DELAY = 0.3;
 const double SHIP_SIZE = 1.25;
-const double FRICTION_STRENGTH = 12.0;
+const double FRICTION_STRENGTH = 1.3;
 const double BULLET_MAGNITUDE = 60;
 const double BULLET_SPEED = 800.0;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
@@ -37,16 +37,14 @@ void Spaceship::Update(double frametime)
             m_engineSoundChannel = HtAudio::instance.Play(m_engineSound, true);
             isEnginePlaying = true;
         }
-        Vector2D acceleration;
-        acceleration.setBearing(m_angle, THRUST);
-        m_velocity = m_velocity + acceleration * frametime;
 
         //Friction;
         if (m_isFrictionActive)
         {
-            Vector2D friction = -m_velocity.unitVector();
-            friction = friction * (m_velocity.magnitude() * FRICTION_STRENGTH * frametime);
-            acceleration = friction;
+          m_acceleration.setBearing(m_angle, THRUST);
+          m_acceleration = m_acceleration - m_velocity * FRICTION_STRENGTH;
+          m_velocity = m_velocity + m_acceleration * frametime;
+          m_position = m_position + m_velocity * frametime;
         }
     }
     else if (isEnginePlaying)
@@ -70,28 +68,16 @@ void Spaceship::Update(double frametime)
     {
         m_bulletPosition.setBearing(m_angle, BULLET_MAGNITUDE);
         m_bulletPosition = m_bulletPosition + m_position;
-        Bullet* pBullet = nullptr;
+        Bullet* pBullet; 
         pBullet = new Bullet;
-        if (!pBullet)
-        {
-            //Memory Leak
-        }
-        else
-        {
-            Vector2D bulletPosition = m_bulletPosition;
-
-            m_bulletSpeed.setBearing(m_angle, BULLET_SPEED);
-            m_bulletSpeed = m_bulletSpeed + m_velocity;
-
-            Vector2D bulletVelocity = m_bulletSpeed;
-
-
-            pBullet->Initialise(bulletPosition, bulletVelocity);
-            ObjectManager::instance.AddItem(pBullet);
-
-            m_shootdelay = SHOOT_DELAY;
-            m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
-        }
+        Vector2D bulletPosition = m_bulletPosition;
+        m_bulletSpeed.setBearing(m_angle, BULLET_SPEED);
+        m_bulletSpeed = m_bulletSpeed + m_velocity;
+        Vector2D bulletVelocity = m_bulletSpeed;
+        pBullet->Initialise(bulletPosition, bulletVelocity);
+        ObjectManager::instance.AddItem(pBullet);
+        m_shootdelay = SHOOT_DELAY;
+        m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
     }
 }
 

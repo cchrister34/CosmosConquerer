@@ -13,6 +13,7 @@ public:
     IShape2D& GetCollisionShape() override;
 private:
     Vector2D m_velocity;
+    Vector2D m_acceleration;
     SoundIndex m_engineSound;
     int m_engineSoundChannel;
     bool isEnginePlaying;

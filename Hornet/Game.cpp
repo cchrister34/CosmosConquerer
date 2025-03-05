@@ -15,19 +15,9 @@ void Game::StartOfProgram()
 // Use this function to intialise your game objects and load any assets
 void Game::StartOfGame()
 {   
-   pSpaceship = new Spaceship(ObjectType::SPACESHIP);
-    if (!pSpaceship) //ensures the pointer is actually pointing at something.
-    {
-        //Memory Leak send error message
-    }
-    else
-    {
-        pSpaceship->Initialise();
-        ObjectManager::instance.AddItem(pSpaceship); //object manager handles deletion and sets the pointer to null.
-    }
-
-
-
+    pSpaceship = new Spaceship(ObjectType::SPACESHIP);
+    pSpaceship->Initialise();
+    ObjectManager::instance.AddItem(pSpaceship); //object manager handles deletion and sets the pointer to null.
 }
 
 // Function runs each frame.
