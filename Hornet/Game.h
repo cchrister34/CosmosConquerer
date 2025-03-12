@@ -8,6 +8,7 @@
 #include "Spaceship.h"
 #include "Rock.h"
 #include "GameManager.h"
+#include "Background.h"
 
 
 // 17/06/2023
@@ -56,6 +57,7 @@ private:
     Spaceship* pSpaceship; //automatically assigns pSpaceship to nullptr
     Rock* pTheRocks[12];
     GameManager* pGameManager;
+    Background* pBackGround;
 
 };
 

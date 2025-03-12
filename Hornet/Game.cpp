@@ -29,6 +29,11 @@ void Game::StartOfGame()
     pGameManager = new GameManager();
     pGameManager->Initialise();
     ObjectManager::instance.AddItem(pGameManager);
+
+    pBackGround = new Background(ObjectType::BACKGROUND);
+    pBackGround->Initialise();
+    ObjectManager::instance.AddItem(pBackGround);
+
 }
 
 // Function runs each frame.
