@@ -106,6 +106,9 @@
     <ClCompile Include="Rock.cpp">
       <Filter>Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HtAudio.h">
@@ -175,6 +178,9 @@
       <Filter>Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rock.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
       <Filter>Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

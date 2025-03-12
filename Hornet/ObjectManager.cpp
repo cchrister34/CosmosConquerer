@@ -277,7 +277,7 @@ void ObjectManager::ToggleDebug()
 
 void ObjectManager::CycleDebugObject()
 {
-	if (HtKeyboard::instance.NewKeyPressed(SDL_SCANCODE_HOME))
+	if (HtKeyboard::instance.NewKeyPressed(SDL_SCANCODE_1))
 	{
 		SetDebug(true);
 		if (m_allObjectList.size() > 0)
@@ -285,16 +285,16 @@ void ObjectManager::CycleDebugObject()
 		else
 			m_debugTarget = nullptr;
 	}
-	if (HtKeyboard::instance.NewKeyPressed(SDL_SCANCODE_END))
+	if (HtKeyboard::instance.NewKeyPressed(SDL_SCANCODE_2))
 	{
 		SetDebug(false);
 			m_debugTarget = nullptr;
 	}
-	if (HtKeyboard::instance.NewKeyPressed(SDL_SCANCODE_INSERT))
+	if (HtKeyboard::instance.NewKeyPressed(SDL_SCANCODE_3))
 	{
 		m_slowDownActive = !m_slowDownActive;
 	}
-	if (m_debugActive && HtKeyboard::instance.NewKeyPressed(SDL_SCANCODE_PAGEUP))
+	if (m_debugActive && HtKeyboard::instance.NewKeyPressed(SDL_SCANCODE_4))
 	{
 		if (m_allObjectList.size() > 0)
 		{

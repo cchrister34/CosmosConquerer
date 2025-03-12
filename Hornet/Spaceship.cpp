@@ -3,13 +3,15 @@
 #include "HtCamera.h"
 #include "Bullet.h"
 #include "ObjectManager.h"
+#include "Explosion.h"
 
-//
+//Constants
 const double THRUST = 200.0;
-const int ROTATION_SPEED = 60;
+const int ROTATION_SPEED = 120;
 const double ANGULAR_FRICTION = 0.4;
 const double SHOOT_DELAY = 0.3;
 const double SHIP_SIZE = 1.25;
+const double SHIP_ANGLE = 90;
 const double FRICTION_STRENGTH = 2.0;
 const double BULLET_MAGNITUDE = 60;
 const double BULLET_SPEED = 800.0;
@@ -70,7 +72,7 @@ void Spaceship::Update(double frametime)
     {
         m_bulletPosition.setBearing(m_angle, BULLET_MAGNITUDE);
         m_bulletPosition = m_bulletPosition + m_position;
-        Bullet* pBullet; 
+        Bullet* pBullet;
         pBullet = new Bullet;
         Vector2D bulletPosition = m_bulletPosition;
         m_bulletSpeed.setBearing(m_angle, BULLET_SPEED);
@@ -81,19 +83,36 @@ void Spaceship::Update(double frametime)
         m_shootdelay = SHOOT_DELAY;
         m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
     }
+
+    m_collisionShape.PlaceAt(m_position, SHIP_SIZE);
 }
 
 
 void Spaceship::ProcessCollision(GameObject& other)
 {
+    if (other.GetType() == ObjectType::ROCK)
+    {
+        Deactivate();
+        HtAudio::instance.Stop(m_engineSoundChannel);
+        Explosion* p_Explosion = new Explosion();
+        p_Explosion->Initialise(m_position);
+        ObjectManager::instance.AddItem(p_Explosion);
+        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+        Event evt;
+        evt.type = EventType::OBJECTDESTROYED;
+        evt.pSource = this;
+        evt.position = m_position;
+        ObjectManager::instance.HandleEvent(evt);
+    }
 }
 
 void Spaceship::Initialise()
 {
-    m_position.set(0,-900);
+    m_position.set(-1500, 0);
     m_velocity.set(0, 0);
     LoadImage(SHIP_IMAGE.c_str()); //c_str used to convert sting to const char
     m_scale = SHIP_SIZE; 
+    m_angle = SHIP_ANGLE;
     m_engineSound = HtAudio::instance.LoadSound(ENGINE_SOUND.c_str());
 
     m_shootdelay = SHOOT_DELAY;
