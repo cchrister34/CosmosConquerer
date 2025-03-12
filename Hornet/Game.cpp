@@ -32,6 +32,7 @@ void Game::StartOfGame()
 
     pBackGround = new Background(ObjectType::BACKGROUND);
     pBackGround->Initialise();
+    pBackGround->SetDrawDepth(-1);
     ObjectManager::instance.AddItem(pBackGround);
 
 }

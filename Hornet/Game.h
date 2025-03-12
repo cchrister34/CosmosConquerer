@@ -9,6 +9,8 @@
 #include "Rock.h"
 #include "GameManager.h"
 #include "Background.h"
+#include "Bullet.h"
+#include "Explosion.h"
 
 
 // 17/06/2023
@@ -56,6 +58,8 @@ private:
     GameTimer m_timer;
     Spaceship* pSpaceship; //automatically assigns pSpaceship to nullptr
     Rock* pTheRocks[12];
+    Bullet* pBullet;
+    Explosion* pExplosion;
     GameManager* pGameManager;
     Background* pBackGround;
 
