@@ -25,6 +25,10 @@ void Game::StartOfGame()
         pRock->Initialise();
         ObjectManager::instance.AddItem(pRock);
     }
+
+    pGameManager = new GameManager();
+    pGameManager->Initialise();
+    ObjectManager::instance.AddItem(pGameManager);
 }
 
 // Function runs each frame.
