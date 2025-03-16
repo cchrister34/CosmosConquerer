@@ -13,4 +13,3 @@ private:
     int m_height;
     PictureIndex m_bgImage;
 };
-
