@@ -29,7 +29,7 @@ void Spaceship::Update(double frametime)
     m_position = m_position + m_velocity * frametime;
     m_shootdelay -= frametime;
 
-    HtCamera::instance.PlaceAt(Vector2D(0, m_position.YValue));
+    HtCamera::instance.PlaceAt(Vector2D(m_position.XValue, 0));
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_W))
     {

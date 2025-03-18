@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "Spaceship.h"
 #include "ObjectManager.h"
+#include "HtCamera.h"
 
 
 GameManager::GameManager() : GameObject(ObjectType::GAMEMANAGER)
@@ -12,7 +13,7 @@ void GameManager::Initialise()
     m_score = 0;
     m_lives = 3;
 
-    m_livesImage = HtGraphics::instance.LoadPicture("assets/spaceship.png"); //correct use of picture index
+    m_livesImage = HtGraphics::instance.LoadPicture("assets/spaceship.png"); 
     SetHandleEvents();
 }
 
@@ -23,15 +24,20 @@ void GameManager::Update(double frametime)
 void GameManager::Render()
 {
     Vector2D topLeft(-1600, 920);
+    HtCamera::instance.UseCamera(false);
     HtGraphics::instance.WriteIntAligned(topLeft, m_score, HtGraphics::WHITE, 2, 1.25);
+    HtCamera::instance.UseCamera(true);
 
     Vector2D livesPos(1100, 950);
     int lifeSpace = 100;
 
     for (int i = 0; i < m_lives; i++)
     {
+        HtCamera::instance.UseCamera(false);
         HtGraphics::instance.DrawAt(livesPos, m_livesImage);
         livesPos.XValue += lifeSpace;
+        HtCamera::instance.UseCamera(true);
+
     }
 }
 

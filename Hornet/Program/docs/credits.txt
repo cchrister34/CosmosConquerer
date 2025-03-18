@@ -49,7 +49,17 @@ https://pixabay.com/music/beats-twisted-138700/
 
 launchshort.wav and thrustloop.wav by Pixabay https://pixabay.com/
 
-Spaceship by Redshrike from OpenGameArt.org
+Spaceship.png by Redshrike from OpenGameArt.org
 https://opengameart.org/content/space-ship-building-bits-volume-1
+
+Spacebg.png by Leyren from OpenGameArt.org
+https://opengameart.org/content/starsspace-background
+
+Asteroid.png by le professeur stagiaire from OpenGameArt.org
+https://opengameart.org/content/asteroids-0
+
+Beams.png by Rawdanitsu from OpenGameArt.org
+https://opengameart.org/content/lasers-and-beams
+
 
 
