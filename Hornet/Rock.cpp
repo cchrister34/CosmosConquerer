@@ -1,5 +1,6 @@
 #include "Rock.h"
 #include "ObjectManager.h"
+#include "HtCamera.h"
 
 //Constants
 const int TOPBORDER = 1000;
@@ -64,12 +65,6 @@ IShape2D& Rock::GetCollisionShape()
 
 }
 
-void Rock::Initialise(Vector2D rockSize, Vector2D rockVelocity, double size)
-{
-    rockSize = m_position;
-    rockVelocity = m_velocity;
-    size = ROCKFRAGMENT;
-}
 
 void Rock::ProcessCollision(GameObject& other)
 {

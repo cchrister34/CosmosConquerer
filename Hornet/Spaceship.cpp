@@ -6,7 +6,7 @@
 #include "Explosion.h"
 
 //Constants
-const double THRUST = 200.0;
+const double THRUST = 100.0;
 const int ROTATION_SPEED = 120;
 const double ANGULAR_FRICTION = 0.4;
 const double SHOOT_DELAY = 0.3;

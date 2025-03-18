@@ -31,14 +31,13 @@ void GameManager::Render()
     Vector2D livesPos(1100, 950);
     int lifeSpace = 100;
 
+    HtCamera::instance.UseCamera(false);
     for (int i = 0; i < m_lives; i++)
     {
-        HtCamera::instance.UseCamera(false);
         HtGraphics::instance.DrawAt(livesPos, m_livesImage);
         livesPos.XValue += lifeSpace;
-        HtCamera::instance.UseCamera(true);
-
     }
+    HtCamera::instance.UseCamera(true);
 }
 
 void GameManager::HandleEvent(Event evt)

@@ -8,7 +8,6 @@ public:
     void ProcessCollision(GameObject& other) override;
     void Initialise();
     IShape2D& GetCollisionShape() override;
-    void Initialise(Vector2D rockSize, Vector2D rockVelocity, double size);
 private:
     Vector2D m_velocity;
     Circle2D m_collisionShape;
