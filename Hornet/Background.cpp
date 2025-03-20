@@ -1,5 +1,4 @@
 #include "Background.h"
-#include "HtCamera.h"
 
 Background::Background(ObjectType objType)
 {
@@ -7,14 +6,20 @@ Background::Background(ObjectType objType)
 
 void Background::Initialise()
 {
-    LoadImage("assets/spacebg.png");
-    SetDrawDepth(-1);
-    m_scale = 2.0;
+    m_bgImage1 = HtGraphics::instance.LoadPicture("assets/spacebg.png");
+    m_bgImage2 = HtGraphics::instance.LoadPicture("assets/starsbg.png");
+    SetDrawDepth(-2);
 }
 
 void Background::Update(double frametime)
 {
-    Vector2D cameraPos = HtCamera::instance.GetCameraCentre(Vector2D());
-    m_position = Vector2D(cameraPos.XValue, 0);
 }
 
+void Background::Render()
+{
+    Vector2D bgImage1pos(-1100, 0);
+    HtGraphics::instance.DrawAt(bgImage1pos, m_bgImage1, 2.5);
+
+    Vector2D bgImage2pos(3000, 0);
+    HtGraphics::instance.DrawAt(bgImage2pos, m_bgImage2, 2.5);
+}

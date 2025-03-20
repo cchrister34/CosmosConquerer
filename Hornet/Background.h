@@ -7,6 +7,9 @@ public:
     Background(ObjectType objType);
     void Initialise();
     void Update(double frametime)override;
+    void Render()override;
 private:
-    PictureIndex m_bgImage;
+    PictureIndex m_bgImage1;
+    PictureIndex m_bgImage2;
+    int m_bgImage1Width;
 };
