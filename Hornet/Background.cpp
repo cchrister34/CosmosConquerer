@@ -1,5 +1,11 @@
 #include "Background.h"
 
+
+//Constants
+const Vector2D BG_IMG1_POS(0, 0);
+const Vector2D BG_IMG2_POS(4175, 0);
+const Vector2D BG_IMG3_POS(8350, 0);
+
 Background::Background(ObjectType objType)
 {
 }
@@ -8,6 +14,7 @@ void Background::Initialise()
 {
     m_bgImage1 = HtGraphics::instance.LoadPicture("assets/spacebg.png");
     m_bgImage2 = HtGraphics::instance.LoadPicture("assets/starsbg.png");
+    m_bgImage3 = HtGraphics::instance.LoadPicture("assets/starsbg2.png");
     SetDrawDepth(-2);
 }
 
@@ -17,9 +24,10 @@ void Background::Update(double frametime)
 
 void Background::Render()
 {
-    Vector2D bgImage1pos(-1100, 0);
-    HtGraphics::instance.DrawAt(bgImage1pos, m_bgImage1, 2.5);
+    HtGraphics::instance.DrawAt(BG_IMG1_POS, m_bgImage1, 2.5);
 
-    Vector2D bgImage2pos(3000, 0);
-    HtGraphics::instance.DrawAt(bgImage2pos, m_bgImage2, 2.5);
+    //image width is 1670 so second image needs to have its starts position at +1670*2.5 which is 4175
+    HtGraphics::instance.DrawAt(BG_IMG2_POS, m_bgImage2, 2.5);
+
+    HtGraphics::instance.DrawAt(BG_IMG3_POS, m_bgImage3, 2.5);
 }

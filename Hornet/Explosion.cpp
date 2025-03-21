@@ -1,5 +1,9 @@
 #include "Explosion.h"
 
+//constants
+const double TIMER = 0.0;
+const double EXPLOSION_SIZE = 2.0;
+
 Explosion::Explosion() : GameObject(ObjectType::EXPLOSION)
 {
 }
@@ -19,8 +23,8 @@ void Explosion::Update(double frametime)
 void Explosion::Initialise(Vector2D postion)
 {
     m_position = postion;
-    m_timer = 0.0;
-    m_scale = 2.0;
+    m_timer = TIMER;
+    m_scale = EXPLOSION_SIZE;
 
     LoadImage("assets/explosionA1.bmp");
     LoadImage("assets/explosionA2.bmp");

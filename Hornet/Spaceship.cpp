@@ -108,7 +108,7 @@ void Spaceship::ProcessCollision(GameObject& other)
 
 void Spaceship::Initialise()
 {
-    m_position.set(-1500, 0);
+    m_position.set(0, 0);
     m_velocity.set(0, 0);
     LoadImage(SHIP_IMAGE.c_str()); //c_str used to convert sting to const char
     m_scale = SHIP_SIZE; 

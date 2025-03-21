@@ -11,5 +11,5 @@ public:
 private:
     PictureIndex m_bgImage1;
     PictureIndex m_bgImage2;
-    int m_bgImage1Width;
+    PictureIndex m_bgImage3;
 };
