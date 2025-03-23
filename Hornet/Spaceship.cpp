@@ -2,6 +2,7 @@
 #include "HtKeyboard.h"
 #include "HtCamera.h"
 #include "Bullet.h"
+#include "Flare.h"
 #include "ObjectManager.h"
 #include "Explosion.h"
 
@@ -9,12 +10,14 @@
 const double THRUST = 100.0;
 const int ROTATION_SPEED = 120;
 const double ANGULAR_FRICTION = 0.4;
-const double SHOOT_DELAY = 0.3;
+const double BULLET_DELAY = 0.3;
 const double SHIP_SIZE = 1.25;
 const double SHIP_ANGLE = 90;
 const double FRICTION_STRENGTH = 0.5;
 const double BULLET_MAGNITUDE = 60;
 const double BULLET_SPEED = 800.0;
+const double FLARE_DELAY = 0.5;
+const double FLARE_MAGNITUTE = -60;
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
 const int BORDERLEFT = -250;
@@ -32,6 +35,7 @@ void Spaceship::Update(double frametime)
 {
     m_position = m_position + m_velocity * frametime;
     m_shootdelay -= frametime;
+    m_flareDelay -= frametime;
 
     HtCamera::instance.PlaceAt(Vector2D(m_position.XValue, 0));
 
@@ -72,6 +76,7 @@ void Spaceship::Update(double frametime)
     m_angularVelocity -= m_angularVelocity * ANGULAR_FRICTION * frametime;
     m_angle += m_angularVelocity * frametime;
 
+    //Bullets
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_SPACE) && m_shootdelay < 0)
     {
         m_bulletPosition.setBearing(m_angle, BULLET_MAGNITUDE);
@@ -84,8 +89,23 @@ void Spaceship::Update(double frametime)
         Vector2D bulletVelocity = m_bulletSpeed;
         pBullet->Initialise(bulletPosition, bulletVelocity);
         ObjectManager::instance.AddItem(pBullet);
-        m_shootdelay = SHOOT_DELAY;
+        m_shootdelay = BULLET_DELAY;
         m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
+    }
+
+    //Flares
+    if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_F) && m_flareDelay < 0)
+    {
+        m_flarePosition.setBearing(m_angle, FLARE_MAGNITUTE);
+        m_flarePosition = m_flarePosition + m_position;
+        Flare* pFlare;
+        pFlare = new Flare;
+        Vector2D flarePosition = m_flarePosition;
+        m_flareSpeed = m_flareSpeed + m_velocity;
+        Vector2D flareVelocity = m_flareSpeed;
+        pFlare->Initialise(flarePosition, flareVelocity);
+        ObjectManager::instance.AddItem(pFlare);
+        m_flareDelay = FLARE_DELAY;
     }
 
     //Wrapping 
@@ -138,9 +158,11 @@ void Spaceship::Initialise()
     m_angle = SHIP_ANGLE;
     m_engineSound = HtAudio::instance.LoadSound(ENGINE_SOUND.c_str());
 
-    m_shootdelay = SHOOT_DELAY;
+    m_shootdelay = BULLET_DELAY;
     m_bulletSound = HtAudio::instance.LoadSound(BULLET_SOUND.c_str());
     m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND.c_str());
+
+    m_flareDelay = FLARE_DELAY;
 
     SetCollidable();
 }

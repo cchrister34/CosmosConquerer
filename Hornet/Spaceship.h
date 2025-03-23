@@ -20,12 +20,15 @@ private:
     bool isEnginePlaying;
     Circle2D m_collisionShape;
     double m_shootdelay;
+    Vector2D m_bulletPosition;
+    Vector2D m_bulletSpeed;
     SoundIndex m_bulletSound;
     bool hasBulletFired;
     int m_bulletSoundChannel;
+    double m_flareDelay;
+    Vector2D m_flarePosition;
+    Vector2D m_flareSpeed;
     SoundIndex m_explosionBang;
     int m_explosionSoundChannel;
-    Vector2D m_bulletPosition;
-    Vector2D m_bulletSpeed;
     bool m_isFrictionActive = true;
 };
