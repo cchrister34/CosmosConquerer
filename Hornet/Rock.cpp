@@ -5,8 +5,8 @@
 //Constants
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
-const int BORDERLEFT = 1600;
-const int BORDERRIGHT = -1600;
+const int BORDERLEFT = -1600;
+const int BORDERRIGHT = 1600;
 const double ROCKRADIUS = 64;
 const double ROCKSIZE = 0.4;
 const double ROCKFRAGMENT = 0.3;
@@ -19,11 +19,11 @@ void Rock::Update(double frametime)
 {
     m_position = m_position + m_velocity * frametime;
 
-    if (m_position.XValue > BORDERLEFT)
+    if (m_position.XValue < BORDERLEFT)
     {
         m_velocity.XValue = -m_velocity.XValue;
     }
-    else if (m_position.XValue < BORDERRIGHT)
+    else if (m_position.XValue > BORDERRIGHT)
     {
         m_velocity.XValue = -m_velocity.XValue;
     }

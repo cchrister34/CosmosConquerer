@@ -15,6 +15,10 @@ const double SHIP_ANGLE = 90;
 const double FRICTION_STRENGTH = 0.5;
 const double BULLET_MAGNITUDE = 60;
 const double BULLET_SPEED = 800.0;
+const int TOPBORDER = 1000;
+const int BOTTOMBORDER = -1000;
+const int BORDERLEFT = -250;
+const int BORDERRIGHT = 8350;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
 const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
@@ -82,6 +86,25 @@ void Spaceship::Update(double frametime)
         ObjectManager::instance.AddItem(pBullet);
         m_shootdelay = SHOOT_DELAY;
         m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
+    }
+
+    //Wrapping 
+    if (m_position.XValue < BORDERLEFT)
+    {
+        m_velocity.XValue = -m_velocity.XValue;
+    }
+    else if (m_position.XValue > BORDERRIGHT)
+    {
+        m_velocity.XValue = -m_velocity.XValue;
+    }
+
+    if (m_position.YValue > TOPBORDER)
+    {
+        m_velocity.YValue = -m_velocity.YValue;
+    }
+    else if (m_position.YValue < BOTTOMBORDER)
+    {
+        m_velocity.YValue = -m_velocity.YValue;
     }
 
     m_collisionShape.PlaceAt(m_position, SHIP_SIZE);
