@@ -19,6 +19,10 @@ private:
     int m_engineSoundChannel;
     bool isEnginePlaying;
     Circle2D m_collisionShape;
+    Vector2D m_cameraPosition;
+    Vector2D m_cameraVelocity;
+    double m_topCameraBorder;
+    double m_bottomCameraBorder;
     double m_shootdelay;
     Vector2D m_bulletPosition;
     Vector2D m_bulletSpeed;

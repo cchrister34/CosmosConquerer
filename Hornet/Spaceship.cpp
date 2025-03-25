@@ -7,6 +7,8 @@
 #include "Explosion.h"
 
 //Constants
+const double CAMERA_VELOCITY = 3.0;
+const double CAMERA_FRICTION = 2.0;
 const double THRUST = 100.0;
 const int ROTATION_SPEED = 120;
 const double ANGULAR_FRICTION = 0.4;
@@ -37,7 +39,25 @@ void Spaceship::Update(double frametime)
     m_shootdelay -= frametime;
     m_flareDelay -= frametime;
 
-    HtCamera::instance.PlaceAt(Vector2D(m_position.XValue, 0));
+    //Camera
+    //Since the game is a sidescroller the camera boundaries should match that of the screen which in this case is between -1000 and 1000
+    m_topCameraBorder = HtCamera::instance.GetTopOfCameraArea();
+    m_bottomCameraBorder = HtCamera::instance.GetBottomOfCameraArea();
+
+    if (m_topCameraBorder > TOPBORDER)
+    {
+        m_cameraPosition.YValue += TOPBORDER - m_topCameraBorder;
+    }
+    if (m_bottomCameraBorder < BOTTOMBORDER)
+    {
+        m_cameraPosition.YValue -= m_bottomCameraBorder - BOTTOMBORDER;
+    }
+
+    m_cameraVelocity = m_cameraVelocity + (m_position - m_cameraPosition) * CAMERA_VELOCITY * frametime;
+    m_cameraVelocity = m_cameraVelocity - m_cameraVelocity * CAMERA_FRICTION * frametime;
+    m_cameraPosition = m_cameraPosition + m_cameraVelocity * frametime;
+    HtCamera::instance.PlaceAt(Vector2D(m_cameraPosition));
+
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_W))
     {
@@ -156,6 +176,8 @@ void Spaceship::Initialise()
     LoadImage(SHIP_IMAGE.c_str()); //c_str used to convert sting to const char
     m_scale = SHIP_SIZE; 
     m_angle = SHIP_ANGLE;
+    m_cameraPosition.set(0, 0);
+    m_cameraVelocity.set(0, 0);
     m_engineSound = HtAudio::instance.LoadSound(ENGINE_SOUND.c_str());
 
     m_shootdelay = BULLET_DELAY;
