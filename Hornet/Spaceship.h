@@ -30,8 +30,10 @@ private:
     bool hasBulletFired;
     int m_bulletSoundChannel;
     double m_flareDelay;
-    Vector2D m_flarePosition;
-    Vector2D m_flareSpeed;
+    double m_flareAngle;
+    Vector2D m_flareOffset;
+    Vector2D m_flareSpawn;
+    Vector2D m_flareVelocity;
     SoundIndex m_explosionBang;
     int m_explosionSoundChannel;
     bool m_isFrictionActive = true;

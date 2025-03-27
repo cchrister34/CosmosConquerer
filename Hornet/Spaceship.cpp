@@ -18,8 +18,11 @@ const double SHIP_ANGLE = 90;
 const double FRICTION_STRENGTH = 0.5;
 const double BULLET_MAGNITUDE = 60;
 const double BULLET_SPEED = 800.0;
-const double FLARE_DELAY = 0.5;
-const double FLARE_MAGNITUTE = -60;
+const double FLARE_DELAY = 1;
+const double FLARE_MAGNITUTE = -20;
+const int FLARE_AMOUNT = 3;
+const double FLARE_SPREAD = 20;
+const double FLARE_SPEED = 200.0;
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
 const int BORDERLEFT = -250;
@@ -116,15 +119,34 @@ void Spaceship::Update(double frametime)
     //Flares
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_F) && m_flareDelay < 0)
     {
-        m_flarePosition.setBearing(m_angle, FLARE_MAGNITUTE);
-        m_flarePosition = m_flarePosition + m_position;
-        Flare* pFlare;
-        pFlare = new Flare;
-        Vector2D flarePosition = m_flarePosition;
-        m_flareSpeed = m_flareSpeed + m_velocity;
-        Vector2D flareVelocity = m_flareSpeed;
-        pFlare->Initialise(flarePosition, flareVelocity);
-        ObjectManager::instance.AddItem(pFlare);
+        //Flares or stored in this vector, will be useful later for programming homing missile
+        std::vector<Flare*> flares; 
+
+        //sets the offset of the flare so they dont appear from the middle of the spaceship
+        m_flareOffset.setBearing(m_angle, FLARE_MAGNITUTE); 
+        //adds the offset to the position of the ship
+        m_flareSpawn = m_position + m_flareOffset;
+
+        //Loop through flares
+        for (int i  = 0; i < FLARE_AMOUNT; i++)
+        { 
+            //finds the angle of the ship and loops through the flares and adds flare spread between each flare
+            m_flareAngle = m_angle + (i - 1) * FLARE_SPREAD;
+
+            m_flareVelocity;
+            m_flareVelocity.setBearing(m_flareAngle, FLARE_SPEED);
+            //flares should travel in the opposite direction of the spaceship
+            m_flareVelocity = m_flareVelocity - m_velocity;
+
+            Flare* pFlare = new Flare;
+            pFlare->Initialise(m_flareSpawn, m_flareVelocity);
+            flares.push_back(pFlare);
+        }
+
+        for (Flare* flare : flares)
+        {
+            ObjectManager::instance.AddItem(flare); //Still adding to object manager to ensure deletion of the object
+        }
         m_flareDelay = FLARE_DELAY;
     }
 

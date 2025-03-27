@@ -5,6 +5,9 @@ const std::string FLARE_IMAGE = "assets/flare.png";
 const double FLARE_LIFETIME = 3.0;
 const double FLARE_SCALE = 1.0;
 const double RADIUS = 12;
+const double FADEOUT_TIME = 1.0;
+const int FLARE_TRANSPARENCY = 1; 
+
 
 
 Flare::Flare() : GameObject(ObjectType::FLARE)
@@ -18,6 +21,10 @@ void Flare::Update(double frametime)
     if (m_lifetime <= 0)
     {
         Deactivate();
+    }
+    if (m_lifetime < FADEOUT_TIME)
+    {
+        m_transparency = FLARE_TRANSPARENCY - (m_lifetime / FADEOUT_TIME);
     }
 
     m_collisionArea.PlaceAt(m_position, RADIUS);
