@@ -33,6 +33,10 @@ void Game::StartOfGame()
     pBackGround = new Background(ObjectType::BACKGROUND);
     pBackGround->Initialise();
     ObjectManager::instance.AddItem(pBackGround);
+
+    pTile = new Tile(ObjectType::BACKGROUND);
+    pTile->Initialise();
+    ObjectManager::instance.AddItem(pTile);
 }
 
 // Function runs each frame.

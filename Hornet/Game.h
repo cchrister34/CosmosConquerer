@@ -11,6 +11,7 @@
 #include "Background.h"
 #include "Bullet.h"
 #include "Explosion.h"
+#include "Tile.h"
 
 
 // 17/06/2023
@@ -62,6 +63,6 @@ private:
     Explosion* pExplosion;
     GameManager* pGameManager;
     Background* pBackGround;
-
+    Tile* pTile;
 };
 

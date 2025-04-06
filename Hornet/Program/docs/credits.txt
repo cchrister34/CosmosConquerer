@@ -61,5 +61,9 @@ https://opengameart.org/content/asteroids-0
 Beams.png by Rawdanitsu from OpenGameArt.org
 https://opengameart.org/content/lasers-and-beams
 
+enemyplatform.png by Emcee Flesher from OpenGameArt.org
+https://opengameart.org/content/underground-sidescroller-background
+
+https://lil-cthulhu.itch.io/space-shooter-asset-pack
 
 
