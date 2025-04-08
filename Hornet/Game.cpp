@@ -34,7 +34,7 @@ void Game::StartOfGame()
     pBackGround->Initialise();
     ObjectManager::instance.AddItem(pBackGround);
 
-    pTile = new Tile(ObjectType::BACKGROUND);
+    pTile = new Tile(ObjectType::TILE);
     pTile->Initialise();
     ObjectManager::instance.AddItem(pTile);
 }
