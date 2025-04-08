@@ -14,11 +14,11 @@ void Game::StartOfProgram()
 
 // Use this function to intialise your game objects and load any assets
 void Game::StartOfGame()
-{   
+{
     pSpaceship = new Spaceship(ObjectType::SPACESHIP);
     pSpaceship->Initialise();
     ObjectManager::instance.AddItem(pSpaceship); //object manager handles deletion and sets the pointer to null.
-    
+
     for (Rock* pRock : pTheRocks)
     {
         pRock = new Rock();
@@ -33,10 +33,21 @@ void Game::StartOfGame()
     pBackGround = new Background(ObjectType::BACKGROUND);
     pBackGround->Initialise();
     ObjectManager::instance.AddItem(pBackGround);
+    
+    //Create a vector to store all the locations of the tiles
+    std::vector<Vector2D> tilePositions =
+    {
+        Vector2D(2000, 0),
+        Vector2D(3200, 400)
+    };
 
-    pTile = new Tile(ObjectType::TILE);
-    pTile->Initialise();
-    ObjectManager::instance.AddItem(pTile);
+    //Cycle through the tile locations and create a tile object at the set coordinates
+    for (const Vector2D& position : tilePositions)
+    {
+        Tile* pTile = new Tile(ObjectType::TILE);
+        pTile->Initialise(position);
+        ObjectManager::instance.AddItem(pTile);
+    };
 }
 
 // Function runs each frame.
