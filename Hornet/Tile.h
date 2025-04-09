@@ -10,7 +10,7 @@ public:
     IShape2D& GetCollisionShape() override;
     void Render()override;
 private:
-    PictureIndex m_tileLayer2;
+    PictureIndex m_tileLayer;
     Rectangle2D m_collisionShape;
 };
 

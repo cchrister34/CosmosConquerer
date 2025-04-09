@@ -7,8 +7,8 @@ const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
 const int BORDERLEFT = -1600;
 const int BORDERRIGHT = 1600;
-const double ROCKRADIUS = 64;
-const double ROCKSIZE = 0.4;
+const double ROCKRADIUS = 52;
+const double ROCKSIZE = 0.75;
 const double ROCKFRAGMENT = 0.3;
 
 Rock::Rock() : GameObject(ObjectType::ROCK)
@@ -42,7 +42,15 @@ void Rock::Update(double frametime)
 
 void Rock::Initialise()
 {
-    LoadImage("assets/asteroid.png");
+    const char* rockImages[3] =
+    {
+        "assets/asteroid1.png",
+        "assets/asteroid2.png",
+        "assets/asteroid3.png"
+    };
+    int randImage = rand() % 3;
+    LoadImage(rockImages[randImage]);
+
     double rockSize = ROCKSIZE;
     double fragRock = ROCKFRAGMENT;
     m_scale = rockSize;

@@ -13,7 +13,7 @@ Tile::Tile(ObjectType objType)
 void Tile::Initialise(Vector2D position)
 {
     //Load the image for tiles
-    m_tileLayer2 = HtGraphics::instance.LoadPicture("assets/tilelayer2.png");
+    m_tileLayer = HtGraphics::instance.LoadPicture("assets/tilelayer.png");
 
     //set the position of the collision at the centre of the image
     m_position = position;
@@ -37,5 +37,5 @@ IShape2D& Tile::GetCollisionShape()
 
 void Tile::Render()
 {
-    HtGraphics::instance.DrawAt(m_position, m_tileLayer2);
+    HtGraphics::instance.DrawAt(m_position, m_tileLayer);
 }
