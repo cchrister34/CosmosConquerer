@@ -121,6 +121,9 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PickUp.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HtAudio.h">
@@ -205,6 +208,9 @@
       <Filter>Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tile.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PickUp.h">
       <Filter>Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

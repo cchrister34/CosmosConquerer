@@ -25,9 +25,6 @@ void Tile::Initialise(Vector2D position)
     SetCollidable();
 }
 
-void Tile::Update(double frametime)
-{
-}
 
 IShape2D& Tile::GetCollisionShape()
 {
