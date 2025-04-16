@@ -5,11 +5,14 @@ class PickUp : public GameObject
 {
 public:
     PickUp();
-    void Update(double frametime)override;
     void ProcessCollision(GameObject& other) override;
     void Initialise();
+    void Update(double frametime)override;
+    void Render()override;
     IShape2D& GetCollisionShape() override;
 private:
-    Circle2D m_collisionArea;
+    Circle2D m_collisionShape;
+    PictureIndex m_SpeedPickUp;
+    PictureIndex m_ShootPickUp;
 };
 
