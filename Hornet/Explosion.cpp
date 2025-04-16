@@ -4,7 +4,7 @@
 const double TIMER = 0.0;
 const double EXPLOSION_SIZE = 2.0;
 
-Explosion::Explosion() : GameObject(ObjectType::EXPLOSION)
+Explosion::Explosion(ObjectType objType)
 {
 }
 

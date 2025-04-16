@@ -11,7 +11,7 @@ const double ROCKRADIUS = 52;
 const double ROCKSIZE = 0.75;
 const double ROCKFRAGMENT = 0.3;
 
-Rock::Rock() : GameObject(ObjectType::ROCK)
+Rock::Rock(ObjectType objType) : GameObject(ObjectType::ROCK)
 {
 }
 

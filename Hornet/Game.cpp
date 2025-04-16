@@ -21,12 +21,12 @@ void Game::StartOfGame()
 
     for (Rock* pRock : pTheRocks)
     {
-        pRock = new Rock();
+        pRock = new Rock(ObjectType::ROCK);
         pRock->Initialise();
         ObjectManager::instance.AddItem(pRock);
     }
 
-    pGameManager = new GameManager();
+    pGameManager = new GameManager(ObjectType::GAMEMANAGER);
     pGameManager->Initialise();
     ObjectManager::instance.AddItem(pGameManager);
 
@@ -49,6 +49,11 @@ void Game::StartOfGame()
         pTile->Initialise(position);
         ObjectManager::instance.AddItem(pTile);
     };
+
+    pPickUp = new PickUp(ObjectType::PICKUP);
+    pPickUp->Initialise();
+    ObjectManager::instance.AddItem(pPickUp);
+
 }
 
 // Function runs each frame.

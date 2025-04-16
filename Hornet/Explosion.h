@@ -4,7 +4,7 @@
 class  Explosion : public GameObject
 {
 public:
-    Explosion();
+    Explosion(ObjectType objType);
     void Update(double frametime) override;
     void Initialise(Vector2D postion);
 private:

@@ -12,6 +12,7 @@
 #include "Bullet.h"
 #include "Explosion.h"
 #include "Tile.h"
+#include "PickUp.h"
 
 
 // 17/06/2023
@@ -63,6 +64,7 @@ private:
     Explosion* pExplosion;
     GameManager* pGameManager;
     Background* pBackGround;
-    Tile* pTile;
+    std::vector<Tile*> pTile;
+    PickUp* pPickUp;
 };
 

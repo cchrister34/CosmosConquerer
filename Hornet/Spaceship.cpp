@@ -18,7 +18,7 @@ const double SHIP_ANGLE = 90;
 const double FRICTION_STRENGTH = 0.5;
 const double BULLET_MAGNITUDE = 60;
 const double BULLET_SPEED = 800.0;
-const double FLARE_DELAY = 30;
+const double FLARE_DELAY = 1;
 const double FLARE_MAGNITUTE = -20;
 const int FLARE_AMOUNT = 3;
 const double FLARE_SPREAD = 20;
@@ -32,7 +32,7 @@ const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
 const std::string EXPLOSION_SOUND = "assets/explosion1.wav";
 
-Spaceship::Spaceship(ObjectType objType) : GameObject(objType)
+Spaceship::Spaceship(ObjectType objType) : GameObject(ObjectType::SPACESHIP)
 {
 }
 
@@ -138,7 +138,7 @@ void Spaceship::Update(double frametime)
             //flares should travel in the opposite direction of the spaceship
             m_flareVelocity = m_flareVelocity - m_velocity;
 
-            Flare* pFlare = new Flare;
+            Flare* pFlare = new Flare(ObjectType::FLARE);
             pFlare->Initialise(m_flareSpawn, m_flareVelocity);
             flares.push_back(pFlare);
         }
@@ -179,7 +179,7 @@ void Spaceship::ProcessCollision(GameObject& other)
     {
         Deactivate();
         HtAudio::instance.Stop(m_engineSoundChannel);
-        Explosion* p_Explosion = new Explosion();
+        Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
         p_Explosion->Initialise(m_position);
         ObjectManager::instance.AddItem(p_Explosion);
         m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);

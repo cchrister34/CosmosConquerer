@@ -6,7 +6,7 @@ const double TILE_HEIGHT = 150;
 const double HALF_TILE_WIDTH = TILE_WIDTH / 2.0;
 const double HALF_TILE_HEIGHT = TILE_HEIGHT / 2.0;
 
-Tile::Tile(ObjectType objType)
+Tile::Tile(ObjectType objType) : GameObject(ObjectType::TILE)
 {
 }
 

@@ -3,7 +3,7 @@
 class Rock : public GameObject
 {
 public:
-    Rock();
+    Rock(ObjectType objType);
     void Update(double frametime) override;
     void ProcessCollision(GameObject& other) override;
     void Initialise();

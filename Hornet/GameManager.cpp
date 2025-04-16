@@ -13,7 +13,7 @@ const double FONT_SIZE = 1.25;
 const int ROCK_SCORE_INCREASE = 100;
 
 
-GameManager::GameManager() : GameObject(ObjectType::GAMEMANAGER)
+GameManager::GameManager(ObjectType objType)
 {
 }
 

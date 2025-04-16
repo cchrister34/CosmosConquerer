@@ -10,7 +10,7 @@ const int FLARE_TRANSPARENCY = 1;
 
 
 
-Flare::Flare() : GameObject(ObjectType::FLARE)
+Flare::Flare(ObjectType objType) : GameObject(ObjectType::FLARE)
 {
 }
 

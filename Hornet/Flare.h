@@ -5,7 +5,7 @@
 class Flare : public GameObject
 {
 public:
-    Flare();
+    Flare(ObjectType objType);
     void Update(double frametime) override;
     void ProcessCollision(GameObject& other) override;
     void Initialise(Vector2D position, Vector2D velocity);

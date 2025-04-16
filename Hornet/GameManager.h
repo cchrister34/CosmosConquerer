@@ -4,7 +4,7 @@
 class GameManager : public GameObject
 {
 public:
-    GameManager();
+    GameManager(ObjectType objType);
     void Initialise();
     void Update(double frametime)override;
     void Render()override;
