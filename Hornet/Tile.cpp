@@ -30,6 +30,7 @@ void Tile::Update(double frametime)
 }
 
 
+
 IShape2D& Tile::GetCollisionShape()
 {
     return m_collisionShape;
@@ -39,4 +40,8 @@ IShape2D& Tile::GetCollisionShape()
 void Tile::Render()
 {
     HtGraphics::instance.DrawAt(m_position, m_tileLayer);
+}
+
+void Tile::ProcessCollision(GameObject& other)
+{
 }

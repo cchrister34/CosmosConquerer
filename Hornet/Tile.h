@@ -7,6 +7,7 @@ public:
     Tile(ObjectType objType);
     void Initialise(Vector2D position);
     void Update(double frametime)override;
+    void ProcessCollision(GameObject& other)override;
     IShape2D& GetCollisionShape() override;
     void Render()override;
 private:
