@@ -6,6 +6,9 @@ const Vector2D BG_IMG1_POS(0, 0);
 const Vector2D BG_IMG2_POS(4175, 0);
 const Vector2D BG_IMG3_POS(8350, 0);
 const double BG_IMG_SCALE = 2.5;
+const std::string BG_IMAGE_1 = "assets/spacebg.png";
+const std::string BG_IMAGE_2 = "assets/starsbg.png";
+const std::string BG_IMAGE_3 = "assets/starsbg2.png";
 
 Background::Background(ObjectType objType)
 {
@@ -13,9 +16,9 @@ Background::Background(ObjectType objType)
 
 void Background::Initialise()
 {
-    m_bgImage1 = HtGraphics::instance.LoadPicture("assets/spacebg.png");
-    m_bgImage2 = HtGraphics::instance.LoadPicture("assets/starsbg.png");
-    m_bgImage3 = HtGraphics::instance.LoadPicture("assets/starsbg2.png");
+    m_bgImage1 = HtGraphics::instance.LoadPicture(BG_IMAGE_1.c_str());
+    m_bgImage2 = HtGraphics::instance.LoadPicture(BG_IMAGE_2.c_str());
+    m_bgImage3 = HtGraphics::instance.LoadPicture(BG_IMAGE_3.c_str());
     SetDrawDepth(-2);
 }
 

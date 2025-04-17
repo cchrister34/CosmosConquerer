@@ -11,6 +11,7 @@ const int LIVES_GAP = 100;
 const int FONT = 2;
 const double FONT_SIZE = 1.25;
 const int ROCK_SCORE_INCREASE = 100;
+const std::string SHIP_IMAGE = "assets/spaceship.png";
 
 
 GameManager::GameManager(ObjectType objType)
@@ -22,7 +23,7 @@ void GameManager::Initialise()
     m_score = START_SCORE;
     m_lives = START_LIVES;
 
-    m_livesImage = HtGraphics::instance.LoadPicture("assets/spaceship.png"); 
+    m_livesImage = HtGraphics::instance.LoadPicture(SHIP_IMAGE.c_str()); 
     SetHandleEvents();
 }
 

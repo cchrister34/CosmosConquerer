@@ -5,6 +5,7 @@ const double TILE_WIDTH = 670;
 const double TILE_HEIGHT = 150;
 const double HALF_TILE_WIDTH = TILE_WIDTH / 2.0;
 const double HALF_TILE_HEIGHT = TILE_HEIGHT / 2.0;
+const std::string TILE_IMAGE = "assets/tilelayer.png";
 
 Tile::Tile(ObjectType objType) : GameObject(ObjectType::TILE)
 {
@@ -13,7 +14,7 @@ Tile::Tile(ObjectType objType) : GameObject(ObjectType::TILE)
 void Tile::Initialise(Vector2D position)
 {
     //Load the image for tiles
-    m_tileLayer = HtGraphics::instance.LoadPicture("assets/tilelayer.png");
+    m_tileLayer = HtGraphics::instance.LoadPicture(TILE_IMAGE.c_str());
 
     //set the position of the collision at the centre of the image
     m_position = position;

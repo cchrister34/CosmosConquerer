@@ -1,10 +1,11 @@
 #include "PickUp.h"
 
 //Constants
-const Vector2D SPEED_PICKUP_POS(3200, 410);
+const Vector2D SPEED_PICKUP_POS(3200, 470);
 const Vector2D SHOOT_PICKUP_POS(5000, -500);
 double PICKUP_RADIUS = 64;
-
+const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
+const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
 
 PickUp::PickUp(ObjectType objType) : GameObject(ObjectType::PICKUP)
 {
@@ -12,8 +13,8 @@ PickUp::PickUp(ObjectType objType) : GameObject(ObjectType::PICKUP)
 
 void PickUp::Initialise()
 {
-    m_SpeedPickUp = HtGraphics::instance.LoadPicture("assets/powerup1.png");
-    m_ShootPickUp = HtGraphics::instance.LoadPicture("assets/powerup2.png");
+    m_SpeedPickUp = HtGraphics::instance.LoadPicture(SPEED_PICKUP_IMAGE.c_str());
+    m_ShootPickUp = HtGraphics::instance.LoadPicture(SHOOT_PICKUP_IMAGE.c_str());
 
     m_speedPickUpPosition = SPEED_PICKUP_POS;
     m_shootPickUpPosition = SHOOT_PICKUP_POS;
