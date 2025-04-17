@@ -85,4 +85,19 @@ void Rock::ProcessCollision(GameObject& other)
         evt.position = m_position;
         ObjectManager::instance.HandleEvent(evt);
     }
+
+    if (other.GetType() == ObjectType::ROCK)
+    {
+        //Subtratcs a rock's position from anothers, returning a vector that points from one rock to another.
+        Vector2D collisionVector = m_position - other.GetPosition();
+        //Uses the collision vector to calculate the direction they are colliding from
+        Vector2D direction = collisionVector.unitVector();
+        double speed = m_velocity.magnitude();
+        m_velocity = direction * speed;
+        Event evt;
+        evt.type = EventType::OBJECTCOLLIDED;
+        evt.pSource = this;
+        evt.position = m_velocity;
+        ObjectManager::instance.HandleEvent(evt);
+    }
 }
