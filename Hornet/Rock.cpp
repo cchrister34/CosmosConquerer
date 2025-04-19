@@ -97,7 +97,7 @@ void Rock::ProcessCollision(GameObject& other)
         Event evt;
         evt.type = EventType::OBJECTCOLLIDED;
         evt.pSource = this;
-        evt.position = m_velocity;
+        evt.position = m_position;
         ObjectManager::instance.HandleEvent(evt);
     }
 }

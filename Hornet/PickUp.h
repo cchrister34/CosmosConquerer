@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "pickuptypes.h"
+#include "pickuptypes.h" 
 
 class PickUp : public GameObject
 {

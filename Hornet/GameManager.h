@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "pickuptypes.h"
 
 class GameManager : public GameObject
 {
@@ -13,7 +14,8 @@ private:
     int m_score;
     int m_lives;
     PictureIndex m_livesImage;
-    PictureIndex m_SpeedImage;
-    PictureIndex m_ShootImage;
+    PictureIndex m_speedImage;
+    PictureIndex m_shootImage;
+    PickUpType m_collectedPickup;
+    bool m_hasPickup;
 };
-

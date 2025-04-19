@@ -2,5 +2,5 @@
 
 enum class PickUpType
 {
-    SPEED, FIRE_RATE
+    SPEED, FIRE_RATE, NONE
 };

@@ -1,6 +1,7 @@
 #include "PickUp.h"
 #include "ObjectManager.h"
 #include "Spaceship.h"
+#include <iostream>
 
 //Constants
 const Vector2D SPEED_PICKUP_POS(3200, 550);
@@ -38,7 +39,7 @@ void PickUp::Update(double frametime)
 
 void PickUp::ProcessCollision(GameObject& other)
 {
-    //Code causes high cohesion but is necessary 
+    //Code causes high dependency, would be ideal to find an alternative method
     if (other.GetType() == ObjectType::SPACESHIP)
     {
         Spaceship& ship = static_cast<Spaceship&>(other);
@@ -46,6 +47,11 @@ void PickUp::ProcessCollision(GameObject& other)
         ship.CollectPickup(m_pickupType);
         //Deactivates the collected object to avoid player confusion
         this->Deactivate();
+        Event evt;
+        evt.type = EventType::OBJECTCOLLECTED;
+        evt.pSource = this;
+        evt.position = m_position;
+        ObjectManager::instance.HandleEvent(evt);
     }
 }
 

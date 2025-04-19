@@ -2,6 +2,7 @@
 #include "Spaceship.h"
 #include "ObjectManager.h"
 #include "HtCamera.h"
+#include "PickUp.h"
 
 //Constants
 const int START_SCORE = 0;
@@ -12,6 +13,8 @@ const int FONT = 2;
 const double FONT_SIZE = 1.25;
 const int ROCK_SCORE_INCREASE = 100;
 const std::string SHIP_IMAGE = "assets/spaceship.png";
+const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
+const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
 
 
 GameManager::GameManager(ObjectType objType)
@@ -22,8 +25,13 @@ void GameManager::Initialise()
 {
     m_score = START_SCORE;
     m_lives = START_LIVES;
+    m_hasPickup = false;
+    m_collectedPickup = PickUpType::NONE;
 
     m_livesImage = HtGraphics::instance.LoadPicture(SHIP_IMAGE.c_str()); 
+    m_speedImage = HtGraphics::instance.LoadPicture(SPEED_PICKUP_IMAGE.c_str());
+    m_shootImage = HtGraphics::instance.LoadPicture(SHOOT_PICKUP_IMAGE.c_str());
+    SetDrawDepth(2);
     SetHandleEvents();
 }
 
@@ -45,6 +53,25 @@ void GameManager::Render()
         livesPos.XValue += LIVES_GAP;
     }
     HtCamera::instance.UseCamera(true);
+
+    //Pickup
+    if (m_hasPickup)
+    {
+        Vector2D pickupPos(1000, 950);
+        if (m_collectedPickup == PickUpType::SPEED)
+        {
+            HtCamera::instance.UseCamera(false);
+            HtGraphics::instance.DrawAt(pickupPos, m_speedImage);
+            HtCamera::instance.UseCamera(true);
+        }
+        else if (m_collectedPickup == PickUpType::FIRE_RATE)
+        {
+            HtCamera::instance.UseCamera(false);
+            HtGraphics::instance.DrawAt(pickupPos, m_shootImage);
+            HtCamera::instance.UseCamera(true);
+        }
+
+    }
 }
 
 void GameManager::HandleEvent(Event evt)
@@ -55,14 +82,15 @@ void GameManager::HandleEvent(Event evt)
         {
             m_score += ROCK_SCORE_INCREASE;
         }
-
     }
 
     if (evt.type == EventType::OBJECTCOLLECTED)
     {
         if (evt.pSource && evt.pSource->GetType() == ObjectType::PICKUP)
         {
-
+            PickUp* pPickUp = static_cast<PickUp*>(evt.pSource);
+            m_collectedPickup = pPickUp->GetPickUpType();
+            m_hasPickup = true;
         }
     }
 
