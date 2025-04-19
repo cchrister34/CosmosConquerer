@@ -58,6 +58,14 @@ void GameManager::HandleEvent(Event evt)
 
     }
 
+    if (evt.type == EventType::OBJECTCOLLECTED)
+    {
+        if (evt.pSource && evt.pSource->GetType() == ObjectType::PICKUP)
+        {
+
+        }
+    }
+
     if (evt.type == EventType::OBJECTDESTROYED)
     {
         if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)

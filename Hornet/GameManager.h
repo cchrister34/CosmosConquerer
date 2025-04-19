@@ -13,5 +13,7 @@ private:
     int m_score;
     int m_lives;
     PictureIndex m_livesImage;
+    PictureIndex m_SpeedImage;
+    PictureIndex m_ShootImage;
 };
 

@@ -50,9 +50,13 @@ void Game::StartOfGame()
         ObjectManager::instance.AddItem(pTile);
     };
 
-    pPickUp = new PickUp(ObjectType::PICKUP);
-    pPickUp->Initialise();
-    ObjectManager::instance.AddItem(pPickUp);
+    PickUp* speedPickup = new PickUp(PickUpType::SPEED);
+    speedPickup->Initialise();
+    ObjectManager::instance.AddItem(speedPickup);
+
+    PickUp* fireRatePickup = new PickUp(PickUpType::FIRE_RATE);
+    fireRatePickup->Initialise();
+    ObjectManager::instance.AddItem(fireRatePickup);
 
 }
 

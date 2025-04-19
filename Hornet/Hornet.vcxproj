@@ -189,6 +189,7 @@
     <ClInclude Include="HtKeyboard.h" />
     <ClInclude Include="HtMouse.h" />
     <ClInclude Include="PickUp.h" />
+    <ClInclude Include="pickuptypes.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="ObjectManager.h" />

@@ -27,6 +27,10 @@ const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
 const int BORDERLEFT = -250;
 const int BORDERRIGHT = 8350;
+const double SPEED_PICKUP_MULTIPLIER = 1.5;
+const double SHOOT_PICKUP_MULTIPLIER = 2.0;
+const double PICK_UP_TIMER = 5.0;
+const double BASE_PICKUP_MULTIPLIER = 1.0;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
 const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
@@ -74,7 +78,7 @@ void Spaceship::Update(double frametime)
         //Friction;
         if (m_isFrictionActive) //Used to prevent the effects of friction occuring when game is paused.
         {
-           m_acceleration.setBearing(m_angle, THRUST);
+           m_acceleration.setBearing(m_angle, THRUST * m_speedMultiplier);
            m_acceleration = m_acceleration - m_velocity * FRICTION_STRENGTH;
            m_velocity = m_velocity + m_acceleration * frametime;
            m_position = m_position + m_velocity * frametime;
@@ -112,7 +116,7 @@ void Spaceship::Update(double frametime)
         Vector2D bulletVelocity = m_bulletSpeed;
         pBullet->Initialise(bulletPosition, bulletVelocity);
         ObjectManager::instance.AddItem(pBullet);
-        m_shootdelay = BULLET_DELAY;
+        m_shootdelay = m_dynamicbulletDelay;
         m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
     }
 
@@ -120,16 +124,16 @@ void Spaceship::Update(double frametime)
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_F) && m_flareDelay < 0)
     {
         //Flares or stored in this vector, will be useful later for programming homing missile
-        std::vector<Flare*> flares; 
+        std::vector<Flare*> flares;
 
         //sets the offset of the flare so they dont appear from the middle of the spaceship
-        m_flareOffset.setBearing(m_angle, FLARE_MAGNITUTE); 
+        m_flareOffset.setBearing(m_angle, FLARE_MAGNITUTE);
         //adds the offset to the position of the ship
         m_flareSpawn = m_position + m_flareOffset;
 
         //Loop through flares
-        for (int i  = 0; i < FLARE_AMOUNT; i++)
-        { 
+        for (int i = 0; i < FLARE_AMOUNT; i++)
+        {
             //finds the angle of the ship and loops through the flares and adds flare spread between each flare
             m_flareAngle = m_angle + (i - 1) * FLARE_SPREAD;
 
@@ -148,6 +152,22 @@ void Spaceship::Update(double frametime)
             ObjectManager::instance.AddItem(flare); //Still adding to object manager to ensure deletion of the object
         }
         m_flareDelay = FLARE_DELAY;
+    }
+     
+    //PickUp
+        if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_E))
+        {
+            UsePickUp();
+        }
+
+        if (m_pickupTimer > 0)
+        {
+            m_pickupTimer -= frametime;
+        if (m_pickupTimer <= 0)
+        {
+            m_dynamicbulletDelay = BULLET_DELAY;
+            m_speedMultiplier = BASE_PICKUP_MULTIPLIER;
+        }
     }
 
     //Wrapping 
@@ -222,6 +242,9 @@ void Spaceship::Initialise()
     m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND.c_str());
 
     m_flareDelay = FLARE_DELAY;
+    m_dynamicbulletDelay = BULLET_DELAY;
+    m_speedMultiplier = BASE_PICKUP_MULTIPLIER;
+    m_shootMultiplier = BASE_PICKUP_MULTIPLIER;
 
     SetCollidable();
 }
@@ -235,5 +258,42 @@ void Spaceship::SetFriction(bool active)
 IShape2D& Spaceship::GetCollisionShape()
 {
     return m_collisionShape;
+}
+
+//This function stores the correct collected pick up
+void Spaceship::CollectPickup(PickUpType type)
+{
+    m_collectedPickup = type;
+    m_hasPickup = true;
+}
+
+void Spaceship::UseSpeedBoost()
+{
+    m_speedMultiplier = SPEED_PICKUP_MULTIPLIER;
+    m_pickupTimer = PICK_UP_TIMER;
+}
+
+void Spaceship::UseShootBoost()
+{
+    m_dynamicbulletDelay = BULLET_DELAY / SHOOT_PICKUP_MULTIPLIER;
+    m_pickupTimer = PICK_UP_TIMER;
+}
+
+//This function checks if a pick up has been collected and then accordindly assigns the corresponding function.
+void Spaceship::UsePickUp()
+{
+    if (!m_hasPickup)
+        return;
+    switch (m_collectedPickup)
+    {
+    case PickUpType::SPEED:
+        UseSpeedBoost();
+        break;
+    case PickUpType::FIRE_RATE:
+        UseShootBoost();
+        break;
+    }
+
+    m_hasPickup = false;
 }
 

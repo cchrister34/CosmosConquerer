@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "HtAudio.h"
+#include "pickuptypes.h"
 
 class Spaceship : public GameObject
 {
@@ -11,6 +12,10 @@ public:
     void Initialise();
     void SetFriction(bool active);
     IShape2D& GetCollisionShape() override;
+    void CollectPickup(PickUpType type);
+    void UseSpeedBoost();
+    void UseShootBoost();
+    void UsePickUp();
 private:
     Vector2D m_velocity;
     Vector2D m_acceleration;
@@ -37,4 +42,10 @@ private:
     SoundIndex m_explosionBang;
     int m_explosionSoundChannel;
     bool m_isFrictionActive = true;
+    bool m_hasPickup = false;
+    PickUpType m_collectedPickup;
+    double m_speedMultiplier;
+    double m_shootMultiplier;
+    double m_pickupTimer;
+    double m_dynamicbulletDelay;
 };

@@ -213,5 +213,8 @@
     <ClInclude Include="PickUp.h">
       <Filter>Game\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pickuptypes.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
