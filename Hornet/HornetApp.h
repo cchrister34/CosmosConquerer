@@ -11,7 +11,7 @@
 // (including credits and options), in the pause menu, playing the game or quitting
 enum class HtProgramState{INITIALISE, MAINMENU, PAUSEMENU, GAMEPLAY, QUIT};
 
-const std::string APPNAME = "Hornet App";
+const std::string APPNAME = "Cosmos Conqueror";
 const std::string ASSETS = "assets\\";
 const std::string DOCS = "docs\\";
 const std::string FONTS = "fonts\\";
