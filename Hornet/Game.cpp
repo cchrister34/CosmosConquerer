@@ -50,13 +50,18 @@ void Game::StartOfGame()
         ObjectManager::instance.AddItem(pTile);
     };
 
-    PickUp* speedPickup = new PickUp(PickUpType::SPEED);
-    speedPickup->Initialise();
-    ObjectManager::instance.AddItem(speedPickup);
+    PickUp* pSpeedPickup = new PickUp(PickUpType::SPEED);
+    pSpeedPickup->Initialise();
+    ObjectManager::instance.AddItem(pSpeedPickup);
 
-    PickUp* fireRatePickup = new PickUp(PickUpType::FIRE_RATE);
-    fireRatePickup->Initialise();
-    ObjectManager::instance.AddItem(fireRatePickup);
+    PickUp* pFireRatePickup = new PickUp(PickUpType::FIRE_RATE);
+    pFireRatePickup->Initialise();
+    ObjectManager::instance.AddItem(pFireRatePickup);
+
+    Missile* pMissile = new Missile(ObjectType::MISSILE);
+    pMissile->Initialise();
+    pMissile->SetTarget(pSpaceship);
+    ObjectManager::instance.AddItem(pMissile);
 
 }
 

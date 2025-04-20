@@ -70,7 +70,6 @@ void GameManager::Render()
             HtGraphics::instance.DrawAt(pickupPos, m_shootImage);
             HtCamera::instance.UseCamera(true);
         }
-
     }
 }
 

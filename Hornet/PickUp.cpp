@@ -1,7 +1,7 @@
 #include "PickUp.h"
 #include "ObjectManager.h"
 #include "Spaceship.h"
-#include <iostream>
+
 
 //Constants
 const Vector2D SPEED_PICKUP_POS(3200, 550);

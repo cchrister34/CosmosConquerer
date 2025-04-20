@@ -13,6 +13,7 @@
 #include "Explosion.h"
 #include "Tile.h"
 #include "PickUp.h"
+#include "Missile.h"
 
 
 // 17/06/2023
@@ -58,7 +59,7 @@ public:
 
 private:
     GameTimer m_timer;
-    Spaceship* pSpaceship; //automatically assigns pSpaceship to nullptr
+    Spaceship* pSpaceship;
     Rock* pTheRocks[12];
     Bullet* pBullet;
     Explosion* pExplosion;
@@ -66,5 +67,6 @@ private:
     Background* pBackGround;
     std::vector<Tile*> pTile;
     PickUp* pPickUp;
+    Missile* pMissile;
 };
 
