@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "pickuptypes.h" 
+#include "HtAudio.h"
 
 class PickUp : public GameObject
 {
@@ -19,5 +20,7 @@ private:
     Vector2D m_speedPickUpPosition;
     Vector2D m_shootPickUpPosition;
     PickUpType m_pickupType;
+    SoundIndex m_pickUpSound;
+    int m_pickUpSoundChannel;
 };
 

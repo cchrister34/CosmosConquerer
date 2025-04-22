@@ -9,6 +9,7 @@ const Vector2D SHOOT_PICKUP_POS(5000, -500);
 double PICKUP_RADIUS = 64;
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
 const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
+const std::string PICK_UP_SOUND = "assets/pickup.mp3";
 
 PickUp::PickUp(PickUpType pickupType) : GameObject(ObjectType::PICKUP), m_pickupType(pickupType)
 {
@@ -18,6 +19,7 @@ void PickUp::Initialise()
 {
     m_SpeedPickUp = HtGraphics::instance.LoadPicture(SPEED_PICKUP_IMAGE.c_str());
     m_ShootPickUp = HtGraphics::instance.LoadPicture(SHOOT_PICKUP_IMAGE.c_str());
+    m_pickUpSound = HtAudio::instance.LoadSound(PICK_UP_SOUND.c_str());
 
     //uses the enum class to set the position of the pick up
     if (m_pickupType == PickUpType::SPEED)
@@ -52,6 +54,7 @@ void PickUp::ProcessCollision(GameObject& other)
         evt.pSource = this;
         evt.position = m_position;
         ObjectManager::instance.HandleEvent(evt);
+        m_pickUpSoundChannel = HtAudio::instance.Play(m_pickUpSound);
     }
 }
 

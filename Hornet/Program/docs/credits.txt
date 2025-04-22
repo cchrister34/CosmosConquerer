@@ -61,8 +61,20 @@ https://opengameart.org/content/asteroids
 Beams.png by Rawdanitsu from OpenGameArt.org
 https://opengameart.org/content/lasers-and-beams
 
+flare.png by Clint Bellanger from OpenGameArt.org
+https://opengameart.org/content/flare-effect-blender
+
+flare.flac by qubodup from OpenGameArt.org
+https://opengameart.org/content/flare-ignition
+
 enemyplatform.png by Emcee Flesher from OpenGameArt.org
 https://opengameart.org/content/underground-sidescroller-background
+
+powerup1.png and powerup2.png by Mumu from OpenGameArt.org
+http://opengameart.org/content/shiny-orbs-64x64
+
+pickup.mp3 from Musheran from OpenGameArt.org
+https://opengameart.org/content/item-pickup-key
 
 https://lil-cthulhu.itch.io/space-shooter-asset-pack
 
