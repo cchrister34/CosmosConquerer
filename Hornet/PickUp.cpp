@@ -43,7 +43,7 @@ void PickUp::ProcessCollision(GameObject& other)
     if (other.GetType() == ObjectType::SPACESHIP)
     {
         Spaceship& ship = static_cast<Spaceship&>(other);
-        //This tells the spaceship what object type cas collected
+        //This tells the spaceship what object type was collected
         ship.CollectPickup(m_pickupType);
         //Deactivates the collected object to avoid player confusion
         this->Deactivate();

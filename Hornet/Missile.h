@@ -9,6 +9,7 @@ public:
     void SetTarget(Spaceship* pTarget);
     void Update(double frametime);
     void HandleEvent(Event evt) override;
+    IShape2D& GetCollisionShape() override;
     void ProcessCollision(GameObject& other) override;
 private:
     Spaceship* m_pTarget;
@@ -17,5 +18,6 @@ private:
     Vector2D m_velocity;
     double m_spawnDelay;
     bool m_hasMissileSpawned;
+    Rectangle2D m_collisionShape;
 };
 

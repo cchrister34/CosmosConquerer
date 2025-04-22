@@ -2,7 +2,7 @@
 
 //Constants
 const std::string FLARE_IMAGE = "assets/flare.png";
-const double FLARE_LIFETIME = 3.0;
+const double FLARE_LIFETIME = 1.5;
 const double FLARE_SCALE = 1.0;
 const double RADIUS = 12;
 const double FADEOUT_TIME = 1.0;
@@ -32,6 +32,7 @@ void Flare::Update(double frametime)
 
 void Flare::ProcessCollision(GameObject& other)
 {
+
 }
 
 void Flare::Initialise(Vector2D position, Vector2D velocity)

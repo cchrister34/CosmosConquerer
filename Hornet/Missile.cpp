@@ -4,8 +4,13 @@
 //Constans 
 const std::string MISSILE_IMAGE = "assets/missile.bmp";
 const double MISSILE_ANGLE = 90;
-const double TOP_SPEED = 300; 
+const double TOP_SPEED = 500; 
 const double SPAWN_DELAY = 5;
+const double MISSILE_WIDTH = 128;
+const double MISSILE_HEIGHT = 64;
+const double HALF_MISSILE_WIDTH = MISSILE_WIDTH / 2.0;
+const double HALF_MISSILE_HEIGHT = MISSILE_HEIGHT / 2.0;
+
 
 
 Missile::Missile(ObjectType objType) : GameObject(ObjectType::MISSILE)
@@ -17,6 +22,7 @@ void Missile::Initialise()
 {
     LoadImage(MISSILE_IMAGE.c_str());
     m_angle = MISSILE_ANGLE;
+    //Dummy spawn
     m_position.set(-2000, 0);
     m_hasMissileSpawned = false;
     SetCollidable();
@@ -51,6 +57,10 @@ void Missile::Update(double frametime)
         m_direction = m_velocity.angle();
         m_angle = m_direction;
     }
+
+    Vector2D bottomLeft = m_position - Vector2D(HALF_MISSILE_WIDTH, HALF_MISSILE_HEIGHT);
+    Vector2D topRight = m_position + Vector2D(HALF_MISSILE_WIDTH, HALF_MISSILE_HEIGHT);
+    m_collisionShape.PlaceAt(bottomLeft, topRight);
 }
 
 void Missile::HandleEvent(Event evt)
@@ -62,6 +72,15 @@ void Missile::HandleEvent(Event evt)
     }
 }
 
+IShape2D& Missile::GetCollisionShape()
+{
+    return m_collisionShape;
+}
+
 void Missile::ProcessCollision(GameObject& other)
 {
+    if (other.GetType() == ObjectType::FLARE)
+    {
+        Deactivate();
+    }
 }

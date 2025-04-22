@@ -35,7 +35,7 @@ void Game::StartOfGame()
     ObjectManager::instance.AddItem(pBackGround);
     
     //Create a vector to store all the locations of the tiles
-    //Would prefer this to be in tile.cpp but could not figure it out
+   //Would prefer this to be in tile.cpp but could not figure it out
     std::vector<Vector2D> tilePositions =
     {
         Vector2D(2000, 0),
