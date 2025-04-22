@@ -12,6 +12,7 @@ const int LIVES_GAP = 100;
 const int FONT = 2;
 const double FONT_SIZE = 1.25;
 const int ROCK_SCORE_INCREASE = 100;
+const int MISSILE_SCORE_INCREASE = 500;
 const std::string SHIP_IMAGE = "assets/spaceship.png";
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
 const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
@@ -106,6 +107,14 @@ void GameManager::HandleEvent(Event evt)
                 m_lives -= 1;
 
             }
+        }
+    }
+
+    if (evt.type == EventType::OBJECTDESTROYED)
+    {
+        if (evt.pSource && evt.pSource->GetType() == ObjectType::MISSILE)
+        {
+            m_score += MISSILE_SCORE_INCREASE;
         }
     }
 }

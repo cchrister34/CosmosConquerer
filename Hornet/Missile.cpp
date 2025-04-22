@@ -1,5 +1,6 @@
 #include "Missile.h"
 #include <iostream>
+#include "ObjectManager.h"
 
 //Constans 
 const std::string MISSILE_IMAGE = "assets/missile.bmp";
@@ -82,5 +83,10 @@ void Missile::ProcessCollision(GameObject& other)
     if (other.GetType() == ObjectType::FLARE)
     {
         Deactivate();
+        Event evt;
+        evt.type = EventType::OBJECTDESTROYED;
+        evt.pSource = this;
+        evt.position = m_position;
+        ObjectManager::instance.HandleEvent(evt);
     }
 }
