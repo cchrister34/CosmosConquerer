@@ -32,13 +32,14 @@ private:
     Vector2D m_bulletPosition;
     Vector2D m_bulletSpeed;
     SoundIndex m_bulletSound;
-    bool hasBulletFired;
     int m_bulletSoundChannel;
     double m_flareDelay;
     double m_flareAngle;
     Vector2D m_flareOffset;
     Vector2D m_flareSpawn;
     Vector2D m_flareVelocity;
+    SoundIndex m_flareSound;
+    int m_flareSoundChannel;
     SoundIndex m_explosionBang;
     int m_explosionSoundChannel;
     bool m_isFrictionActive = true;

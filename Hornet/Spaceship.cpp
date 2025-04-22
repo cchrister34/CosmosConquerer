@@ -35,6 +35,7 @@ const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* 
 const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
 const std::string EXPLOSION_SOUND = "assets/explosion1.wav";
+const std::string FLARE_SOUND = "assets/flare.flac";
 
 Spaceship::Spaceship(ObjectType objType) : GameObject(ObjectType::SPACESHIP)
 {
@@ -152,6 +153,7 @@ void Spaceship::Update(double frametime)
             ObjectManager::instance.AddItem(flare); //Still adding to object manager to ensure deletion of the object
         }
         m_flareDelay = FLARE_DELAY;
+        m_flareSoundChannel = HtAudio::instance.Play(m_flareSound);
     }
      
     //PickUp
@@ -237,11 +239,18 @@ void Spaceship::Initialise()
     m_cameraVelocity.set(0, 0);
     m_engineSound = HtAudio::instance.LoadSound(ENGINE_SOUND.c_str());
 
+    //Bullet
     m_shootdelay = BULLET_DELAY;
     m_bulletSound = HtAudio::instance.LoadSound(BULLET_SOUND.c_str());
+
+    //Explosion
     m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND.c_str());
 
+    //Flares
     m_flareDelay = FLARE_DELAY;
+    m_flareSound = HtAudio::instance.LoadSound(FLARE_SOUND.c_str());
+
+    //Pickups
     m_dynamicbulletDelay = BULLET_DELAY;
     m_speedMultiplier = BASE_PICKUP_MULTIPLIER;
     m_shootMultiplier = BASE_PICKUP_MULTIPLIER;
