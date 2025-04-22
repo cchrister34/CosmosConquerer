@@ -3,6 +3,7 @@
 #include "ObjectManager.h"
 #include "HtCamera.h"
 #include "PickUp.h"
+#include "Missile.h"
 
 //Constants
 const int START_SCORE = 0;
@@ -105,10 +106,23 @@ void GameManager::HandleEvent(Event evt)
                 pSpacehip->Initialise();
                 ObjectManager::instance.AddItem(pSpacehip);
                 m_lives -= 1;
+                //Assign the new spaceship object to a member variable
+                //If the spaceship was destroyed before the missile timer ran out, the missiles would no longer spawn
+                m_respawnedSpaceship = pSpacehip;
 
+                //Safety check to ensure the object is active before creating a missile
+                if (m_respawnedSpaceship != nullptr)
+                {
+                    Missile* pMissile = new Missile(ObjectType::MISSILE);
+                    pMissile->Initialise();
+                    //Assign the missile to the most recently created spaceship object
+                    pMissile->SetTarget(m_respawnedSpaceship);
+                    ObjectManager::instance.AddItem(pMissile);
+                }
             }
         }
     }
+
 
     if (evt.type == EventType::OBJECTDESTROYED)
     {

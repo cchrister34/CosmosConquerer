@@ -26,6 +26,7 @@ void Missile::Initialise()
     m_angle = MISSILE_ANGLE;
     //Dummy spawn
     m_position.set(-2000, 0);
+    m_transparency = 0.0;
     m_hasMissileSpawned = false;
     m_missileSound = HtAudio::instance.LoadSound(MISSILE_SOUND.c_str());
     SetCollidable();
@@ -40,21 +41,32 @@ void Missile::SetTarget(Spaceship* pTarget)
 
 void Missile::Update(double frametime)
 {
+    //Safety check to avoid a dangling pointer
+    if (m_pTarget == nullptr)
+    {
+        Deactivate();
+    }
+
     if (!m_hasMissileSpawned)
     {
         m_spawnDelay += frametime;
         if (m_spawnDelay >= SPAWN_DELAY)
         {
-            m_targetLocation = m_pTarget->GetPosition();
-            Vector2D spawnOffset(-1700, 0);
-            m_position.set(m_targetLocation + spawnOffset);
-            m_hasMissileSpawned = true;
-
-            //Sound
-            if (!isMissilePlaying)
+            //Check to see if spaceship is active
+            //If not checked game crashes if spaceship was destoryed before spawn timer runs out
+            if (m_pTarget)
             {
-                m_missileSoundChannel = HtAudio::instance.Play(m_missileSound, true);
-                isMissilePlaying = true;
+                m_targetLocation = m_pTarget->GetPosition();
+                Vector2D spawnOffset(-1700, 0);
+                m_position.set(m_targetLocation + spawnOffset);
+                m_hasMissileSpawned = true;
+
+                //Sound
+                if (!isMissilePlaying)
+                {
+                    m_missileSoundChannel = HtAudio::instance.Play(m_missileSound, true);
+                    isMissilePlaying = true;
+                }
             }
         }
     }
@@ -71,7 +83,19 @@ void Missile::Update(double frametime)
     Vector2D bottomLeft = m_position - Vector2D(HALF_MISSILE_WIDTH, HALF_MISSILE_HEIGHT);
     Vector2D topRight = m_position + Vector2D(HALF_MISSILE_WIDTH, HALF_MISSILE_HEIGHT);
     m_collisionShape.PlaceAt(bottomLeft, topRight);
+
+    //If ship is destroyed by another object, deactivate and stop sound
+    if (!m_pTarget)
+    {
+        Deactivate();
+        if (isMissilePlaying)
+        {
+            HtAudio::instance.Stop(m_missileSoundChannel);
+            isMissilePlaying = false;
+        }
+    }
 }
+
 
 void Missile::HandleEvent(Event evt)
 {
@@ -102,5 +126,6 @@ void Missile::ProcessCollision(GameObject& other)
         evt.pSource = this;
         evt.position = m_position;
         ObjectManager::instance.HandleEvent(evt);
+
     }
 }

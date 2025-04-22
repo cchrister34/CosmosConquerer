@@ -76,6 +76,9 @@ http://opengameart.org/content/shiny-orbs-64x64
 pickup.mp3 from Musheran from OpenGameArt.org
 https://opengameart.org/content/item-pickup-key
 
+missile.wav from theMinesAreShakin from OpenGameArt.org
+https://opengameart.org/content/rocket-engine
+
 https://lil-cthulhu.itch.io/space-shooter-asset-pack
 
 

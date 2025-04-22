@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "pickuptypes.h"
+#include "Spaceship.h"
 
 class GameManager : public GameObject
 {
@@ -18,4 +19,5 @@ private:
     PictureIndex m_shootImage;
     PickUpType m_collectedPickup;
     bool m_hasPickup;
+    Spaceship* m_respawnedSpaceship;
 };
