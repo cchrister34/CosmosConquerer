@@ -1,6 +1,9 @@
 #pragma once
 #include "GameObject.h"
 #include "Spaceship.h"
+#include "HtAudio.h"
+
+
 class Missile : public GameObject
 {
 public:
@@ -19,5 +22,8 @@ private:
     double m_spawnDelay;
     bool m_hasMissileSpawned;
     Rectangle2D m_collisionShape;
+    SoundIndex m_missileSound;
+    int m_missileSoundChannel;
+    bool isMissilePlaying;
 };
 

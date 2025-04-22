@@ -4,6 +4,7 @@
 
 //Constans 
 const std::string MISSILE_IMAGE = "assets/missile.bmp";
+const std::string MISSILE_SOUND = "assets/missile.wav";
 const double MISSILE_ANGLE = 90;
 const double TOP_SPEED = 500; 
 const double SPAWN_DELAY = 5;
@@ -26,6 +27,7 @@ void Missile::Initialise()
     //Dummy spawn
     m_position.set(-2000, 0);
     m_hasMissileSpawned = false;
+    m_missileSound = HtAudio::instance.LoadSound(MISSILE_SOUND.c_str());
     SetCollidable();
     SetHandleEvents();
 }
@@ -47,6 +49,13 @@ void Missile::Update(double frametime)
             Vector2D spawnOffset(-1700, 0);
             m_position.set(m_targetLocation + spawnOffset);
             m_hasMissileSpawned = true;
+
+            //Sound
+            if (!isMissilePlaying)
+            {
+                m_missileSoundChannel = HtAudio::instance.Play(m_missileSound, true);
+                isMissilePlaying = true;
+            }
         }
     }
 
@@ -83,6 +92,11 @@ void Missile::ProcessCollision(GameObject& other)
     if (other.GetType() == ObjectType::FLARE)
     {
         Deactivate();
+        if (isMissilePlaying)
+        {
+            HtAudio::instance.Stop(m_missileSoundChannel);
+            isMissilePlaying = false;
+        }
         Event evt;
         evt.type = EventType::OBJECTDESTROYED;
         evt.pSource = this;
