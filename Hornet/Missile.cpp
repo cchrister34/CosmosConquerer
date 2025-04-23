@@ -5,6 +5,8 @@
 //Constans 
 const std::string MISSILE_IMAGE = "assets/missile.bmp";
 const std::string MISSILE_SOUND = "assets/missile.wav";
+const Vector2D OFF_SCREEN_SPAWN(-2000, 0);
+const Vector2D MISSILE_SPAWN_OFFSET(-1700, 0);
 const double MISSILE_ANGLE = 90;
 const double TOP_SPEED = 500; 
 const double SPAWN_DELAY = 5;
@@ -25,8 +27,7 @@ void Missile::Initialise()
     LoadImage(MISSILE_IMAGE.c_str());
     m_angle = MISSILE_ANGLE;
     //Dummy spawn
-    m_position.set(-2000, 0);
-    m_transparency = 0.0;
+    m_position.set(OFF_SCREEN_SPAWN);
     m_hasMissileSpawned = false;
     m_missileSound = HtAudio::instance.LoadSound(MISSILE_SOUND.c_str());
     SetCollidable();
@@ -57,8 +58,9 @@ void Missile::Update(double frametime)
             if (m_pTarget)
             {
                 m_targetLocation = m_pTarget->GetPosition();
-                Vector2D spawnOffset(-1700, 0);
-                m_position.set(m_targetLocation + spawnOffset);
+                //Where the missile spawns relative to the shapeship
+                //Uses the position of the spaceship and adds a Vector2D to it for desired spawn point
+                m_position.set(m_targetLocation + MISSILE_SPAWN_OFFSET);
                 m_hasMissileSpawned = true;
 
                 //Sound

@@ -7,6 +7,10 @@
 #include "Explosion.h"
 
 //Constants
+const Vector2D START_SPAWN_POS(0, 0);
+const Vector2D START_VELOCITY(0, 0);
+const Vector2D START_CAMERA_POS(0, 0);
+const Vector2D START_CAMERA_VELOCITY(0, 0);
 const double CAMERA_VELOCITY = 3.0;
 const double CAMERA_FRICTION = 2.0;
 const double THRUST = 100.0;
@@ -230,13 +234,13 @@ void Spaceship::ProcessCollision(GameObject& other)
 
 void Spaceship::Initialise()
 {
-    m_position.set(0, 0);
-    m_velocity.set(0, 0);
+    m_position.set(START_SPAWN_POS);
+    m_velocity.set(START_VELOCITY);
     LoadImage(SHIP_IMAGE.c_str()); //c_str used to convert sting to const char
     m_scale = SHIP_SIZE; 
     m_angle = SHIP_ANGLE;
-    m_cameraPosition.set(0, 0);
-    m_cameraVelocity.set(0, 0);
+    m_cameraPosition.set(START_CAMERA_POS);
+    m_cameraVelocity.set(START_CAMERA_VELOCITY);
     m_engineSound = HtAudio::instance.LoadSound(ENGINE_SOUND.c_str());
 
     //Bullet
