@@ -1,4 +1,4 @@
-#include "GameManager.h"
+ #include "GameManager.h"
 #include "Spaceship.h"
 #include "ObjectManager.h"
 #include "HtCamera.h"

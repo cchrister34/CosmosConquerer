@@ -161,6 +161,7 @@
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="PickUp.cpp" />
     <ClCompile Include="Rock.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="PickUp.h" />
     <ClInclude Include="pickuptypes.h" />
     <ClInclude Include="Rock.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="objecttypes.h" />
