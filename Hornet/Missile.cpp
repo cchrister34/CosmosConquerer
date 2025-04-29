@@ -3,13 +3,14 @@
 #include "ObjectManager.h"
 
 //Constans 
-const std::string MISSILE_IMAGE = "assets/missile.bmp";
+const std::string MISSILE_IMAGE = "assets/missile.png";
 const std::string MISSILE_SOUND = "assets/missile.wav";
 const Vector2D OFF_SCREEN_SPAWN(-2000, 0);
 const Vector2D MISSILE_SPAWN_OFFSET(-1700, 0);
 const double MISSILE_ANGLE = 90;
+const double MISSILE_SIZE = 3;
 const double TOP_SPEED = 500; 
-const double SPAWN_DELAY = 5;
+const double SPAWN_DELAY = 30;
 const double MISSILE_WIDTH = 128;
 const double MISSILE_HEIGHT = 64;
 const double HALF_MISSILE_WIDTH = MISSILE_WIDTH / 2.0;
@@ -26,6 +27,7 @@ void Missile::Initialise()
 {
     LoadImage(MISSILE_IMAGE.c_str());
     m_angle = MISSILE_ANGLE;
+    m_scale = MISSILE_SIZE;
     //Dummy spawn
     m_position.set(OFF_SCREEN_SPAWN);
     m_hasMissileSpawned = false;

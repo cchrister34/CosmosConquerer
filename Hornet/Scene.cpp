@@ -25,6 +25,20 @@ void Scene::Initialise()
         pTile->Initialise(position);
         ObjectManager::instance.AddItem(pTile);
     };
+
+
+    std::vector<Vector2D> tractorbeamPositions =
+    {
+        Vector2D(4500, 1000),
+        Vector2D(7000, -1000)
+    };
+
+    for (const Vector2D& position : tractorbeamPositions)
+    {
+        TractorBeam* pTractorBeam = new TractorBeam(ObjectType::TRACTORBEAM);
+        pTractorBeam->Initialise(position);
+        ObjectManager::instance.AddItem(pTractorBeam);
+    }
 }
 
 void Scene::Render()

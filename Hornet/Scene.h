@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Tile.h"
 #include "Background.h"
+#include "TractorBeam.h"
 #include "ObjectManager.h"
 
 
@@ -14,5 +15,6 @@ public:
 private:
     Background* pBackGround;
     std::vector<Tile*> pTile;
+    std::vector<TractorBeam*> pTractorBeam;
 };
 
