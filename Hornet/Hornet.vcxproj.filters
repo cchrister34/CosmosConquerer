@@ -130,6 +130,9 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TractorBeam.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HtAudio.h">
@@ -226,6 +229,9 @@
       <Filter>Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TractorBeam.h">
       <Filter>Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -30,6 +30,7 @@ void Game::StartOfGame()
     pGameManager->Initialise();
     ObjectManager::instance.AddItem(pGameManager);
 
+    //Scene class hosts the background and tile objects to keep the game loop cleaner
     pScene = new Scene(ObjectType::SCENE);
     pScene->Initialise();
     ObjectManager::instance.AddItem(pScene);
