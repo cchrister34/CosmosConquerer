@@ -109,6 +109,11 @@ void GameManager::HandleEvent(Event evt)
                 //Assign the new spaceship object to a member variable
                 //If the spaceship was destroyed before the missile timer ran out, the missiles would no longer spawn
                 m_respawnedSpaceship = pSpacehip;
+                //Create an event for the respawned spaceship for listeners such as the tractor beam
+                Event evt;
+                evt.type = EventType::OBJECTCREATED;
+                evt.pSource = pSpacehip;
+                ObjectManager::instance.HandleEvent(evt);
 
                 //Safety check to ensure the object is active before creating a missile
                 if (m_respawnedSpaceship != nullptr)

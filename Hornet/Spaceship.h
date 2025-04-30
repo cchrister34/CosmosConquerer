@@ -16,9 +16,12 @@ public:
     void UseSpeedBoost();
     void UseShootBoost();
     void UsePickUp();
+    void TractorBeamPull(Vector2D pull);
 private:
     Vector2D m_velocity;
     Vector2D m_acceleration;
+    Vector2D m_thrust;
+    Vector2D m_friction;
     double m_angularVelocity;
     SoundIndex m_engineSound;
     int m_engineSoundChannel;

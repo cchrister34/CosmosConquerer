@@ -48,6 +48,23 @@ void Game::StartOfGame()
     pMissile->SetTarget(pSpaceship);
     ObjectManager::instance.AddItem(pMissile);
 
+    //Ideally this is in the Scene class
+    //But since the Tractor beam works by pulling the spaceship it needs to know about pSpaceship
+    std::vector<Vector2D> tractorbeamPositions =
+    {
+        Vector2D(4500, 1000),
+        Vector2D(7000, 1000)
+    };
+
+    for (const Vector2D& position : tractorbeamPositions)
+    {
+        TractorBeam* pTractorBeam = new TractorBeam(ObjectType::TRACTORBEAM);
+        pTractorBeam->Initialise(position);
+        //Very important line, cannot be used in scene.cpp without causing dependencies
+        pTractorBeam->PullTarget(pSpaceship);
+        ObjectManager::instance.AddItem(pTractorBeam);
+    }
+
 }
 
 // Function runs each frame.

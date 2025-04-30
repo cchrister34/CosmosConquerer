@@ -13,7 +13,7 @@ const Vector2D START_CAMERA_POS(0, 0);
 const Vector2D START_CAMERA_VELOCITY(0, 0);
 const double CAMERA_VELOCITY = 3.0;
 const double CAMERA_FRICTION = 2.0;
-const double THRUST = 100.0;
+const double THRUST_STRENGTH = 75.0;
 const int ROTATION_SPEED = 120;
 const double ANGULAR_FRICTION = 0.4;
 const double BULLET_DELAY = 0.3;
@@ -83,10 +83,13 @@ void Spaceship::Update(double frametime)
         //Friction;
         if (m_isFrictionActive) //Used to prevent the effects of friction occuring when game is paused.
         {
-           m_acceleration.setBearing(m_angle, THRUST * m_speedMultiplier);
-           m_acceleration = m_acceleration - m_velocity * FRICTION_STRENGTH;
-           m_velocity = m_velocity + m_acceleration * frametime;
-           m_position = m_position + m_velocity * frametime;
+            m_thrust.setBearing(m_angle, THRUST_STRENGTH * m_speedMultiplier);
+            m_velocity = m_velocity + m_thrust * frametime;
+
+            m_friction = m_velocity * FRICTION_STRENGTH;
+            m_velocity = m_velocity - m_friction * frametime;
+
+            m_position = m_position + m_velocity * frametime;
         }
     }
     else if (isEnginePlaying)
@@ -323,5 +326,10 @@ void Spaceship::UsePickUp()
     }
 
     m_hasPickup = false;
+}
+
+void Spaceship::TractorBeamPull(Vector2D pull)
+{
+    m_velocity += pull;
 }
 

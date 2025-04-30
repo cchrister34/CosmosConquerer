@@ -15,6 +15,7 @@
 #include "PickUp.h"
 #include "Missile.h"
 #include "Scene.h"
+#include "TractorBeam.h"
 
 
 // 17/06/2023
@@ -68,5 +69,6 @@ private:
     Scene* pScene;
     PickUp* pPickUp;
     Missile* pMissile;
+    std::vector<TractorBeam*> pTractorBeam;
 };
 
