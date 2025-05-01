@@ -11,9 +11,10 @@ const Vector2D START_SPAWN_POS(0, 0);
 const Vector2D START_VELOCITY(0, 0);
 const Vector2D START_CAMERA_POS(0, 0);
 const Vector2D START_CAMERA_VELOCITY(0, 0);
+const Vector2D STUCK_VELOCITY(0, 0);
 const double CAMERA_VELOCITY = 3.0;
 const double CAMERA_FRICTION = 2.0;
-const double THRUST_STRENGTH = 75.0;
+const double THRUST_STRENGTH = 90.0;
 const int ROTATION_SPEED = 120;
 const double ANGULAR_FRICTION = 0.4;
 const double BULLET_DELAY = 0.3;
@@ -35,6 +36,8 @@ const double SPEED_PICKUP_MULTIPLIER = 1.5;
 const double SHOOT_PICKUP_MULTIPLIER = 2.0;
 const double PICK_UP_TIMER = 5.0;
 const double BASE_PICKUP_MULTIPLIER = 1.0;
+const double REDUCED_PULL_SPEED = 10;
+const double TRACTOR_BEAM_SPEED_REDUCTION = 0.3;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
 const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
@@ -85,17 +88,19 @@ void Spaceship::Update(double frametime)
         {
             m_thrust.setBearing(m_angle, THRUST_STRENGTH * m_speedMultiplier);
             m_velocity = m_velocity + m_thrust * frametime;
-
-            m_friction = m_velocity * FRICTION_STRENGTH;
-            m_velocity = m_velocity - m_friction * frametime;
-
-            m_position = m_position + m_velocity * frametime;
         }
     }
     else if (isEnginePlaying)
     {
         HtAudio::instance.Stop(m_engineSoundChannel);
         isEnginePlaying = false;
+    }
+
+    if (m_isFrictionActive)
+    {
+        m_friction = m_velocity * FRICTION_STRENGTH;
+        m_velocity = m_velocity - m_friction * frametime;
+        m_position = m_position + m_velocity * frametime;
     }
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_A))

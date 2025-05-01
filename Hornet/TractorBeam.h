@@ -17,6 +17,7 @@ private:
     Spaceship* m_pTarget;
     PictureIndex m_tractorBeam;
     bool m_isSpaceshipInRange; 
+    int m_health;
     Vector2D m_targetLocation;
     double m_distance;
     Vector2D m_direction;

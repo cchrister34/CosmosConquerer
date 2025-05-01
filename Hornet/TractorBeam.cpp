@@ -3,9 +3,11 @@
 //Constants
 const std::string TRACTOR_BEAM_IMAGE = "assets/tractorbeam.png";
 const double TRACTOR_BEAM_SIZE = 2.5;
-const double PULL_RANGE = 1000;
-const double PULL_STRENGTH = 50;
+const double PULL_RANGE = 1200;
+const double PULL_STRENGTH = 30000;
 const double PULL_MAGNETISM = 1;
+const double TRAP_RADIUS = 200;
+const int TRACTOR_BEAM_HEALTH = 5;
 
 TractorBeam::TractorBeam(ObjectType objType) : GameObject(ObjectType::TRACTORBEAM)
 {
@@ -17,6 +19,7 @@ void TractorBeam::Initialise(Vector2D position)
     m_position = position;
     m_tractorBeam = HtGraphics::instance.LoadPicture(TRACTOR_BEAM_IMAGE.c_str());
     m_scale = TRACTOR_BEAM_SIZE;
+    m_health = TRACTOR_BEAM_HEALTH;
     m_isSpaceshipInRange = false;
     SetCollidable();
     SetHandleEvents();
@@ -36,15 +39,15 @@ void TractorBeam::Update(double frametime)
         m_targetLocation = m_pTarget->GetPosition();
         //Size of the distance between the tractor beam and the spaceship objects
         m_distance = (m_targetLocation - m_position).magnitude();
+        //Calculates the direction that the spaceship must travel to the reach the tractor beam
 
         if (m_distance < PULL_RANGE)
         {
             m_isSpaceshipInRange = true;
-            //Calculates the direction that the spaceship must travel to the reach the tractor beam
             m_direction = m_position - m_targetLocation;
             //Increases the pull stength based on how close the spaceship is to the tractor beam 
             m_pullMagnitude = PULL_STRENGTH * (PULL_MAGNETISM / m_distance);
-            m_pullForce = m_direction * m_pullMagnitude;
+            m_pullForce = m_direction.unitVector() * m_pullMagnitude;
             //Apply the pull force onto the spaceship object
             m_pTarget->TractorBeamPull(m_pullForce * frametime);
         }
