@@ -17,6 +17,8 @@ public:
     void UseShootBoost();
     void UsePickUp();
     void TractorBeamPull(Vector2D pull);
+    void Trap();
+    void Release();
 private:
     Vector2D m_velocity;
     Vector2D m_acceleration;
@@ -52,4 +54,5 @@ private:
     double m_shootMultiplier;
     double m_pickupTimer;
     double m_dynamicbulletDelay;
+    bool m_isTrapped;
 };

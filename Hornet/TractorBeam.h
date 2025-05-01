@@ -24,5 +24,6 @@ private:
     double m_pullStrength;
     double m_pullMagnitude;
     Vector2D m_pullForce;
+    bool m_isTrapped;
 };
 

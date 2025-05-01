@@ -103,6 +103,11 @@ void Spaceship::Update(double frametime)
         m_position = m_position + m_velocity * frametime;
     }
 
+    if (m_isTrapped)
+    {
+        m_velocity.set(START_VELOCITY);
+    }
+
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_A))
     {
         m_angularVelocity -= ROTATION_SPEED * frametime;
@@ -282,6 +287,9 @@ void Spaceship::Initialise()
     m_speedMultiplier = BASE_PICKUP_MULTIPLIER;
     m_shootMultiplier = BASE_PICKUP_MULTIPLIER;
 
+    //TractorBeam
+    m_isTrapped = false;
+
     SetCollidable();
 }
 
@@ -336,5 +344,15 @@ void Spaceship::UsePickUp()
 void Spaceship::TractorBeamPull(Vector2D pull)
 {
     m_velocity += pull;
+}
+
+void Spaceship::Trap()
+{
+    m_isTrapped = true;
+}
+
+void Spaceship::Release()
+{
+    m_isTrapped = false;
 }
 

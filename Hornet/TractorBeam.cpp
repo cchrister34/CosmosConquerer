@@ -6,6 +6,7 @@ const double TRACTOR_BEAM_SIZE = 2.5;
 const double PULL_RANGE = 1000;
 const double PULL_STRENGTH = 50;
 const double PULL_MAGNETISM = 1;
+const double TRAP_RANGE = 250;
 
 TractorBeam::TractorBeam(ObjectType objType) : GameObject(ObjectType::TRACTORBEAM)
 {
@@ -18,6 +19,7 @@ void TractorBeam::Initialise(Vector2D position)
     m_tractorBeam = HtGraphics::instance.LoadPicture(TRACTOR_BEAM_IMAGE.c_str());
     m_scale = TRACTOR_BEAM_SIZE;
     m_isSpaceshipInRange = false;
+    m_isTrapped = false;
     SetCollidable();
     SetHandleEvents();
 }
@@ -30,6 +32,7 @@ void TractorBeam::PullTarget(Spaceship* pTarget)
 void TractorBeam::Update(double frametime)
 {
     m_isSpaceshipInRange = false;
+    m_isTrapped = false;
 
     if (m_pTarget)
     {
@@ -47,6 +50,12 @@ void TractorBeam::Update(double frametime)
             m_pullForce = m_direction * m_pullMagnitude;
             //Apply the pull force onto the spaceship object
             m_pTarget->TractorBeamPull(m_pullForce * frametime);
+        }
+
+        if (m_distance < TRAP_RANGE)
+        {
+            m_isTrapped = true;
+            m_pTarget->Trap();
         }
     }
 }
