@@ -27,7 +27,7 @@ const double FLARE_DELAY = 1;
 const double FLARE_MAGNITUTE = -20;
 const int FLARE_AMOUNT = 3;
 const double FLARE_SPREAD = 20;
-const double FLARE_SPEED = 200.0;
+const double FLARE_SPEED = 75;
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
 const int BORDERLEFT = -250;
@@ -155,10 +155,9 @@ void Spaceship::Update(double frametime)
             //finds the angle of the ship and loops through the flares and adds flare spread between each flare
             m_flareAngle = m_angle + (i - 1) * FLARE_SPREAD;
 
-            m_flareVelocity;
             m_flareVelocity.setBearing(m_flareAngle, FLARE_SPEED);
             //flares should travel in the opposite direction of the spaceship
-            m_flareVelocity = m_flareVelocity - m_velocity;
+            m_flareVelocity = -m_flareVelocity + m_velocity;
 
             Flare* pFlare = new Flare(ObjectType::FLARE);
             pFlare->Initialise(m_flareSpawn, m_flareVelocity);
