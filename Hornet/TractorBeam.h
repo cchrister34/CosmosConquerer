@@ -12,10 +12,12 @@ public:
     void Update(double frametime);
     void HandleEvent(Event evt) override;
     void ProcessCollision(GameObject& other) override;
+    IShape2D& GetCollisionShape() override;
     void Render()override;
 private:
     Spaceship* m_pTarget;
     PictureIndex m_tractorBeam;
+    Rectangle2D m_collisionShape;
     bool m_isSpaceshipInRange; 
     int m_health;
     Vector2D m_targetLocation;
@@ -25,5 +27,6 @@ private:
     double m_pullMagnitude;
     Vector2D m_pullForce;
     bool m_isTrapped;
+    int m_hitCount;
 };
 

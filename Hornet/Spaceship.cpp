@@ -16,7 +16,7 @@ const double CAMERA_VELOCITY = 3.0;
 const double CAMERA_FRICTION = 2.0;
 const double THRUST_STRENGTH = 90.0;
 const int ROTATION_SPEED = 120;
-const double ANGULAR_FRICTION = 0.4;
+const double ANGULAR_FRICTION = 0.25;
 const double BULLET_DELAY = 0.3;
 const double SHIP_SIZE = 1.25;
 const double SHIP_ANGLE = 90;
@@ -103,10 +103,6 @@ void Spaceship::Update(double frametime)
         m_position = m_position + m_velocity * frametime;
     }
 
-    if (m_isTrapped)
-    {
-        m_velocity.set(START_VELOCITY);
-    }
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_A))
     {
@@ -348,10 +344,13 @@ void Spaceship::TractorBeamPull(Vector2D pull)
 void Spaceship::Trap()
 {
     m_isTrapped = true;
+    m_storedVelocity = m_velocity;
+    m_velocity.set(START_VELOCITY);
 }
 
 void Spaceship::Release()
 {
     m_isTrapped = false;
+    m_velocity = m_storedVelocity;
 }
 

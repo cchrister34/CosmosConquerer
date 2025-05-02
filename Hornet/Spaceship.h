@@ -55,4 +55,5 @@ private:
     double m_pickupTimer;
     double m_dynamicbulletDelay;
     bool m_isTrapped;
+    Vector2D m_storedVelocity;
 };
