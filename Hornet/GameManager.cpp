@@ -96,6 +96,15 @@ void GameManager::HandleEvent(Event evt)
         }
     }
 
+    if (evt.type == EventType::PICKUPUSED)
+    {
+        if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
+        {
+            m_hasPickup = false;
+            m_collectedPickup = PickUpType::NONE;
+        }
+    }
+
     if (evt.type == EventType::OBJECTDESTROYED)
     {
         if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
@@ -145,6 +154,7 @@ void GameManager::HandleEvent(Event evt)
             m_score += TRACTOR_BEAM_SCORE_INCREASE;
         }
     }
+
 }
 
 

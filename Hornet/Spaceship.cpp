@@ -334,6 +334,10 @@ void Spaceship::UsePickUp()
     }
 
     m_hasPickup = false;
+    Event evt;
+    evt.type = EventType::PICKUPUSED;
+    evt.pSource = this;
+    ObjectManager::instance.HandleEvent(evt);
 }
 
 void Spaceship::TractorBeamPull(Vector2D pull)
