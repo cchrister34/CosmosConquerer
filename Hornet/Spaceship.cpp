@@ -39,6 +39,9 @@ const double BASE_PICKUP_MULTIPLIER = 1.0;
 const double REDUCED_PULL_SPEED = 10;
 const double TRACTOR_BEAM_SPEED_REDUCTION = 0.3;
 const double IMMUNITY_TIMER = 5;
+const double FADE_IN_TIME = 2.5;
+const double IMMUNE_TRANSPARENCY = 0.5;
+const int SHIP_TRANSPARENCY = 0;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
 const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
@@ -55,6 +58,15 @@ void Spaceship::Update(double frametime)
     m_shootdelay -= frametime;
     m_flareDelay -= frametime;
     m_spawnImmunity -= frametime;
+
+    if (m_spawnImmunity < 0)
+    {
+        m_transparency =  SHIP_TRANSPARENCY;
+    }
+    if (m_spawnImmunity > FADE_IN_TIME)
+    {
+        m_transparency = IMMUNE_TRANSPARENCY * (m_spawnImmunity / FADE_IN_TIME);
+    }
 
     //Camera
     //Since the game is a sidescroller the camera boundaries should match that of the screen which in this case is between -1000 and 1000
