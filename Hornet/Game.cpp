@@ -169,7 +169,7 @@ void Game::CreateTractorBeam()
 
 void Game::CreateEnemyShip()
 {
-    int numEnemyShips = rand() % 21 + 30;
+    int numEnemyShips = rand() % 11 + 10;
 
     for (int i = 0; i < numEnemyShips; i++)
     {

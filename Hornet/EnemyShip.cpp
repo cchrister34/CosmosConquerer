@@ -9,6 +9,8 @@ const double ENEMY_RADIUS = 48 * 1.5;
 const double ENEMY_SIZE = 1.5;
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
+const int LEFTBORDER = 3000;
+const int RIGHTBORDER = 9000;
 const double SHOOT_RANGE = 500;
 const double BULLET_MAGNITUDE = 60;
 const double BULLET_SPEED = 500;
@@ -23,7 +25,7 @@ EnemyShip::EnemyShip(ObjectType objType) : GameObject(ObjectType::ENEMYSHIP)
 void EnemyShip::Initialise()
 {
     LoadImage(ENEMY_SHIP_IMAGE.c_str());
-    m_angle = rand() % 360;
+    m_angle = m_velocity.angle();
     m_scale = ENEMY_SIZE;
     m_isPlayerInRange = false;
 
@@ -31,7 +33,7 @@ void EnemyShip::Initialise()
     m_enemySpawnYpos = rand() % 2001 - 1000;
     m_position.set(Vector2D(m_enemySpawnXpos, m_enemySpawnYpos));
 
-    m_enemySpeed = rand() % 101 + 200;
+    m_enemySpeed = rand() % 51 + 100;
     m_enemyVelAngle = rand() % 360;
     m_velocity.setBearing(m_enemyVelAngle, m_enemySpeed);
 
@@ -53,6 +55,7 @@ void EnemyShip::Update(double frametime)
 
     m_isPlayerInRange = false;
     m_position = m_position + m_velocity * frametime;
+    m_angle = m_velocity.angle();
 
     //Wrapping 
     if (m_position.YValue > TOPBORDER)
@@ -62,6 +65,14 @@ void EnemyShip::Update(double frametime)
     else if (m_position.YValue < BOTTOMBORDER)
     {
         m_velocity.YValue = -m_velocity.YValue;
+    }
+    if (m_position.XValue < LEFTBORDER)
+    {
+        m_velocity.XValue = -m_velocity.XValue;
+    }
+    else if (m_position.XValue > RIGHTBORDER)
+    {
+        m_velocity.XValue = -m_velocity.XValue;
     }
 
     //Spaceship Tracking
@@ -74,9 +85,12 @@ void EnemyShip::Update(double frametime)
         {
             m_isPlayerInRange = true;
             m_direction = m_playerLocation - m_position;
-            m_velocity = m_direction.unitVector() * m_enemySpeed;
+            //Enemies move away from the player
+            m_velocity = -m_direction.unitVector() * m_enemySpeed;
+            //Rotates the enemy ship in the direction of the player
             m_angle = (m_playerLocation - m_position).angle();
-        
+       
+
             if (m_shootdelay <= 0 && m_isPlayerInRange)
             {
                 Shoot();
@@ -84,10 +98,6 @@ void EnemyShip::Update(double frametime)
         }
 
     }
-
-
-
-
 
     m_collisionShape.PlaceAt(m_position, ENEMY_RADIUS);
 }
