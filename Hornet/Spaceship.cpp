@@ -38,6 +38,7 @@ const double PICK_UP_TIMER = 5.0;
 const double BASE_PICKUP_MULTIPLIER = 1.0;
 const double REDUCED_PULL_SPEED = 10;
 const double TRACTOR_BEAM_SPEED_REDUCTION = 0.3;
+const double IMMUNITY_TIMER = 5;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
 const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
@@ -53,6 +54,7 @@ void Spaceship::Update(double frametime)
     m_position = m_position + m_velocity * frametime;
     m_shootdelay -= frametime;
     m_flareDelay -= frametime;
+    m_spawnImmunity -= frametime;
 
     //Camera
     //Since the game is a sidescroller the camera boundaries should match that of the screen which in this case is between -1000 and 1000
@@ -209,7 +211,7 @@ void Spaceship::Update(double frametime)
 
 void Spaceship::ProcessCollision(GameObject& other)
 {
-    if (other.GetType() == ObjectType::ROCK)
+    if (other.GetType() == ObjectType::ROCK && m_spawnImmunity <= 0)
     {
         Deactivate();
         HtAudio::instance.Stop(m_engineSoundChannel);
@@ -262,6 +264,7 @@ void Spaceship::Initialise()
     LoadImage(SHIP_IMAGE.c_str()); //c_str used to convert sting to const char
     m_scale = SHIP_SIZE; 
     m_angle = SHIP_ANGLE;
+    m_spawnImmunity = IMMUNITY_TIMER;
     m_cameraPosition.set(START_CAMERA_POS);
     m_cameraVelocity.set(START_CAMERA_VELOCITY);
     m_engineSound = HtAudio::instance.LoadSound(ENGINE_SOUND.c_str());

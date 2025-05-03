@@ -28,6 +28,7 @@ void GameManager::Initialise()
 {
     m_score = START_SCORE;
     m_lives = START_LIVES;
+
     m_hasPickup = false;
     m_collectedPickup = PickUpType::NONE;
 

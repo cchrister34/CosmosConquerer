@@ -37,7 +37,7 @@ void Missile::Initialise()
 
 void Missile::SetTarget(Spaceship* pTarget)
 {
-    //Raw pointer, only used to access the functions of the spaceship class
+    //Weak pointer, only used to access the functions of the spaceship class
     m_pTarget = pTarget; 
 }
 
@@ -56,7 +56,7 @@ void Missile::Update(double frametime)
         {
             //Check to see if spaceship is active
             //If not checked game crashes if spaceship was destoryed before spawn timer runs out
-            if (m_pTarget)
+            if (m_pTarget->IsActive() == true)
             {
                 m_targetLocation = m_pTarget->GetPosition();
                 //Where the missile spawns relative to the shapeship

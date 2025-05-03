@@ -24,6 +24,7 @@ private:
     Vector2D m_acceleration;
     Vector2D m_thrust;
     Vector2D m_friction;
+    double m_spawnImmunity;
     double m_angularVelocity;
     SoundIndex m_engineSound;
     int m_engineSoundChannel;

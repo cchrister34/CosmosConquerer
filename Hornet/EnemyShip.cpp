@@ -84,7 +84,7 @@ void EnemyShip::Update(double frametime)
     }
 
     //Spaceship Tracking
-    if (m_pTarget)
+    if (m_pTarget->IsActive() == true)
     {
         m_playerLocation = m_pTarget->GetPosition();
         m_distance = (m_playerLocation - m_position).magnitude();
@@ -112,7 +112,7 @@ void EnemyShip::Update(double frametime)
 
 void EnemyShip::FindPlayer(Spaceship* pTarget)
 {
-    //Raw, only used to access the functions of the spaceship class
+    //Weak pointer, only used to access the functions of the spaceship class
     m_pTarget = pTarget;
 }
 
