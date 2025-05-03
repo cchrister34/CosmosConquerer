@@ -44,6 +44,12 @@ void TractorBeam::Update(double frametime)
     m_isSpaceshipInRange = false;
     m_isTrapped = false;
 
+    //Safety check to avoid a dangling pointer
+    if (m_pTarget == nullptr)
+    {
+        Deactivate();
+    }
+
     if (m_pTarget)
     {
         m_targetLocation = m_pTarget->GetPosition();

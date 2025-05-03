@@ -5,6 +5,7 @@
 
 //Constants
 const std::string ENEMY_SHIP_IMAGE = "assets/enemyship.png";
+const std::string BULLET_SOUND = "assets/zap.wav";
 const double ENEMY_RADIUS = 48 * 1.5;
 const double ENEMY_SIZE = 1.5;
 const int TOPBORDER = 1000;
@@ -39,6 +40,7 @@ void EnemyShip::Initialise()
 
     //Bullet
     m_shootdelay = SHOOT_DELAY;
+    m_bulletSound = HtAudio::instance.LoadSound(BULLET_SOUND.c_str());
 
     SetCollidable();
     SetHandleEvents();
@@ -51,6 +53,12 @@ void EnemyShip::Update(double frametime)
     if (m_shootdelay > 0)
     {
         m_shootdelay -= frametime;
+    }
+
+    //Safety check to avoid a dangling pointer
+    if (m_pTarget == nullptr)
+    {
+        Deactivate();
     }
 
     m_isPlayerInRange = false;
@@ -104,7 +112,7 @@ void EnemyShip::Update(double frametime)
 
 void EnemyShip::FindPlayer(Spaceship* pTarget)
 {
-    //Weak pointer, only used to access the functions of the spaceship class
+    //Raw, only used to access the functions of the spaceship class
     m_pTarget = pTarget;
 }
 
@@ -121,6 +129,7 @@ void EnemyShip::Shoot()
     pBullet->Initialise(bulletPos, bulletVel);
     ObjectManager::instance.AddItem(pBullet);
     m_shootdelay = SHOOT_DELAY;
+    m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
 }
 
 void EnemyShip::ProcessCollision(GameObject& other)
@@ -129,6 +138,19 @@ void EnemyShip::ProcessCollision(GameObject& other)
 
 void EnemyShip::HandleEvent(Event evt)
 {
+    if (evt.type == EventType::OBJECTDESTROYED && evt.pSource == m_pTarget)
+    {
+        m_pTarget = nullptr;
+    }
+
+    //Ensures fucntionality is still active if a spaceship is destoyed and respawns
+    if (evt.type == EventType::OBJECTCREATED)
+    {
+        if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
+        {
+            m_pTarget = static_cast<Spaceship*>(evt.pSource);
+        }
+    }
 }
 
 

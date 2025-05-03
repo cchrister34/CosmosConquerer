@@ -37,7 +37,7 @@ void Missile::Initialise()
 
 void Missile::SetTarget(Spaceship* pTarget)
 {
-    //Weak pointer, only used to access the functions of the spaceship class
+    //Raw pointer, only used to access the functions of the spaceship class
     m_pTarget = pTarget; 
 }
 
