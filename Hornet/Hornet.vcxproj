@@ -142,6 +142,7 @@
     <ClCompile Include="Angle.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="ErrorLogger.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Explosion.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Angle.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="ErrorLogger.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Explosion.h" />

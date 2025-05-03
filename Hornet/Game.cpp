@@ -15,56 +15,13 @@ void Game::StartOfProgram()
 // Use this function to intialise your game objects and load any assets
 void Game::StartOfGame()
 {
-    pSpaceship = new Spaceship(ObjectType::SPACESHIP);
-    pSpaceship->Initialise();
-    ObjectManager::instance.AddItem(pSpaceship); //object manager handles deletion and sets the pointer to null.
-
-    for (Rock* pRock : pTheRocks)
-    {
-        pRock = new Rock(ObjectType::ROCK);
-        pRock->Initialise();
-        ObjectManager::instance.AddItem(pRock);
-    }
-
-    pGameManager = new GameManager(ObjectType::GAMEMANAGER);
-    pGameManager->Initialise();
-    ObjectManager::instance.AddItem(pGameManager);
-
-    //Scene class hosts the background, tile and tractor beam objects to keep the game loop cleaner
-    pScene = new Scene(ObjectType::SCENE);
-    pScene->Initialise();
-    ObjectManager::instance.AddItem(pScene);
-
-    PickUp* pSpeedPickup = new PickUp(PickUpType::SPEED);
-    pSpeedPickup->Initialise();
-    ObjectManager::instance.AddItem(pSpeedPickup);
-
-    PickUp* pFireRatePickup = new PickUp(PickUpType::FIRE_RATE);
-    pFireRatePickup->Initialise();
-    ObjectManager::instance.AddItem(pFireRatePickup);
-
-    Missile* pMissile = new Missile(ObjectType::MISSILE);
-    pMissile->Initialise();
-    pMissile->SetTarget(pSpaceship);
-    ObjectManager::instance.AddItem(pMissile);
-
-    //Ideally this goes in the Scene class
-    //But since the Tractor beam works by pulling the spaceship it needs to know about pSpaceship
-    std::vector<Vector2D> tractorbeamPositions =
-    {
-        Vector2D(4500, 1000),
-        Vector2D(7000, 1000)
-    };
-
-    for (const Vector2D& position : tractorbeamPositions)
-    {
-        TractorBeam* pTractorBeam = new TractorBeam(ObjectType::TRACTORBEAM);
-        pTractorBeam->Initialise(position);
-        //Very important line, cannot be used in scene.cpp without causing dependencies
-        pTractorBeam->PullTarget(pSpaceship);
-        ObjectManager::instance.AddItem(pTractorBeam);
-    }
-
+    CreatePlayer();
+    CreateRocks();
+    CreateGameManager();
+    CreateScene();
+    CreatePickups();
+    CreateMissile();
+    CreateTractorBeam();
 }
 
 // Function runs each frame.
@@ -133,4 +90,77 @@ void Game::EndOfGame()
 
 void Game::EndOfProgram()
 {
+}
+
+
+
+void Game::CreatePlayer()
+{
+    pSpaceship = new Spaceship(ObjectType::SPACESHIP);
+    pSpaceship->Initialise();
+    ObjectManager::instance.AddItem(pSpaceship); //object manager handles deletion and sets the pointer to null.
+}
+
+void Game::CreateRocks()
+{
+    for (Rock* pRock : pTheRocks)
+    {
+        pRock = new Rock(ObjectType::ROCK);
+        pRock->Initialise();
+        ObjectManager::instance.AddItem(pRock);
+    }
+}
+
+void Game::CreateGameManager()
+{
+    pGameManager = new GameManager(ObjectType::GAMEMANAGER);
+    pGameManager->Initialise();
+    ObjectManager::instance.AddItem(pGameManager);
+}
+
+void Game::CreateScene()
+{
+    //Scene class hosts the background, tile and tractor beam objects to keep the game loop cleaner
+    pScene = new Scene(ObjectType::SCENE);
+    pScene->Initialise();
+    ObjectManager::instance.AddItem(pScene);
+}
+
+void Game::CreatePickups()
+{
+    PickUp* pSpeedPickup = new PickUp(PickUpType::SPEED);
+    pSpeedPickup->Initialise();
+    ObjectManager::instance.AddItem(pSpeedPickup);
+
+    PickUp* pFireRatePickup = new PickUp(PickUpType::FIRE_RATE);
+    pFireRatePickup->Initialise();
+    ObjectManager::instance.AddItem(pFireRatePickup);
+}
+
+void Game::CreateMissile()
+{
+    Missile* pMissile = new Missile(ObjectType::MISSILE);
+    pMissile->Initialise();
+    pMissile->SetTarget(pSpaceship);
+    ObjectManager::instance.AddItem(pMissile);
+}
+
+void Game::CreateTractorBeam()
+{
+    //Ideally this goes in the Scene class
+//But since the Tractor beam works by pulling the spaceship it needs to know about pSpaceship
+    std::vector<Vector2D> tractorbeamPositions =
+    {
+        Vector2D(4500, 1000),
+        Vector2D(7000, 1000)
+    };
+
+    for (const Vector2D& position : tractorbeamPositions)
+    {
+        TractorBeam* pTractorBeam = new TractorBeam(ObjectType::TRACTORBEAM);
+        pTractorBeam->Initialise(position);
+        //Very important line, cannot be used in scene.cpp without causing dependencies
+       // pTractorBeam->PullTarget(pSpaceship);
+        ObjectManager::instance.AddItem(pTractorBeam);
+    }
 }

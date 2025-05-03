@@ -9,8 +9,6 @@
 #include "Rock.h"
 #include "GameManager.h"
 #include "Background.h"
-#include "Bullet.h"
-#include "Explosion.h"
 #include "Tile.h"
 #include "PickUp.h"
 #include "Missile.h"
@@ -61,14 +59,25 @@ public:
 
 private:
     GameTimer m_timer;
-    Spaceship* pSpaceship;
-    Rock* pTheRocks[12];
-    Bullet* pBullet;
-    Explosion* pExplosion;
-    GameManager* pGameManager;
-    Scene* pScene;
-    PickUp* pPickUp;
-    Missile* pMissile;
+
+    //Game Objects
+    Spaceship* pSpaceship = nullptr;
+    Rock* pTheRocks[12] = { nullptr };
+    GameManager* pGameManager = nullptr;
+    Scene* pScene = nullptr;
+    PickUp* pPickUp = nullptr;
+    Missile* pMissile = nullptr;
     std::vector<TractorBeam*> pTractorBeam;
+
+    //Functions to create the game objects using the object manager
+    //Functions will be called by StartOfGame for a cleaner look and improved cohesion and reduced coupling
+    void CreatePlayer();
+    void CreateRocks();
+    void CreateGameManager();
+    void CreateScene();
+    void CreatePickups();
+    void CreateMissile();
+    void CreateTractorBeam();
+
 };
 

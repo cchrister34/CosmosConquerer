@@ -137,7 +137,7 @@ void Spaceship::Update(double frametime)
     //Flares
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_F) && m_flareDelay < 0)
     {
-        //Flares or stored in this vector, will be useful later for programming homing missile
+        //Flares or stored in this vector, could be useful later for programming homing missile
         std::vector<Flare*> flares;
 
         //sets the offset of the flare so they dont appear from the middle of the spaceship
