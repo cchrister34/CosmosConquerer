@@ -14,6 +14,7 @@
 #include "Missile.h"
 #include "Scene.h"
 #include "TractorBeam.h"
+#include "EnemyShip.h"
 
 
 // 17/06/2023
@@ -68,9 +69,11 @@ private:
     PickUp* pPickUp = nullptr;
     Missile* pMissile = nullptr;
     std::vector<TractorBeam*> pTractorBeam;
+    std::vector<EnemyShip*> m_enemyShip;
 
     //Functions to create the game objects using the object manager
     //Functions will be called by StartOfGame for a cleaner look and improved cohesion and reduced coupling
+    //Still not perfect and could be further decoupled
     void CreatePlayer();
     void CreateRocks();
     void CreateGameManager();
@@ -78,6 +81,7 @@ private:
     void CreatePickups();
     void CreateMissile();
     void CreateTractorBeam();
+    void CreateEnemyShip();
 
 };
 

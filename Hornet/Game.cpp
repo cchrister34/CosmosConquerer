@@ -22,6 +22,7 @@ void Game::StartOfGame()
     CreatePickups();
     CreateMissile();
     CreateTractorBeam();
+    CreateEnemyShip();
 }
 
 // Function runs each frame.
@@ -86,6 +87,7 @@ void Game::EndOfGame()
     //This line automatically deletes all managed objects
     ObjectManager::instance.DeleteAllObjects();
     pSpaceship = nullptr;
+    m_enemyShip.clear();
 }
 
 void Game::EndOfProgram()
@@ -148,7 +150,7 @@ void Game::CreateMissile()
 void Game::CreateTractorBeam()
 {
     //Ideally this goes in the Scene class
-//But since the Tractor beam works by pulling the spaceship it needs to know about pSpaceship
+    //But since the Tractor beam works by pulling the spaceship it needs to know about pSpaceship
     std::vector<Vector2D> tractorbeamPositions =
     {
         Vector2D(4500, 1000),
@@ -160,7 +162,21 @@ void Game::CreateTractorBeam()
         TractorBeam* pTractorBeam = new TractorBeam(ObjectType::TRACTORBEAM);
         pTractorBeam->Initialise(position);
         //Very important line, cannot be used in scene.cpp without causing dependencies
-       // pTractorBeam->PullTarget(pSpaceship);
+        pTractorBeam->PullTarget(pSpaceship);
         ObjectManager::instance.AddItem(pTractorBeam);
+    }
+}
+
+void Game::CreateEnemyShip()
+{
+    int numEnemyShips = rand() % 21 + 30;
+
+    for (int i = 0; i < numEnemyShips; i++)
+    {
+        EnemyShip* pEnemyShip = new EnemyShip(ObjectType::ENEMYSHIP);
+        pEnemyShip->Initialise();
+        pEnemyShip->FindPlayer(pSpaceship);
+        ObjectManager::instance.AddItem(pEnemyShip);
+        m_enemyShip.push_back(pEnemyShip);
     }
 }

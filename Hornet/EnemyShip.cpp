@@ -1,24 +1,116 @@
 #include "EnemyShip.h"
+#include "Bullet.h"
+#include "ObjectManager.h"
+#include <iostream>
 
 //Constants
 const std::string ENEMY_SHIP_IMAGE = "assets/enemyship.png";
+const double ENEMY_RADIUS = 48 * 1.5;
+const double ENEMY_SIZE = 1.5;
+const int TOPBORDER = 1000;
+const int BOTTOMBORDER = -1000;
+const double SHOOT_RANGE = 500;
+const double BULLET_MAGNITUDE = 60;
+const double BULLET_SPEED = 500;
+const double SHOOT_DELAY = 0.5;
 
 
-EnemyShip::EnemyShip()
+EnemyShip::EnemyShip(ObjectType objType) : GameObject(ObjectType::ENEMYSHIP)
 {
     m_pTarget = nullptr;
 }
 
 void EnemyShip::Initialise()
 {
+    LoadImage(ENEMY_SHIP_IMAGE.c_str());
+    m_angle = rand() % 360;
+    m_scale = ENEMY_SIZE;
+    m_isPlayerInRange = false;
+
+    m_enemySpawnXpos = rand() % 3001 + 4000;
+    m_enemySpawnYpos = rand() % 2001 - 1000;
+    m_position.set(Vector2D(m_enemySpawnXpos, m_enemySpawnYpos));
+
+    m_enemySpeed = rand() % 101 + 200;
+    m_enemyVelAngle = rand() % 360;
+    m_velocity.setBearing(m_enemyVelAngle, m_enemySpeed);
+
+    //Bullet
+    m_shootdelay = SHOOT_DELAY;
+
+    SetCollidable();
+    SetHandleEvents();
+    m_collisionShape.PlaceAt(m_position, ENEMY_RADIUS);
 }
 
 void EnemyShip::Update(double frametime)
 {
+    //Shoot delay reset
+    if (m_shootdelay > 0)
+    {
+        m_shootdelay -= frametime;
+    }
+
+    m_isPlayerInRange = false;
+    m_position = m_position + m_velocity * frametime;
+
+    //Wrapping 
+    if (m_position.YValue > TOPBORDER)
+    {
+        m_velocity.YValue = -m_velocity.YValue;
+    }
+    else if (m_position.YValue < BOTTOMBORDER)
+    {
+        m_velocity.YValue = -m_velocity.YValue;
+    }
+
+    //Spaceship Tracking
+    if (m_pTarget)
+    {
+        m_playerLocation = m_pTarget->GetPosition();
+        m_distance = (m_playerLocation - m_position).magnitude();
+
+        if (m_distance < SHOOT_RANGE)
+        {
+            m_isPlayerInRange = true;
+            m_direction = m_playerLocation - m_position;
+            m_velocity = m_direction.unitVector() * m_enemySpeed;
+            m_angle = (m_playerLocation - m_position).angle();
+        
+            if (m_shootdelay <= 0 && m_isPlayerInRange)
+            {
+                Shoot();
+            }
+        }
+
+    }
+
+
+
+
+
+    m_collisionShape.PlaceAt(m_position, ENEMY_RADIUS);
 }
 
 void EnemyShip::FindPlayer(Spaceship* pTarget)
 {
+    //Weak pointer, only used to access the functions of the spaceship class
+    m_pTarget = pTarget;
+}
+
+void EnemyShip::Shoot()
+{
+    m_bulletPosition.setBearing(m_angle, BULLET_MAGNITUDE);
+    m_bulletPosition = m_bulletPosition + m_position;
+    Vector2D bulletPos = m_bulletPosition;
+    Bullet* pBullet;
+    pBullet = new Bullet;
+    m_bulletSpeed.setBearing(m_angle, BULLET_SPEED);
+    m_bulletSpeed = m_bulletSpeed + m_velocity;
+    Vector2D bulletVel = m_bulletSpeed;
+    pBullet->Initialise(bulletPos, bulletVel);
+    ObjectManager::instance.AddItem(pBullet);
+    m_shootdelay = SHOOT_DELAY;
 }
 
 void EnemyShip::ProcessCollision(GameObject& other)
@@ -28,4 +120,6 @@ void EnemyShip::ProcessCollision(GameObject& other)
 void EnemyShip::HandleEvent(Event evt)
 {
 }
+
+
 
