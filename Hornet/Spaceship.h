@@ -19,11 +19,14 @@ public:
     void TractorBeamPull(Vector2D pull);
     void Trap();
     void Release();
+    double GetHealth();
+    bool IsDead();
 private:
     Vector2D m_velocity;
     Vector2D m_acceleration;
     Vector2D m_thrust;
     Vector2D m_friction;
+    double m_health;
     double m_spawnImmunity;
     double m_angularVelocity;
     SoundIndex m_engineSound;
@@ -57,4 +60,9 @@ private:
     double m_dynamicbulletDelay;
     bool m_isTrapped;
     Vector2D m_storedVelocity;
+    Vector2D m_findRockVelocity;
+    Vector2D m_relativeVelocity;
+    double m_relativeSpeed;
+    double m_findRockSize;
+    double m_rockCollisionDamage;
 };

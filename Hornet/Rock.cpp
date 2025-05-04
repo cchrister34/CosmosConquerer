@@ -10,6 +10,7 @@ const int BORDERRIGHT = 1600;
 const double ROCKRADIUS = 52;
 const double ROCKSIZE = 0.75;
 const double ROCKFRAGMENT = 0.3;
+const int FRAG_SPEED = 10;
 
 Rock::Rock(ObjectType objType) : GameObject(ObjectType::ROCK)
 {
@@ -51,9 +52,7 @@ void Rock::Initialise()
     int randImage = rand() % 3;
     LoadImage(rockImages[randImage]);
 
-    double rockSize = ROCKSIZE;
-    double fragRock = ROCKFRAGMENT;
-    m_scale = rockSize;
+    m_scale = ROCKSIZE;
 
     int posAngle = rand() % 360;
     int posDistance = rand() % 401 + 600;
@@ -73,12 +72,55 @@ IShape2D& Rock::GetCollisionShape()
 
 }
 
+void Rock::InitialiseRockFragment(const Vector2D& position)
+{
+    const char* rockImages[3] =
+    {
+        "assets/asteroid1.png",
+        "assets/asteroid2.png",
+        "assets/asteroid3.png"
+    };
+    int randImage = rand() % 3;
+    LoadImage(rockImages[randImage]);
+
+    m_position = position;
+    m_scale = ROCKFRAGMENT;
+
+    int angle = rand() % 360;
+    int speed = rand() % 51 + 20;
+    m_velocity.setBearing(angle, speed);
+
+}
+
+
+void Rock::Die()
+{
+    Deactivate();
+
+    for (int i = 0; i < 3; i++)
+    {
+        Rock* pFragRock = new Rock(ObjectType::ROCK);
+        int angle = rand() % 360;
+        int speed = FRAG_SPEED;
+        m_rockFragScatter.setBearing(angle, speed);
+        pFragRock->InitialiseRockFragment(m_position + m_rockFragScatter);
+        ObjectManager::instance.AddItem(pFragRock);
+    }
+}
+
+
+Vector2D Rock::GetVelocity()
+{
+    return m_velocity;
+}
+
+
 
 void Rock::ProcessCollision(GameObject& other)
 {
     if (other.GetType() == ObjectType::BULLET)
     {
-        Deactivate();
+        Die();
         Event evt;
         evt.type = EventType::OBJECTDESTROYED;
         evt.pSource = this;
@@ -99,5 +141,10 @@ void Rock::ProcessCollision(GameObject& other)
         evt.pSource = this;
         evt.position = m_position;
         ObjectManager::instance.HandleEvent(evt);
+    }
+
+    if (other.GetType() == ObjectType::SPACESHIP)
+    {
+        Die();
     }
 }

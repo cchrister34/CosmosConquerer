@@ -20,4 +20,7 @@ private:
     PickUpType m_collectedPickup;
     bool m_hasPickup;
     Spaceship* m_respawnedSpaceship;
+    double m_dynamicShipHealth;
+    Rectangle2D m_healthBar;
+    double m_healthBarWidth;
 };

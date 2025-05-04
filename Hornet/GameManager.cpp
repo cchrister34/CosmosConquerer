@@ -8,6 +8,11 @@
 //Constants
 const int START_SCORE = 0;
 const int START_LIVES = 3;
+const double SHIP_HEALTH = 100;
+const double MAX_HP_BAR_WIDTH = 400;
+const double HP_BAR_TOP = 970;
+const double HP_BAR_BOTTOM = 940;
+const double HP_BAR_LEFT = -200;
 const Vector2D TOP_LEFT(-1600, 920);
 const int LIVES_GAP = 100;
 const int FONT = 2;
@@ -28,7 +33,8 @@ void GameManager::Initialise()
 {
     m_score = START_SCORE;
     m_lives = START_LIVES;
-
+    m_dynamicShipHealth = SHIP_HEALTH;
+    
     m_hasPickup = false;
     m_collectedPickup = PickUpType::NONE;
 
@@ -57,6 +63,19 @@ void GameManager::Render()
         livesPos.XValue += LIVES_GAP;
     }
     HtCamera::instance.UseCamera(true);
+
+    //HealthBar
+    double width = MAX_HP_BAR_WIDTH;
+    double top = HP_BAR_TOP;
+    double bottom = HP_BAR_BOTTOM;
+    double left = -HP_BAR_LEFT;
+    double right = left + (m_dynamicShipHealth / SHIP_HEALTH) * width;
+    m_healthBar.PlaceAt(top, left, bottom, right);
+
+    HtCamera::instance.UseCamera(false);
+    HtGraphics::instance.FillRect(m_healthBar, HtGraphics::LIGHTGREEN);
+    HtCamera::instance.UseCamera(true);
+
 
     //Pickup
     if (m_hasPickup)
@@ -106,34 +125,47 @@ void GameManager::HandleEvent(Event evt)
         }
     }
 
+    if (evt.type == EventType::SHIPDAMAGED)
+    {
+        Spaceship* pShip = dynamic_cast<Spaceship*>(evt.pSource);
+        if (pShip)
+        {
+            m_dynamicShipHealth = pShip->GetHealth();
+        }
+    }
+
     if (evt.type == EventType::OBJECTDESTROYED)
     {
         if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
         {
-            if (m_lives > 0)
+            Spaceship* pShip = dynamic_cast<Spaceship*>(evt.pSource);
+            if (pShip && pShip->IsDead())
             {
-                Spaceship* pSpacehip = nullptr;
-                pSpacehip = new Spaceship(ObjectType::SPACESHIP);
-                pSpacehip->Initialise();
-                ObjectManager::instance.AddItem(pSpacehip);
-                m_lives -= 1;
-                //Assign the new spaceship object to a member variable
-                //If the spaceship was destroyed before the missile timer ran out, the missiles would no longer spawn
-                m_respawnedSpaceship = pSpacehip;
-                //Create an event for the respawned spaceship for listeners such as the tractor beam
-                Event evt;
-                evt.type = EventType::OBJECTCREATED;
-                evt.pSource = pSpacehip;
-                ObjectManager::instance.HandleEvent(evt);
-
-                //Safety check to ensure the object is active before creating a missile
-                if (m_respawnedSpaceship != nullptr)
+                if (m_lives > 0)
                 {
-                    Missile* pMissile = new Missile(ObjectType::MISSILE);
-                    pMissile->Initialise();
-                    //Assign the missile to the most recently created spaceship object
-                    pMissile->SetTarget(m_respawnedSpaceship);
-                    ObjectManager::instance.AddItem(pMissile);
+                    Spaceship* pSpaceship = nullptr;
+                    pSpaceship = new Spaceship(ObjectType::SPACESHIP);
+                    pSpaceship->Initialise();
+                    ObjectManager::instance.AddItem(pSpaceship);
+                    m_lives -= 1;
+                    //Assign the new spaceship object to a member variable
+                    //If the spaceship was destroyed before the missile timer ran out, the missiles would no longer spawn
+                    m_respawnedSpaceship = pSpaceship;
+                    //Create an event for the respawned spaceship for listeners such as the tractor beam
+                    Event evt;
+                    evt.type = EventType::OBJECTCREATED;
+                    evt.pSource = pSpaceship;
+                    ObjectManager::instance.HandleEvent(evt);
+
+                    //Safety check to ensure the object is active before creating a missile
+                    if (m_respawnedSpaceship != nullptr)
+                    {
+                        Missile* pMissile = new Missile(ObjectType::MISSILE);
+                        pMissile->Initialise();
+                        //Assign the missile to the most recently created spaceship object
+                        pMissile->SetTarget(m_respawnedSpaceship);
+                        ObjectManager::instance.AddItem(pMissile);
+                    }
                 }
             }
         }

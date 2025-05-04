@@ -5,6 +5,7 @@
 #include "Flare.h"
 #include "ObjectManager.h"
 #include "Explosion.h"
+#include "Rock.h"
 
 //Constants
 const Vector2D START_SPAWN_POS(0, 0);
@@ -12,6 +13,7 @@ const Vector2D START_VELOCITY(0, 0);
 const Vector2D START_CAMERA_POS(0, 0);
 const Vector2D START_CAMERA_VELOCITY(0, 0);
 const Vector2D STUCK_VELOCITY(0, 0);
+const double SHIP_HIT_POINTS = 100;
 const double CAMERA_VELOCITY = 3.0;
 const double CAMERA_FRICTION = 2.0;
 const double THRUST_STRENGTH = 90.0;
@@ -42,6 +44,7 @@ const double IMMUNITY_TIMER = 5;
 const double FADE_IN_TIME = 2.5;
 const double IMMUNE_TRANSPARENCY = 0.5;
 const int SHIP_TRANSPARENCY = 0;
+const double ROCK_DAMAGE = 0.2;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
 const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
@@ -225,17 +228,38 @@ void Spaceship::ProcessCollision(GameObject& other)
 {
     if (other.GetType() == ObjectType::ROCK && m_spawnImmunity <= 0)
     {
-        Deactivate();
-        HtAudio::instance.Stop(m_engineSoundChannel);
-        Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
-        p_Explosion->Initialise(m_position);
-        ObjectManager::instance.AddItem(p_Explosion);
-        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
-        Event evt;
-        evt.type = EventType::OBJECTDESTROYED;
-        evt.pSource = this;
-        evt.position = m_position;
-        ObjectManager::instance.HandleEvent(evt);
+        Rock* pOther = dynamic_cast<Rock*>(&other);
+        if (pOther)
+        {
+          m_findRockVelocity = pOther->GetVelocity();
+          m_relativeVelocity = m_findRockVelocity - m_velocity;
+          m_relativeSpeed = m_relativeVelocity.magnitude();
+
+          m_findRockSize = pOther->GetScale();
+          m_rockCollisionDamage = m_relativeSpeed * m_findRockSize * ROCK_DAMAGE;
+
+          m_health -= m_rockCollisionDamage;
+          Event evt;
+          evt.type = EventType::SHIPDAMAGED;
+          evt.pSource = this;
+          evt.position = m_position;
+          ObjectManager::instance.HandleEvent(evt);
+        }
+        if (m_health <= 0)
+        {
+            Deactivate();
+            IsDead();
+            HtAudio::instance.Stop(m_engineSoundChannel);
+            Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
+            p_Explosion->Initialise(m_position);
+            ObjectManager::instance.AddItem(p_Explosion);
+            m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+            Event evt;
+            evt.type = EventType::OBJECTDESTROYED;
+            evt.pSource = this;
+            evt.position = m_position;
+            ObjectManager::instance.HandleEvent(evt);
+        }
     }
 
     if (other.GetType() == ObjectType::TILE)
@@ -274,6 +298,7 @@ void Spaceship::Initialise()
     m_position.set(START_SPAWN_POS);
     m_velocity.set(START_VELOCITY);
     LoadImage(SHIP_IMAGE.c_str()); //c_str used to convert sting to const char
+    m_health = SHIP_HIT_POINTS;
     m_scale = SHIP_SIZE; 
     m_angle = SHIP_ANGLE;
     m_spawnImmunity = IMMUNITY_TIMER;
@@ -371,5 +396,15 @@ void Spaceship::Release()
 {
     m_isTrapped = false;
     m_velocity = m_storedVelocity;
+}
+
+double Spaceship::GetHealth()
+{
+    return m_health;
+}
+
+bool Spaceship::IsDead()
+{
+    return m_health <= 0;
 }
 
