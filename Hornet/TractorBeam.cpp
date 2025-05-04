@@ -8,10 +8,10 @@ const double TRACTOR_BEAM_WIDTH = 182 * 2.5;
 const double HALF_BEAM_HEIGHT = TRACTOR_BEAM_HEIGHT / 2;
 const double HALF_BEAM_WIDTH = TRACTOR_BEAM_WIDTH / 2;
 const double TRACTOR_BEAM_SIZE = 2.5;
-const double PULL_RANGE = 1000;
+const double PULL_RANGE = 1250;
 const double PULL_STRENGTH = 50;
 const double PULL_MAGNETISM = 1;
-const double TRAP_RANGE = 250;
+const double TRAP_RANGE = 300;
 const int HIT_RELEASE_AMOUNT = 5;
 const int HIT_RELEASE_RESET = 0;
 

@@ -6,14 +6,14 @@
 //Constants
 const std::string ENEMY_SHIP_IMAGE = "assets/enemyship.png";
 const std::string BULLET_SOUND = "assets/zap.wav";
-const double ENEMY_RADIUS = 48 * 1.5;
+const double ENEMY_RADIUS = 48;
 const double ENEMY_SIZE = 1.5;
-const int TOPBORDER = 1000;
-const int BOTTOMBORDER = -1000;
+const int TOPBORDER = 900;
+const int BOTTOMBORDER = -900;
 const int LEFTBORDER = 3000;
 const int RIGHTBORDER = 9000;
-const double SHOOT_RANGE = 500;
-const double BULLET_MAGNITUDE = 60;
+const double SHOOT_RANGE = 750;
+const double BULLET_MAGNITUDE = 65;
 const double BULLET_SPEED = 500;
 const double SHOOT_DELAY = 0.5;
 
@@ -65,24 +65,6 @@ void EnemyShip::Update(double frametime)
     m_position = m_position + m_velocity * frametime;
     m_angle = m_velocity.angle();
 
-    //Wrapping 
-    if (m_position.YValue > TOPBORDER)
-    {
-        m_velocity.YValue = -m_velocity.YValue;
-    }
-    else if (m_position.YValue < BOTTOMBORDER)
-    {
-        m_velocity.YValue = -m_velocity.YValue;
-    }
-    if (m_position.XValue < LEFTBORDER)
-    {
-        m_velocity.XValue = -m_velocity.XValue;
-    }
-    else if (m_position.XValue > RIGHTBORDER)
-    {
-        m_velocity.XValue = -m_velocity.XValue;
-    }
-
     //Spaceship Tracking
     if (m_pTarget->IsActive() == true)
     {
@@ -104,6 +86,29 @@ void EnemyShip::Update(double frametime)
                 Shoot();
             }
         }
+
+        //Wrapping 
+        if (m_position.YValue > TOPBORDER)
+        {
+            m_position.YValue = TOPBORDER;
+            m_velocity.YValue = -m_velocity.YValue;
+        }
+        else if (m_position.YValue < BOTTOMBORDER)
+        {
+            m_position.YValue = BOTTOMBORDER;
+            m_velocity.YValue = -m_velocity.YValue;
+        }
+        if (m_position.XValue < LEFTBORDER)
+        {
+            m_position.XValue = LEFTBORDER;
+            m_velocity.XValue = -m_velocity.XValue;
+        }
+        else if (m_position.XValue > RIGHTBORDER)
+        {
+            m_position.XValue = RIGHTBORDER;
+            m_velocity.XValue = -m_velocity.XValue;
+        }
+
 
     }
 
@@ -130,6 +135,11 @@ void EnemyShip::Shoot()
     ObjectManager::instance.AddItem(pBullet);
     m_shootdelay = SHOOT_DELAY;
     m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
+}
+
+IShape2D& EnemyShip::GetCollisionShape()
+{
+    return m_collisionShape;
 }
 
 void EnemyShip::ProcessCollision(GameObject& other)
