@@ -6,6 +6,7 @@
 #include "ObjectManager.h"
 #include "Explosion.h"
 #include "Rock.h"
+#include <iostream>
 
 //Constants
 const Vector2D START_SPAWN_POS(0, 0);
@@ -21,6 +22,7 @@ const int ROTATION_SPEED = 120;
 const double ANGULAR_FRICTION = 0.25;
 const double BULLET_DELAY = 0.3;
 const double SHIP_SIZE = 1.25;
+const double SHIP_RADIUS = 64;
 const double SHIP_ANGLE = 90;
 const double FRICTION_STRENGTH = 0.5;
 const double BULLET_MAGNITUDE = 60;
@@ -45,6 +47,7 @@ const double FADE_IN_TIME = 2.5;
 const double IMMUNE_TRANSPARENCY = 0.5;
 const int SHIP_TRANSPARENCY = 0;
 const double ROCK_DAMAGE = 0.2;
+const double BULLET_DAMAGE = 0.01;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
 const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
@@ -140,7 +143,7 @@ void Spaceship::Update(double frametime)
         m_bulletPosition.setBearing(m_angle, BULLET_MAGNITUDE);
         m_bulletPosition = m_bulletPosition + m_position;
         Bullet* pBullet;
-        pBullet = new Bullet;
+        pBullet = new Bullet(ObjectType::BULLET);
         Vector2D bulletPosition = m_bulletPosition;
         m_bulletSpeed.setBearing(m_angle, BULLET_SPEED);
         m_bulletSpeed = m_bulletSpeed + m_velocity;
@@ -220,13 +223,13 @@ void Spaceship::Update(double frametime)
         m_velocity.YValue = -m_velocity.YValue;
     }
 
-    m_collisionShape.PlaceAt(m_position, SHIP_SIZE);
+    m_collisionShape.PlaceAt(m_position, SHIP_RADIUS);
 }
 
 
 void Spaceship::ProcessCollision(GameObject& other)
 {
-    if (other.GetType() == ObjectType::ROCK && m_spawnImmunity >= m_spawnImmunity)
+    if (other.GetType() == ObjectType::ROCK && m_spawnImmunity <= 0)
     {
         Rock* pOther = dynamic_cast<Rock*>(&other);
         if (pOther)
@@ -245,6 +248,32 @@ void Spaceship::ProcessCollision(GameObject& other)
           evt.position = m_position;
           ObjectManager::instance.HandleEvent(evt);
         }
+        if (m_health <= 0)
+        {
+            Deactivate();
+            IsDead();
+            HtAudio::instance.Stop(m_engineSoundChannel);
+            Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
+            p_Explosion->Initialise(m_position);
+            ObjectManager::instance.AddItem(p_Explosion);
+            m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+            Event evt;
+            evt.type = EventType::OBJECTDESTROYED;
+            evt.pSource = this;
+            evt.position = m_position;
+            ObjectManager::instance.HandleEvent(evt);
+        }
+    }
+
+    if (other.GetType() == ObjectType::ENEMYBULLET)
+    {
+        m_health -= BULLET_DAMAGE;
+        Event evt;
+        evt.type = EventType::SHIPDAMAGED;
+        evt.pSource = this;
+        evt.position = m_position;
+        ObjectManager::instance.HandleEvent(evt);
+
         if (m_health <= 0)
         {
             Deactivate();
@@ -295,15 +324,15 @@ void Spaceship::ProcessCollision(GameObject& other)
 
 void Spaceship::Initialise()
 {
-    m_position.set(START_SPAWN_POS);
-    m_velocity.set(START_VELOCITY);
+    m_position = START_SPAWN_POS;
+    m_velocity = START_VELOCITY;
     LoadImage(SHIP_IMAGE.c_str()); //c_str used to convert sting to const char
     m_health = SHIP_HIT_POINTS;
     m_scale = SHIP_SIZE; 
     m_angle = SHIP_ANGLE;
     m_spawnImmunity = IMMUNITY_TIMER;
-    m_cameraPosition.set(START_CAMERA_POS);
-    m_cameraVelocity.set(START_CAMERA_VELOCITY);
+    m_cameraPosition = START_CAMERA_POS;
+    m_cameraVelocity = START_CAMERA_VELOCITY;
     m_engineSound = HtAudio::instance.LoadSound(ENGINE_SOUND.c_str());
 
     //Bullet

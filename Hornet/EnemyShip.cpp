@@ -14,7 +14,7 @@ const int LEFTBORDER = 3000;
 const int RIGHTBORDER = 9000;
 const double SHOOT_RANGE = 750;
 const double BULLET_MAGNITUDE = 65;
-const double BULLET_SPEED = 500;
+const double BULLET_SPEED = 700;
 const double SHOOT_DELAY = 0.5;
 
 
@@ -127,11 +127,11 @@ void EnemyShip::Shoot()
     m_bulletPosition = m_bulletPosition + m_position;
     Vector2D bulletPos = m_bulletPosition;
     Bullet* pBullet;
-    pBullet = new Bullet;
+    pBullet = new Bullet(ObjectType::ENEMYBULLET);
     m_bulletSpeed.setBearing(m_angle, BULLET_SPEED);
     m_bulletSpeed = m_bulletSpeed + m_velocity;
     Vector2D bulletVel = m_bulletSpeed;
-    pBullet->Initialise(bulletPos, bulletVel);
+    pBullet->InitialiseEnemyBullet(bulletPos, bulletVel);
     ObjectManager::instance.AddItem(pBullet);
     m_shootdelay = SHOOT_DELAY;
     m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);

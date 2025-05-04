@@ -10,10 +10,10 @@
 const int START_SCORE = 0;
 const int START_LIVES = 3;
 const double SHIP_HEALTH = 100;
-const double MAX_HP_BAR_WIDTH = 400;
+const double MAX_HP_BAR_WIDTH = 600;
 const double HP_BAR_TOP = 970;
 const double HP_BAR_BOTTOM = 940;
-const double HP_BAR_LEFT = -200;
+const double HP_BAR_LEFT = 1500;
 const Vector2D TOP_LEFT(-1600, 920);
 const int LIVES_GAP = 100;
 const int FONT = 2;
@@ -71,9 +71,12 @@ void GameManager::Render()
     double bottom = HP_BAR_BOTTOM;
     double left = -HP_BAR_LEFT;
     double right = left + (m_dynamicShipHealth / SHIP_HEALTH) * width;
+    double bgright = left + width;
+    m_healthBarBackground.PlaceAt(top, left, bottom, bgright);
     m_healthBar.PlaceAt(top, left, bottom, right);
 
     HtCamera::instance.UseCamera(false);
+    HtGraphics::instance.FillRect(m_healthBarBackground, HtGraphics::DARKRED);
     HtGraphics::instance.FillRect(m_healthBar, HtGraphics::LIGHTGREEN);
     HtCamera::instance.UseCamera(true);
 
@@ -113,8 +116,8 @@ void GameManager::HandleEvent(Event evt)
             m_score += TRACTOR_BEAM_SCORE_INCREASE;
         else if (type == ObjectType::SPACESHIP)
         {
-            Spaceship* pSpaceship = dynamic_cast<Spaceship*>(evt.pSource);
-            if (pSpaceship && m_lives > 0)
+            Spaceship* pDestroyedSpaceship = dynamic_cast<Spaceship*>(evt.pSource);
+            if (pDestroyedSpaceship && m_lives > 0)
             {
                 Spaceship* pSpaceship = new Spaceship(ObjectType::SPACESHIP);
                 pSpaceship->Initialise();

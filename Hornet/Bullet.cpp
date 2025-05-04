@@ -7,8 +7,9 @@ const double RADIUS = 12;
 const double BULLET_SCALE = 1.25;
 const int BULLET_TRANSPARENCY = 1;
 const std::string BULLET_IMAGE = "assets/beams.png";
+const std::string ENEMY_BULLET = "assets/enemybullet.png";
 
-Bullet::Bullet() :GameObject(ObjectType::BULLET)
+Bullet::Bullet(ObjectType objType) : GameObject(objType)
 {
 }
 
@@ -36,6 +37,20 @@ void Bullet::Initialise(Vector2D position, Vector2D velocity)
     m_velocity = velocity;
 
     LoadImage(BULLET_IMAGE.c_str());
+    m_lifetime = BULLET_LIFETIME;
+    m_angle = m_velocity.angle();
+    m_scale = BULLET_SCALE;
+
+    SetCollidable();
+    m_collisionArea.PlaceAt(m_position, RADIUS);
+}
+
+void Bullet::InitialiseEnemyBullet(Vector2D position, Vector2D velocity)
+{
+    m_position = position;
+    m_velocity = velocity;
+
+    LoadImage(ENEMY_BULLET.c_str());
     m_lifetime = BULLET_LIFETIME;
     m_angle = m_velocity.angle();
     m_scale = BULLET_SCALE;

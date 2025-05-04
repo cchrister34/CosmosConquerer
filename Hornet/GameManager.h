@@ -22,5 +22,6 @@ private:
     Spaceship* m_respawnedSpaceship;
     double m_dynamicShipHealth;
     Rectangle2D m_healthBar;
+    Rectangle2D m_healthBarBackground;
     double m_healthBarWidth;
 };
