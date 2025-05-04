@@ -144,6 +144,15 @@ IShape2D& EnemyShip::GetCollisionShape()
 
 void EnemyShip::ProcessCollision(GameObject& other)
 {
+    if (other.GetType() == ObjectType::BULLET)
+    {
+        Deactivate();
+        Event evt;
+        evt.type = EventType::OBJECTDESTROYED;
+        evt.pSource = this;
+        evt.position = m_position;
+        ObjectManager::instance.HandleEvent(evt);
+    }
 }
 
 void EnemyShip::HandleEvent(Event evt)

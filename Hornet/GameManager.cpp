@@ -21,6 +21,7 @@ const double FONT_SIZE = 1.25;
 const int ROCK_SCORE_INCREASE = 100;
 const int MISSILE_SCORE_INCREASE = 500;
 const int TRACTOR_BEAM_SCORE_INCREASE = 150;
+const int ENEMY_SHIP_SCORE_INCREASE = 250;
 const std::string SHIP_IMAGE = "assets/spaceship.png";
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
 const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
@@ -112,6 +113,8 @@ void GameManager::HandleEvent(Event evt)
             m_score += ROCK_SCORE_INCREASE;
         else if (type == ObjectType::MISSILE)
             m_score += MISSILE_SCORE_INCREASE;
+        else if (type == ObjectType::ENEMYSHIP)
+            m_score += ENEMY_SHIP_SCORE_INCREASE;
         else if (type == ObjectType::TRACTORBEAM)
             m_score += TRACTOR_BEAM_SCORE_INCREASE;
         else if (type == ObjectType::SPACESHIP)
