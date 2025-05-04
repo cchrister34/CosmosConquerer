@@ -226,7 +226,7 @@ void Spaceship::Update(double frametime)
 
 void Spaceship::ProcessCollision(GameObject& other)
 {
-    if (other.GetType() == ObjectType::ROCK && m_spawnImmunity <= 0)
+    if (other.GetType() == ObjectType::ROCK && m_spawnImmunity >= m_spawnImmunity)
     {
         Rock* pOther = dynamic_cast<Rock*>(&other);
         if (pOther)
