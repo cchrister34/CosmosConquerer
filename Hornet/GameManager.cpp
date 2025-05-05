@@ -22,6 +22,7 @@ const int ROCK_SCORE_INCREASE = 100;
 const int MISSILE_SCORE_INCREASE = 500;
 const int TRACTOR_BEAM_SCORE_INCREASE = 150;
 const int ENEMY_SHIP_SCORE_INCREASE = 250;
+const int DEATH_SCORE_PENALTY = 500;
 const std::string SHIP_IMAGE = "assets/spaceship.png";
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
 const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
@@ -126,6 +127,7 @@ void GameManager::HandleEvent(Event evt)
                 pSpaceship->Initialise();
                 ObjectManager::instance.AddItem(pSpaceship);
                 m_lives--;
+                m_score -= DEATH_SCORE_PENALTY;
                 m_dynamicShipHealth = SHIP_HEALTH;
                 m_respawnedSpaceship = pSpaceship;
 

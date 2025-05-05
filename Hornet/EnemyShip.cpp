@@ -2,10 +2,12 @@
 #include "Bullet.h"
 #include "ObjectManager.h"
 #include <iostream>
+#include "Explosion.h"
 
 //Constants
 const std::string ENEMY_SHIP_IMAGE = "assets/enemyship.png";
 const std::string BULLET_SOUND = "assets/zap.wav";
+const std::string EXPLOSION_SOUND = "assets/explosion1.wav";
 const double ENEMY_RADIUS = 48;
 const double ENEMY_SIZE = 1.5;
 const int TOPBORDER = 900;
@@ -41,6 +43,9 @@ void EnemyShip::Initialise()
     //Bullet
     m_shootdelay = SHOOT_DELAY;
     m_bulletSound = HtAudio::instance.LoadSound(BULLET_SOUND.c_str());
+
+    //Explosion
+    m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND.c_str());
 
     SetCollidable();
     SetHandleEvents();
@@ -147,6 +152,10 @@ void EnemyShip::ProcessCollision(GameObject& other)
     if (other.GetType() == ObjectType::BULLET)
     {
         Deactivate();
+        Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
+        p_Explosion->Initialise(m_position);
+        ObjectManager::instance.AddItem(p_Explosion);
+        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
         Event evt;
         evt.type = EventType::OBJECTDESTROYED;
         evt.pSource = this;

@@ -34,5 +34,7 @@ private:
     Vector2D m_bulletSpeed;
     SoundIndex m_bulletSound;
     int m_bulletSoundChannel;
+    SoundIndex m_explosionBang;
+    int m_explosionSoundChannel;
 };
 

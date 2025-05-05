@@ -5,6 +5,7 @@
 const Vector2D BG_IMG1_POS(0, 0);
 const Vector2D BG_IMG2_POS(4175, 0);
 const Vector2D BG_IMG3_POS(8350, 0);
+const Vector2D BG_IMG4_POS(12525, 0);
 const double BG_IMG_SCALE = 2.5;
 const std::string BG_IMAGE_1 = "assets/spacebg.png";
 const std::string BG_IMAGE_2 = "assets/starsbg.png";
@@ -34,4 +35,6 @@ void Background::Render()
     HtGraphics::instance.DrawAt(BG_IMG2_POS, m_bgImage2, BG_IMG_SCALE);
 
     HtGraphics::instance.DrawAt(BG_IMG3_POS, m_bgImage3, BG_IMG_SCALE);
+
+    HtGraphics::instance.DrawAt(BG_IMG4_POS, m_bgImage2, BG_IMG_SCALE);
 }
