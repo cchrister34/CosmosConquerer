@@ -291,22 +291,8 @@ void Spaceship::ProcessCollision(GameObject& other)
         }
     }
 
-    if (other.GetType() == ObjectType::TILE)
-    {
-        Deactivate();
-        HtAudio::instance.Stop(m_engineSoundChannel);
-        Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
-        p_Explosion->Initialise(m_position);
-        ObjectManager::instance.AddItem(p_Explosion);
-        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
-        Event evt;
-        evt.type = EventType::OBJECTDESTROYED;
-        evt.pSource = this;
-        evt.position = m_position;
-        ObjectManager::instance.HandleEvent(evt);
-    }
-
-    if (other.GetType() == ObjectType::MISSILE)
+    ObjectType type = other.GetType();
+    if (type == ObjectType::TILE || type == ObjectType::MISSILE || type == ObjectType::EXPLOSIVEROCK)
     {
         Deactivate();
         HtAudio::instance.Stop(m_engineSoundChannel);

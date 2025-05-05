@@ -12,7 +12,7 @@ public:
     void Update(double frametime);
     void ProcessCollision(GameObject& other)override;
     IShape2D& GetCollisionShape() override;
-
+    void HandleEvent(Event evt)override;
 private:
     Vector2D m_velocity;
     Circle2D m_collisionShape;
@@ -24,5 +24,7 @@ private:
     Vector2D m_playerLocation;
     double m_distance;
     bool m_isActive;
+    SoundIndex m_explosionBang;
+    int m_explosionSoundChannel;
 };
 

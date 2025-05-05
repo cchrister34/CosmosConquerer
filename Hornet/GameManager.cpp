@@ -20,8 +20,9 @@ const int FONT = 2;
 const double FONT_SIZE = 1.25;
 const int ROCK_SCORE_INCREASE = 100;
 const int MISSILE_SCORE_INCREASE = 500;
-const int TRACTOR_BEAM_SCORE_INCREASE = 150;
+const int TRACTOR_BEAM_SCORE_INCREASE = 300;
 const int ENEMY_SHIP_SCORE_INCREASE = 250;
+const int EXPLOSIVE_ROCK_SCORE_INCREASE = 150;
 const int DEATH_SCORE_PENALTY = 500;
 const std::string SHIP_IMAGE = "assets/spaceship.png";
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
@@ -171,5 +172,10 @@ void GameManager::HandleEvent(Event evt)
             m_dynamicShipHealth = pShip->GetHealth();
         }
     }
+    else if (evt.type == EventType::SHOTEXPLOSIVEROCK)
+        if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
+        {
+            m_score += EXPLOSIVE_ROCK_SCORE_INCREASE;
+        }
 }
 

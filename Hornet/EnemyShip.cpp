@@ -40,6 +40,7 @@ void EnemyShip::Initialise()
     m_enemyVelAngle = rand() % 360;
     m_velocity.setBearing(m_enemyVelAngle, m_enemySpeed);
 
+
     //Bullet
     m_shootdelay = SHOOT_DELAY;
     m_bulletSound = HtAudio::instance.LoadSound(ENEMY_BULLET_SOUND.c_str());
