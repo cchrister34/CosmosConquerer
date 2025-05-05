@@ -1,8 +1,11 @@
 #include "TractorBeam.h"
 #include "ObjectManager.h"
+#include "Explosion.h"
 
 //Constants
 const std::string TRACTOR_BEAM_IMAGE = "assets/tractorbeam.png";
+const std::string PULLING_SOUND = "assets/wind.flac";
+const std::string EXPLOSION_SOUND = "assets/explosion4.wav";
 const double TRACTOR_BEAM_HEIGHT = 68 * 2.5;
 const double TRACTOR_BEAM_WIDTH = 182 * 2.5;
 const double HALF_BEAM_HEIGHT = TRACTOR_BEAM_HEIGHT / 2;
@@ -27,9 +30,16 @@ void TractorBeam::Initialise(Vector2D position)
     m_scale = TRACTOR_BEAM_SIZE;
     m_isSpaceshipInRange = false;
     m_isTrapped = false;
+
     Vector2D bottomLeft = m_position - Vector2D(HALF_BEAM_WIDTH, HALF_BEAM_HEIGHT);
     Vector2D topRight = m_position + Vector2D(HALF_BEAM_WIDTH, HALF_BEAM_HEIGHT);
     m_collisionShape.PlaceAt(bottomLeft, topRight);
+
+    //Sounds
+    m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND.c_str());
+    m_pullingSoundEffect = HtAudio::instance.LoadSound(PULLING_SOUND.c_str());
+    m_isPullingEffectPlaying = false;
+
     SetCollidable();
     SetHandleEvents();
 }
@@ -66,6 +76,21 @@ void TractorBeam::Update(double frametime)
             m_pullForce = m_direction * m_pullMagnitude;
             //Apply the pull force onto the spaceship object
             m_pTarget->TractorBeamPull(m_pullForce * frametime);
+
+            //Sound
+            if (!m_isPullingEffectPlaying)
+            {
+                m_pullingEffectChannel = HtAudio::instance.Play(m_pullingSoundEffect);
+                m_isPullingEffectPlaying = true;
+            }
+        }
+        else
+        {
+            if (m_isPullingEffectPlaying)
+            {
+                HtAudio::instance.Stop(m_pullingEffectChannel);
+                m_isPullingEffectPlaying = false;
+            }
         }
 
         if (m_distance < TRAP_RANGE)
@@ -73,6 +98,7 @@ void TractorBeam::Update(double frametime)
             m_isTrapped = true;
             m_pTarget->Trap();
         }
+
     }
 }
 
@@ -107,6 +133,12 @@ void TractorBeam::ProcessCollision(GameObject& other)
             Deactivate();
             m_pTarget->Release();
             m_hitCount = HIT_RELEASE_RESET;
+            HtAudio::instance.Stop(m_pullingEffectChannel);
+            m_isPullingEffectPlaying = false;
+            Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
+            p_Explosion->Initialise(m_position);
+            ObjectManager::instance.AddItem(p_Explosion);
+            m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
             Event evt;
             evt.type = EventType::OBJECTDESTROYED;
             evt.pSource = this;

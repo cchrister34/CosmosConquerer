@@ -7,7 +7,7 @@
 //Constants
 const std::string ENEMY_SHIP_IMAGE = "assets/enemyship.png";
 const std::string BULLET_SOUND = "assets/zap.wav";
-const std::string EXPLOSION_SOUND = "assets/explosion1.wav";
+const std::string EXPLOSION_SOUND = "assets/explosion3.wav";
 const double ENEMY_RADIUS = 48;
 const double ENEMY_SIZE = 1.5;
 const int TOPBORDER = 900;

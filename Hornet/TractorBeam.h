@@ -28,5 +28,10 @@ private:
     Vector2D m_pullForce;
     bool m_isTrapped;
     int m_hitCount;
+    SoundIndex m_pullingSoundEffect;
+    int m_pullingEffectChannel;
+    bool m_isPullingEffectPlaying;
+    SoundIndex m_explosionBang;
+    int m_explosionSoundChannel;
 };
 
