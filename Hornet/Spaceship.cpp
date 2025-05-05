@@ -373,6 +373,7 @@ void Spaceship::CollectPickup(PickUpType type)
 {
     m_collectedPickup = type;
     m_hasPickup = true;
+
 }
 
 void Spaceship::UseSpeedBoost()
@@ -427,12 +428,13 @@ void Spaceship::Release()
     m_velocity = m_storedVelocity;
 }
 
-double Spaceship::GetHealth()
+double Spaceship::GetHealth() const
 {
     return m_health;
 }
 
-bool Spaceship::IsDead()
+
+bool Spaceship::IsDead() const
 {
     return m_health <= 0;
 }

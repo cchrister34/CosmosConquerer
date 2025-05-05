@@ -136,6 +136,9 @@
     <ClCompile Include="EnemyShip.cpp">
       <Filter>Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ExplosiveRock.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HtAudio.h">
@@ -238,6 +241,9 @@
       <Filter>Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EnemyShip.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosiveRock.h">
       <Filter>Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

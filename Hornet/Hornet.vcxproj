@@ -146,6 +146,7 @@
     <ClCompile Include="ErrorLogger.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="ExplosiveRock.cpp" />
     <ClCompile Include="Flare.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="ErrorLogger.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="ExplosiveRock.h" />
     <ClInclude Include="Flare.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />

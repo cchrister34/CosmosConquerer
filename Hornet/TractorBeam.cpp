@@ -4,7 +4,7 @@
 
 //Constants
 const std::string TRACTOR_BEAM_IMAGE = "assets/tractorbeam.png";
-const std::string PULLING_SOUND = "assets/wind.flac";
+const std::string PULLING_SOUND = "assets/tractorbeam.wav";
 const std::string EXPLOSION_SOUND = "assets/explosion4.wav";
 const double TRACTOR_BEAM_HEIGHT = 68 * 2.5;
 const double TRACTOR_BEAM_WIDTH = 182 * 2.5;

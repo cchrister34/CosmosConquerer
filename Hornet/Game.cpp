@@ -23,6 +23,7 @@ void Game::StartOfGame()
     CreateMissile();
     CreateTractorBeam();
     CreateEnemyShip();
+    CreateExplosiveRock();
 }
 
 // Function runs each frame.
@@ -178,5 +179,19 @@ void Game::CreateEnemyShip()
         pEnemyShip->FindPlayer(pSpaceship);
         ObjectManager::instance.AddItem(pEnemyShip);
         m_enemyShip.push_back(pEnemyShip);
+    }
+}
+
+void Game::CreateExplosiveRock()
+{
+    int numExplosiveRocks = rand() % 20 + 15;
+
+    for (int i = 0; i < numExplosiveRocks; i++)
+    {
+        ExplosiveRock* pExplosiveRock = new ExplosiveRock(ObjectType::EXPLOSIVEROCK);
+        pExplosiveRock->Initialise();
+        pExplosiveRock->FindPlayer(pSpaceship);
+        ObjectManager::instance.AddItem(pExplosiveRock);
+        m_explosiveRock.push_back(pExplosiveRock);
     }
 }

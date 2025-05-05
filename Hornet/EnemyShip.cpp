@@ -1,23 +1,23 @@
 #include "EnemyShip.h"
 #include "Bullet.h"
 #include "ObjectManager.h"
-#include <iostream>
 #include "Explosion.h"
 
 //Constants
 const std::string ENEMY_SHIP_IMAGE = "assets/enemyship.png";
-const std::string BULLET_SOUND = "assets/zap.wav";
+const std::string ENEMY_BULLET_SOUND = "assets/alienshoot1.wav";
 const std::string EXPLOSION_SOUND = "assets/explosion3.wav";
+const int ENEMY_SHIP_DRAW_DEPTH = 2;
 const double ENEMY_RADIUS = 48;
 const double ENEMY_SIZE = 1.5;
 const int TOPBORDER = 900;
 const int BOTTOMBORDER = -900;
 const int LEFTBORDER = 3000;
-const int RIGHTBORDER = 9000;
+const int RIGHTBORDER = 6000;
 const double SHOOT_RANGE = 750;
 const double BULLET_MAGNITUDE = 65;
 const double BULLET_SPEED = 700;
-const double SHOOT_DELAY = 0.5;
+const double SHOOT_DELAY = 2;
 
 
 EnemyShip::EnemyShip(ObjectType objType) : GameObject(ObjectType::ENEMYSHIP)
@@ -32,7 +32,7 @@ void EnemyShip::Initialise()
     m_scale = ENEMY_SIZE;
     m_isPlayerInRange = false;
 
-    m_enemySpawnXpos = rand() % 3001 + 4000;
+    m_enemySpawnXpos = rand() % 3001 + 3000;
     m_enemySpawnYpos = rand() % 2001 - 1000;
     m_position.set(Vector2D(m_enemySpawnXpos, m_enemySpawnYpos));
 
@@ -42,11 +42,12 @@ void EnemyShip::Initialise()
 
     //Bullet
     m_shootdelay = SHOOT_DELAY;
-    m_bulletSound = HtAudio::instance.LoadSound(BULLET_SOUND.c_str());
+    m_bulletSound = HtAudio::instance.LoadSound(ENEMY_BULLET_SOUND.c_str());
 
     //Explosion
     m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND.c_str());
 
+    SetDrawDepth(ENEMY_SHIP_DRAW_DEPTH);
     SetCollidable();
     SetHandleEvents();
     m_collisionShape.PlaceAt(m_position, ENEMY_RADIUS);
@@ -151,6 +152,7 @@ void EnemyShip::ProcessCollision(GameObject& other)
 {
     if (other.GetType() == ObjectType::BULLET)
     {
+        other.Deactivate();
         Deactivate();
         Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
         p_Explosion->Initialise(m_position);

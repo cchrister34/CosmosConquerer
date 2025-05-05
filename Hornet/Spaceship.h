@@ -19,8 +19,8 @@ public:
     void TractorBeamPull(Vector2D pull);
     void Trap();
     void Release();
-    double GetHealth();
-    bool IsDead();
+    double GetHealth() const;
+    bool IsDead() const;
 private:
     Vector2D m_velocity;
     Vector2D m_acceleration;

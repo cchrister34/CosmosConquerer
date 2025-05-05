@@ -58,7 +58,7 @@ https://opengameart.org/content/starsspace-background
 Asteroid.png by Phaelax from OpenGameArt.org
 https://opengameart.org/content/asteroids
 
-Beams.png by Rawdanitsu from OpenGameArt.org
+Beams.png & enemybullet.pmg by Rawdanitsu from OpenGameArt.org
 https://opengameart.org/content/lasers-and-beams
 
 flare.png by Clint Bellanger from OpenGameArt.org
@@ -79,7 +79,14 @@ https://opengameart.org/content/item-pickup-key
 missile.wav from theMinesAreShakin from OpenGameArt.org
 https://opengameart.org/content/rocket-engine
 
-missile.png & 
+missile.png & enemyship.png from lil-cthulhu.itch.io
 https://lil-cthulhu.itch.io/space-shooter-asset-pack
 
+tractorbeam.wav Umplix from OpenGameArt.org
+https://opengameart.org/content/hovermobile-sfx
 
+Zap.wav kenney.nl from opengameart.org Sound edited from the original.
+https://opengameart.org/content/63-digital-sound-effects-lasers-phasers-space-etc
+
+Alienshoot1.wav Robin Lamb from OpenGameArt.org
+https://opengameart.org/content/space-shoot-sounds

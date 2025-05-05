@@ -26,7 +26,7 @@ void PickUp::Initialise()
     {
         m_position = SPEED_PICKUP_POS;
     }
-    else
+    else if (m_pickupType == PickUpType::FIRE_RATE)
     {
         m_position = SHOOT_PICKUP_POS;
     }

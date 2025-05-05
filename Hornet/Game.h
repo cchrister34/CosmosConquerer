@@ -15,6 +15,7 @@
 #include "Scene.h"
 #include "TractorBeam.h"
 #include "EnemyShip.h"
+#include "ExplosiveRock.h"
 
 
 // 17/06/2023
@@ -70,6 +71,7 @@ private:
     Missile* pMissile = nullptr;
     std::vector<TractorBeam*> pTractorBeam;
     std::vector<EnemyShip*> m_enemyShip;
+    std::vector<ExplosiveRock*> m_explosiveRock;
 
     //Functions to create the game objects using the object manager
     //Functions will be called by StartOfGame for a cleaner look and improved cohesion and reduced coupling
@@ -82,6 +84,7 @@ private:
     void CreateMissile();
     void CreateTractorBeam();
     void CreateEnemyShip();
+    void CreateExplosiveRock();
 
 };
 
