@@ -41,6 +41,7 @@ void Game::Update(double frametime)
     ObjectManager::instance.UpdateAll(frametime);
     ObjectManager::instance.ProcessCollisions();
     ObjectManager::instance.RenderAll();
+    
 #ifdef _DEBUG
     ObjectManager::instance.CycleDebugObject();
     ObjectManager::instance.RenderDebug();
@@ -83,12 +84,8 @@ void Game::OnResume()
 void Game::EndOfGame()
 {
 
-
-
     //This line automatically deletes all managed objects
     ObjectManager::instance.DeleteAllObjects();
-    pSpaceship = nullptr;
-    m_enemyShip.clear();
 }
 
 void Game::EndOfProgram()
@@ -144,7 +141,11 @@ void Game::CreateMissile()
 {
     Missile* pMissile = new Missile(ObjectType::MISSILE);
     pMissile->Initialise();
-    pMissile->SetTarget(pSpaceship);
+    //Safety check to avoid crashes 
+    if (pSpaceship != nullptr)
+    {
+      pMissile->SetTarget(pSpaceship);
+    }
     ObjectManager::instance.AddItem(pMissile);
 }
 
@@ -162,8 +163,11 @@ void Game::CreateTractorBeam()
     {
         TractorBeam* pTractorBeam = new TractorBeam(ObjectType::TRACTORBEAM);
         pTractorBeam->Initialise(position);
-        //Very important line, cannot be used in scene.cpp without causing dependencies
-        pTractorBeam->PullTarget(pSpaceship);
+        if (pSpaceship != nullptr)
+        {
+            //Very important line, cannot be used in scene.cpp without causing dependencies
+            pTractorBeam->PullTarget(pSpaceship);
+        }
         ObjectManager::instance.AddItem(pTractorBeam);
     }
 }
@@ -176,7 +180,10 @@ void Game::CreateEnemyShip()
     {
         EnemyShip* pEnemyShip = new EnemyShip(ObjectType::ENEMYSHIP);
         pEnemyShip->Initialise();
-        pEnemyShip->FindPlayer(pSpaceship);
+        if (pSpaceship != nullptr)
+        {
+            pEnemyShip->FindPlayer(pSpaceship);
+        }
         ObjectManager::instance.AddItem(pEnemyShip);
         m_enemyShip.push_back(pEnemyShip);
     }
@@ -190,7 +197,10 @@ void Game::CreateExplosiveRock()
     {
         ExplosiveRock* pExplosiveRock = new ExplosiveRock(ObjectType::EXPLOSIVEROCK);
         pExplosiveRock->Initialise();
-        pExplosiveRock->FindPlayer(pSpaceship);
+        if (pSpaceship != nullptr)
+        {
+            pExplosiveRock->FindPlayer(pSpaceship);
+        }
         ObjectManager::instance.AddItem(pExplosiveRock);
         m_explosiveRock.push_back(pExplosiveRock);
     }

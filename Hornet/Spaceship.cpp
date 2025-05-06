@@ -6,7 +6,6 @@
 #include "ObjectManager.h"
 #include "Explosion.h"
 #include "Rock.h"
-#include <iostream>
 
 //Constants
 const Vector2D START_SPAWN_POS(0, 0);
@@ -17,9 +16,9 @@ const Vector2D STUCK_VELOCITY(0, 0);
 const double SHIP_HIT_POINTS = 100;
 const double CAMERA_VELOCITY = 3.0;
 const double CAMERA_FRICTION = 2.0;
-const double THRUST_STRENGTH = 90.0;
-const int ROTATION_SPEED = 180;
-const double ANGULAR_FRICTION = 0.25;
+const double THRUST_STRENGTH = 150.0;
+const int ROTATION_SPEED = 110;
+const double ANGULAR_FRICTION = 0.5;
 const double BULLET_DELAY = 0.3;
 const double SHIP_SIZE = 1.25;
 const double SHIP_RADIUS = 48;

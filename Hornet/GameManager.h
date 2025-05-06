@@ -11,17 +11,21 @@ public:
     void Update(double frametime)override;
     void Render()override;
     void HandleEvent(Event evt)override;
+    void DisplayGameOver();
+    void DisplayLevelComplete();
 private:
     int m_score;
     int m_lives;
     PictureIndex m_livesImage;
     PictureIndex m_speedImage;
     PictureIndex m_shootImage;
+    PictureIndex m_healthImage;
     PickUpType m_collectedPickup;
     bool m_hasPickup;
-    Spaceship* m_respawnedSpaceship;
     double m_dynamicShipHealth;
     Rectangle2D m_healthBar;
     Rectangle2D m_healthBarBackground;
+    Vector2D m_healthBarPos;
     double m_healthBarWidth;
+    bool m_isGameOver;
 };

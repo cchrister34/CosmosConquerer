@@ -56,7 +56,7 @@ void Missile::Update(double frametime)
         {
             //Check to see if spaceship is active
             //If not checked game crashes if spaceship was destoryed before spawn timer runs out
-            if (m_pTarget->IsActive() == true)
+            if (m_pTarget != nullptr)
             {
                 m_targetLocation = m_pTarget->GetPosition();
                 //Where the missile spawns relative to the shapeship
@@ -104,6 +104,19 @@ void Missile::HandleEvent(Event evt)
 {
     //Using a messaging system to avoid a bad pointer to the spaceship object
     if (evt.type == EventType::OBJECTDESTROYED && evt.pSource == m_pTarget)
+    {
+        m_pTarget = nullptr;
+    }
+
+    if (evt.type == EventType::OBJECTCREATED)
+    {
+        if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
+        {
+            m_pTarget = static_cast<Spaceship*>(evt.pSource);
+        }
+    }
+
+    if (evt.type == EventType::GAMEOVER)
     {
         m_pTarget = nullptr;
     }

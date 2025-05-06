@@ -49,14 +49,14 @@ void ExplosiveRock::Update(double frametime)
 {
     if (m_pTarget == nullptr)
     {
-        return;
+        Deactivate();
     }
 
     //A check to see if spaceship is within a specific distance before becoming active 
     //Since the rocks explode on collision by the time the player reaches their position theyve all collided
     //Also helps free up sound channels as they are limited
     //Occasionally one will initially share a spawn with a tile and cause a explosion sound upon starting the game
-    if (m_pTarget->IsActive() == true)
+    if (m_pTarget != nullptr)
     {
         m_playerLocation = m_pTarget->GetPosition();
         m_distance = (m_playerLocation - m_position).magnitude();
@@ -148,5 +148,10 @@ void ExplosiveRock::HandleEvent(Event evt)
         }
     }
 
+    if (evt.type == EventType::GAMEOVER)
+    {
+        m_pTarget = nullptr;
+        m_isActive = false;
+    }
 
 }

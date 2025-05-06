@@ -73,7 +73,7 @@ void EnemyShip::Update(double frametime)
     m_angle = m_velocity.angle();
 
     //Spaceship Tracking
-    if (m_pTarget->IsActive() == true)
+    if (m_pTarget != nullptr)
     {
         m_playerLocation = m_pTarget->GetPosition();
         m_distance = (m_playerLocation - m_position).magnitude();

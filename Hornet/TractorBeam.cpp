@@ -60,7 +60,7 @@ void TractorBeam::Update(double frametime)
         Deactivate();
     }
 
-    if (m_pTarget->IsActive() == true)
+    if (m_pTarget != nullptr)
     {
         m_targetLocation = m_pTarget->GetPosition();
         //Size of the distance between the tractor beam and the spaceship objects
@@ -116,6 +116,11 @@ void TractorBeam::HandleEvent(Event evt)
         {
             m_pTarget = static_cast<Spaceship*>(evt.pSource);
         }
+    }
+
+    if (evt.type == EventType::GAMEOVER)
+    {
+        m_pTarget = nullptr;
     }
 }
 
