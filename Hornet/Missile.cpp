@@ -120,6 +120,12 @@ void Missile::HandleEvent(Event evt)
     {
         m_pTarget = nullptr;
     }
+
+
+    if (evt.type == EventType::MISSIONCOMPLETE)
+    {
+        m_pTarget = nullptr;
+    }
 }
 
 IShape2D& Missile::GetCollisionShape()

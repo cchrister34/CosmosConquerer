@@ -153,7 +153,6 @@ void EnemyShip::ProcessCollision(GameObject& other)
 {
     if (other.GetType() == ObjectType::BULLET)
     {
-        other.Deactivate();
         Deactivate();
         Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
         p_Explosion->Initialise(m_position);
@@ -181,6 +180,12 @@ void EnemyShip::HandleEvent(Event evt)
         {
             m_pTarget = static_cast<Spaceship*>(evt.pSource);
         }
+    }
+
+
+    if (evt.type == EventType::MISSIONCOMPLETE)
+    {
+        m_pTarget = nullptr;
     }
 }
 

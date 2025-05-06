@@ -13,18 +13,19 @@ const Vector2D START_VELOCITY(0, 0);
 const Vector2D START_CAMERA_POS(0, 0);
 const Vector2D START_CAMERA_VELOCITY(0, 0);
 const Vector2D STUCK_VELOCITY(0, 0);
+const double WIN_X_POS = 12000;
 const double SHIP_HIT_POINTS = 100;
 const double CAMERA_VELOCITY = 3.0;
 const double CAMERA_FRICTION = 2.0;
-const double THRUST_STRENGTH = 150.0;
-const int ROTATION_SPEED = 110;
-const double ANGULAR_FRICTION = 0.5;
+const double THRUST_STRENGTH = 125.0;
+const int ROTATION_SPEED = 170;
+const double ANGULAR_FRICTION = 0.7;
 const double BULLET_DELAY = 0.3;
 const double SHIP_SIZE = 1.25;
 const double SHIP_RADIUS = 48;
 const double SHIP_ANGLE = 90;
 const double FRICTION_STRENGTH = 0.5;
-const double BULLET_MAGNITUDE = 60;
+const double BULLET_MAGNITUDE = 80;
 const double BULLET_SPEED = 800.0;
 const double FLARE_DELAY = 1;
 const double FLARE_MAGNITUTE = -20;
@@ -221,6 +222,16 @@ void Spaceship::Update(double frametime)
     {
         m_velocity.YValue = -m_velocity.YValue;
     }
+    
+    //Win condition
+    if (m_position.XValue > WIN_X_POS)
+    {
+        hasReachedWinPos = true;
+        Event evt;
+        evt.type = EventType::MISSIONCOMPLETE;
+        evt.pSource = this;
+        ObjectManager::instance.HandleEvent(evt);
+    }
 
     m_collisionShape.PlaceAt(m_position, SHIP_RADIUS);
 }
@@ -315,10 +326,12 @@ void Spaceship::Initialise()
     m_health = SHIP_HIT_POINTS;
     m_scale = SHIP_SIZE; 
     m_angle = SHIP_ANGLE;
+    m_isFrictionActive = true;
     m_spawnImmunity = IMMUNITY_TIMER;
     m_cameraPosition = START_CAMERA_POS;
     m_cameraVelocity = START_CAMERA_VELOCITY;
     m_engineSound = HtAudio::instance.LoadSound(ENGINE_SOUND.c_str());
+    hasReachedWinPos = false;
 
     //Bullet
     m_shootdelay = BULLET_DELAY;
@@ -332,6 +345,7 @@ void Spaceship::Initialise()
     m_flareSound = HtAudio::instance.LoadSound(FLARE_SOUND.c_str());
 
     //Pickups
+    m_hasPickup = false;
     m_dynamicbulletDelay = BULLET_DELAY;
     m_speedMultiplier = BASE_PICKUP_MULTIPLIER;
     m_shootMultiplier = BASE_PICKUP_MULTIPLIER;
@@ -423,4 +437,3 @@ bool Spaceship::IsDead() const
 {
     return m_health <= 0;
 }
-

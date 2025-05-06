@@ -66,7 +66,9 @@ IShape2D& Bullet::GetCollisionShape()
 
 void Bullet::ProcessCollision(GameObject& other)
 {
-    if (other.GetType() == ObjectType::ROCK)
+    ObjectType type = other.GetType();
+    if (type == ObjectType::TILE || type == ObjectType::ROCK || type == ObjectType::EXPLOSIVEROCK
+        || type == ObjectType::SPACESHIP || type == ObjectType::TRACTORBEAM)
     {
         Deactivate();
     }

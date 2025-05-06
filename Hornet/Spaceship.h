@@ -51,8 +51,8 @@ private:
     int m_flareSoundChannel;
     SoundIndex m_explosionBang;
     int m_explosionSoundChannel;
-    bool m_isFrictionActive = true;
-    bool m_hasPickup = false;
+    bool m_isFrictionActive;
+    bool m_hasPickup;
     PickUpType m_collectedPickup;
     double m_speedMultiplier;
     double m_shootMultiplier;
@@ -65,4 +65,5 @@ private:
     double m_relativeSpeed;
     double m_findRockSize;
     double m_rockCollisionDamage;
+    bool hasReachedWinPos;
 };

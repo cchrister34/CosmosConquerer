@@ -8,7 +8,7 @@
 
 //Constants
 const int START_SCORE = 0;
-const int START_LIVES = 1;
+const int START_LIVES = 3;
 const double SHIP_HEALTH = 100;
 const double MAX_HP_BAR_WIDTH = 600;
 const double HP_BAR_TOP = 880;
@@ -27,9 +27,10 @@ const int ENEMY_SHIP_SCORE_INCREASE = 250;
 const int EXPLOSIVE_ROCK_SCORE_INCREASE = 150;
 const int DEATH_SCORE_PENALTY = 500;
 const Vector2D GAME_FINISHED_MSG_POS(0, 300);
-const Vector2D  RETURN_MESSAGE(0, 100);
-const Vector2D  FINALSCORE_MESSAGE(-660, 150);
-const Vector2D  FINALSCORE_POS(300, 150);
+const Vector2D RETURN_MESSAGE(75, 100);
+const Vector2D FINALSCORE_MESSAGE(-100, 250);
+const Vector2D FINALSCORE_POS(150, 250);
+const Vector2D WIN_MESSAGE_POS(-350, 500);
 const std::string SHIP_IMAGE = "assets/spaceship.png";
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
 const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
@@ -45,6 +46,7 @@ void GameManager::Initialise()
     m_lives = START_LIVES;
     m_dynamicShipHealth = SHIP_HEALTH;
     m_isGameOver = false;
+    m_isGameWon = false;
     
     m_hasPickup = false;
     m_collectedPickup = PickUpType::NONE;
@@ -112,6 +114,12 @@ void GameManager::Render()
         DisplayGameOver();
     }
 
+    //Game Won
+    if (m_isGameWon)
+    {
+        DisplayLevelComplete();
+    }
+
     HtCamera::instance.UseCamera(true);
 }
 
@@ -159,6 +167,14 @@ void GameManager::HandleEvent(Event evt)
             }
         }
     }
+    else if (evt.type == EventType::MISSIONCOMPLETE)
+    {
+        if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
+        {
+            m_isGameWon = true;
+            ObjectManager::instance.DeactivateType(ObjectType::SPACESHIP);
+        }
+    }
     else if (evt.type == EventType::OBJECTCOLLECTED)
     {
         if (evt.pSource && evt.pSource->GetType() == ObjectType::PICKUP)
@@ -199,6 +215,7 @@ void GameManager::DisplayGameOver()
 
 void GameManager::DisplayLevelComplete()
 {
+    HtGraphics::instance.WriteTextAligned(WIN_MESSAGE_POS, "MISSION COMPLETE", HtGraphics::PURPLE, FONT, 2);
     HtGraphics::instance.WriteTextAligned(FINALSCORE_MESSAGE, "Final Score: ", HtGraphics::PURPLE, FONT);
     HtGraphics::instance.WriteIntAligned(FINALSCORE_POS, m_score, HtGraphics::PURPLE, FONT);
     HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, FONT);

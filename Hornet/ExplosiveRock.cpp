@@ -10,7 +10,7 @@ const double ROCKRADIUS = 36;
 const double EXPLOSIVE_ROCK_SIZE = 1.5;
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
-const int BORDERLEFT = -6000;
+const int BORDERLEFT = -5000;
 const int BORDERRIGHT = 9000;
 
 ExplosiveRock::ExplosiveRock(ObjectType objType) : GameObject(ObjectType::EXPLOSIVEROCK)
@@ -50,6 +50,7 @@ void ExplosiveRock::Update(double frametime)
     if (m_pTarget == nullptr)
     {
         Deactivate();
+        m_isActive = false;
     }
 
     //A check to see if spaceship is within a specific distance before becoming active 
@@ -68,7 +69,7 @@ void ExplosiveRock::Update(double frametime)
     }
 
     //If inactive return to the start of Update()
-    if (!m_isActive)
+    else if (!m_isActive)
         return;
 
     m_position = m_position + m_velocity * frametime;
@@ -144,7 +145,6 @@ void ExplosiveRock::HandleEvent(Event evt)
         if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
         {
             m_pTarget = static_cast<Spaceship*>(evt.pSource);
-            m_isActive = false;
         }
     }
 
@@ -154,4 +154,9 @@ void ExplosiveRock::HandleEvent(Event evt)
         m_isActive = false;
     }
 
+    if (evt.type == EventType::MISSIONCOMPLETE)
+    {
+        m_pTarget = nullptr;
+        m_isActive = false;
+    }
 }

@@ -28,4 +28,5 @@ private:
     Vector2D m_healthBarPos;
     double m_healthBarWidth;
     bool m_isGameOver;
+    bool m_isGameWon;
 };

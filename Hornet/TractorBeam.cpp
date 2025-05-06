@@ -122,6 +122,12 @@ void TractorBeam::HandleEvent(Event evt)
     {
         m_pTarget = nullptr;
     }
+
+
+    if (evt.type == EventType::MISSIONCOMPLETE)
+    {
+        m_pTarget = nullptr;
+    }
 }
 
 
