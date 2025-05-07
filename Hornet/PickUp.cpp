@@ -6,9 +6,11 @@
 //Constants
 const Vector2D SPEED_PICKUP_POS(3200, 550);
 const Vector2D SHOOT_PICKUP_POS(5000, -500);
+const Vector2D HEALTH_PICKUP_POS(5750, 0);
 double PICKUP_RADIUS = 64;
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
 const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
+const std::string HEALTH_PICKUP_IMAGE = "assets/powerup3.png";
 const std::string PICK_UP_SOUND = "assets/pickup.mp3";
 
 PickUp::PickUp(PickUpType pickupType) : GameObject(ObjectType::PICKUP), m_pickupType(pickupType)
@@ -19,6 +21,7 @@ void PickUp::Initialise()
 {
     m_SpeedPickUp = HtGraphics::instance.LoadPicture(SPEED_PICKUP_IMAGE.c_str());
     m_ShootPickUp = HtGraphics::instance.LoadPicture(SHOOT_PICKUP_IMAGE.c_str());
+    m_HealthPickup = HtGraphics::instance.LoadPicture(HEALTH_PICKUP_IMAGE.c_str());
     m_pickUpSound = HtAudio::instance.LoadSound(PICK_UP_SOUND.c_str());
 
     //uses the enum class to set the position of the pick up
@@ -26,9 +29,13 @@ void PickUp::Initialise()
     {
         m_position = SPEED_PICKUP_POS;
     }
-    else if (m_pickupType == PickUpType::FIRE_RATE)
+    if (m_pickupType == PickUpType::FIRE_RATE)
     {
         m_position = SHOOT_PICKUP_POS;
+    }
+    if (m_pickupType == PickUpType::HEALTH)
+    {
+        m_position = HEALTH_PICKUP_POS;
     }
 
     SetCollidable();
@@ -65,9 +72,13 @@ void PickUp::Render()
     {
         HtGraphics::instance.DrawAt(m_position, m_SpeedPickUp);
     }
-    else
+    if (m_pickupType == PickUpType::FIRE_RATE)
     {
         HtGraphics::instance.DrawAt(m_position, m_ShootPickUp);
+    }
+    if (m_pickupType == PickUpType::HEALTH)
+    {
+        HtGraphics::instance.DrawAt(m_position, m_HealthPickup);
     }
 }
 

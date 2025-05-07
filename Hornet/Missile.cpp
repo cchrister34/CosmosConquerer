@@ -10,6 +10,7 @@ const double MISSILE_ANGLE = 90;
 const double MISSILE_SIZE = 3;
 const double TOP_SPEED = 500; 
 const double SPAWN_DELAY = 15;
+const double SPAWN_DELAY_RESET = 0.0;
 const double MISSILE_WIDTH = 128;
 const double MISSILE_HEIGHT = 64;
 const double HALF_MISSILE_WIDTH = MISSILE_WIDTH / 2.0;
@@ -43,6 +44,7 @@ void Missile::SetTarget(Spaceship* pTarget)
 
 void Missile::Update(double frametime)
 {
+
     //Safety check to avoid a dangling pointer
     if (m_pTarget == nullptr)
     {
@@ -91,6 +93,7 @@ void Missile::Update(double frametime)
     if (!m_pTarget)
     {
         Deactivate();
+        m_hasMissileSpawned = false;
         if (isMissilePlaying)
         {
             HtAudio::instance.Stop(m_missileSoundChannel);
@@ -113,6 +116,16 @@ void Missile::HandleEvent(Event evt)
         if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
         {
             m_pTarget = static_cast<Spaceship*>(evt.pSource);
+            m_pTarget = static_cast<Spaceship*>(evt.pSource);
+            m_hasMissileSpawned = false;
+            m_spawnDelay = 0.0;
+            m_position = OFF_SCREEN_SPAWN;
+            if (isMissilePlaying)
+            {
+                HtAudio::instance.Stop(m_missileSoundChannel);
+                isMissilePlaying = false;
+            }
+
         }
     }
 

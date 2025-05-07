@@ -151,6 +151,8 @@ void GameManager::HandleEvent(Event evt)
 
                 m_lives -= 1;
                 m_score -= DEATH_SCORE_PENALTY;
+                m_hasPickup = false;
+                m_dynamicShipHealth = SHIP_HEALTH;
 
                 Event evt;
                 evt.type = EventType::OBJECTCREATED;

@@ -29,4 +29,5 @@ private:
     double m_healthBarWidth;
     bool m_isGameOver;
     bool m_isGameWon;
+    Spaceship* m_respawnedSpaceship;
 };

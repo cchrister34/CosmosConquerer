@@ -79,7 +79,7 @@ https://opengameart.org/content/item-pickup-key
 missile.wav from theMinesAreShakin from OpenGameArt.org
 https://opengameart.org/content/rocket-engine
 
-missile.png & enemyship.png from lil-cthulhu.itch.io
+missile.png & enemyship.png & Explosiverock.png from lil-cthulhu.itch.io
 https://lil-cthulhu.itch.io/space-shooter-asset-pack
 
 tractorbeam.wav Umplix from OpenGameArt.org
@@ -90,3 +90,6 @@ https://opengameart.org/content/63-digital-sound-effects-lasers-phasers-space-et
 
 Alienshoot1.wav Robin Lamb from OpenGameArt.org
 https://opengameart.org/content/space-shoot-sounds
+
+beampull1, 2 and 3 Skorpio from OpenGameArt.org
+https://opengameart.org/content/sci-fi-effects
