@@ -21,6 +21,8 @@ public:
     void Release();
     double GetHealth() const;
     bool IsDead() const;
+    void Explode();
+    void Shoot();
 private:
     Vector2D m_velocity;
     Vector2D m_acceleration;

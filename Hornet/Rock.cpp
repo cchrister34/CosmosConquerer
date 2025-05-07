@@ -11,6 +11,15 @@ const double ROCKRADIUS = 52;
 const double ROCKSIZE = 0.75;
 const double ROCKFRAGMENT = 0.3;
 const int FRAG_SPEED = 10;
+const int RAND_IMAGE = 3;
+const int RAND_ANGLE = 360;
+const int RAND_X_POS1 = -2200;
+const int RAND_X_POS2 = 200;
+const int RAND_SPEED1 = 111;
+const int RAND_SPEED2 = 40;
+const int RAND_FRAG_SPEED1 = 51;
+const int RAND_FRAG_SPEED2 = 20;
+const int ROCK_AMOUNT = 3;
 
 Rock::Rock(ObjectType objType) : GameObject(ObjectType::ROCK)
 {
@@ -43,23 +52,23 @@ void Rock::Update(double frametime)
 
 void Rock::Initialise()
 {
-    const char* rockImages[3] =
+    const char* rockImages[RAND_IMAGE] =
     {
         "assets/asteroid1.png",
         "assets/asteroid2.png",
         "assets/asteroid3.png"
     };
-    int randImage = rand() % 3;
+    int randImage = rand() % RAND_IMAGE;
     LoadImage(rockImages[randImage]);
 
     m_scale = ROCKSIZE;
 
-    int posAngle = rand() % 360;
-    int posDistance = rand() % 2201 -200;
+    int posAngle = rand() % RAND_ANGLE;
+    int posDistance = rand() % RAND_X_POS1 - RAND_X_POS2;
     m_position.setBearing(posAngle, posDistance);
 
-    int angle = rand() % 360;
-    int speed = rand() % 111 + 40;
+    int angle = rand() % RAND_ANGLE;
+    int speed = rand() % RAND_SPEED1 + RAND_SPEED2;
     m_velocity.setBearing(angle, speed);
 
     SetCollidable();
@@ -74,20 +83,20 @@ IShape2D& Rock::GetCollisionShape()
 
 void Rock::InitialiseRockFragment(const Vector2D& position)
 {
-    const char* rockImages[3] =
+    const char* rockImages[RAND_IMAGE] =
     {
         "assets/asteroid1.png",
         "assets/asteroid2.png",
         "assets/asteroid3.png"
     };
-    int randImage = rand() % 3;
+    int randImage = rand() % RAND_IMAGE;
     LoadImage(rockImages[randImage]);
 
     m_position = position;
     m_scale = ROCKFRAGMENT;
 
-    int angle = rand() % 360;
-    int speed = rand() % 51 + 20;
+    int angle = rand() % RAND_ANGLE;
+    int speed = rand() % RAND_FRAG_SPEED1 + RAND_FRAG_SPEED2;
     m_velocity.setBearing(angle, speed);
 
 }
@@ -97,10 +106,10 @@ void Rock::Die()
 {
     Deactivate();
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < ROCK_AMOUNT; i++)
     {
         Rock* pFragRock = new Rock(ObjectType::ROCK);
-        int angle = rand() % 360;
+        int angle = rand() % RAND_ANGLE;
         int speed = FRAG_SPEED;
         m_rockFragScatter.setBearing(angle, speed);
         pFragRock->InitialiseRockFragment(m_position + m_rockFragScatter);

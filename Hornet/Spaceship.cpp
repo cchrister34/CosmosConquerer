@@ -17,7 +17,7 @@ const double WIN_X_POS = 12000;
 const double SHIP_HIT_POINTS = 100;
 const double CAMERA_VELOCITY = 3.0;
 const double CAMERA_FRICTION = 2.0;
-const double THRUST_STRENGTH = 150.0;
+const double THRUST_STRENGTH = 250.0;
 const int ROTATION_SPEED = 170;
 const double ANGULAR_FRICTION = 0.7;
 const double BULLET_DELAY = 0.3;
@@ -61,7 +61,6 @@ Spaceship::Spaceship(ObjectType objType) : GameObject(ObjectType::SPACESHIP)
 
 void Spaceship::Update(double frametime)
 {
-    m_position = m_position + m_velocity * frametime;
     m_shootdelay -= frametime;
     m_flareDelay -= frametime;
     m_spawnImmunity -= frametime;
@@ -122,9 +121,8 @@ void Spaceship::Update(double frametime)
     {
         m_friction = m_velocity * FRICTION_STRENGTH;
         m_velocity = m_velocity - m_friction * frametime;
-        m_position = m_position + m_velocity * frametime;
     }
-
+    m_position = m_position + m_velocity * frametime;
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_A))
     {
@@ -142,18 +140,7 @@ void Spaceship::Update(double frametime)
     //Bullets
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_SPACE) && m_shootdelay < 0)
     {
-        m_bulletPosition.setBearing(m_angle, BULLET_MAGNITUDE);
-        m_bulletPosition = m_bulletPosition + m_position;
-        Bullet* pBullet;
-        pBullet = new Bullet(ObjectType::BULLET);
-        Vector2D bulletPosition = m_bulletPosition;
-        m_bulletSpeed.setBearing(m_angle, BULLET_SPEED);
-        m_bulletSpeed = m_bulletSpeed + m_velocity;
-        Vector2D bulletVelocity = m_bulletSpeed;
-        pBullet->Initialise(bulletPosition, bulletVelocity);
-        ObjectManager::instance.AddItem(pBullet);
-        m_shootdelay = m_dynamicbulletDelay;
-        m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
+        Shoot();
     }
 
     //Flares
@@ -262,18 +249,7 @@ void Spaceship::ProcessCollision(GameObject& other)
         }
         if (m_health <= 0)
         {
-            Deactivate();
-            IsDead();
-            HtAudio::instance.Stop(m_engineSoundChannel);
-            Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
-            p_Explosion->Initialise(m_position);
-            ObjectManager::instance.AddItem(p_Explosion);
-            m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
-            Event evt;
-            evt.type = EventType::OBJECTDESTROYED;
-            evt.pSource = this;
-            evt.position = m_position;
-            ObjectManager::instance.HandleEvent(evt);
+            Explode();
         }
     }
 
@@ -288,52 +264,14 @@ void Spaceship::ProcessCollision(GameObject& other)
 
         if (m_health <= 0)
         {
-            Deactivate();
-            IsDead();
-            HtAudio::instance.Stop(m_engineSoundChannel);
-            Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
-            p_Explosion->Initialise(m_position);
-            ObjectManager::instance.AddItem(p_Explosion);
-            m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
-            Event evt;
-            evt.type = EventType::OBJECTDESTROYED;
-            evt.pSource = this;
-            evt.position = m_position;
-            ObjectManager::instance.HandleEvent(evt);
+            Explode();
         }
     }
 
-    if (other.GetType() == ObjectType::MISSILE)
-    {
-        Deactivate();
-        IsDead();
-        HtAudio::instance.Stop(m_engineSoundChannel);
-        Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
-        p_Explosion->Initialise(m_position);
-        ObjectManager::instance.AddItem(p_Explosion);
-        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
-        Event evt;
-        evt.type = EventType::OBJECTDESTROYED;
-        evt.pSource = this;
-        evt.position = m_position;
-        ObjectManager::instance.HandleEvent(evt);
-    }
-
     ObjectType type = other.GetType();
-    if (type == ObjectType::TILE || type == ObjectType::EXPLOSIVEROCK)
+    if (type == ObjectType::TILE || type == ObjectType::EXPLOSIVEROCK || type == ObjectType::MISSILE)
     {
-        Deactivate();
-        IsDead();
-        HtAudio::instance.Stop(m_engineSoundChannel);
-        Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
-        p_Explosion->Initialise(m_position);
-        ObjectManager::instance.AddItem(p_Explosion);
-        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
-        Event evt;
-        evt.type = EventType::OBJECTDESTROYED;
-        evt.pSource = this;
-        evt.position = m_position;
-        ObjectManager::instance.HandleEvent(evt);
+        Explode();
     }
 }
 
@@ -402,6 +340,7 @@ void Spaceship::UseSpeedBoost()
 
 void Spaceship::UseShootBoost()
 {
+    //When activating shooting boost the bullet delay is divided by 2 therefore increasing the firerate
     m_dynamicbulletDelay = BULLET_DELAY / SHOOT_PICKUP_MULTIPLIER;
     m_pickupTimer = PICK_UP_TIMER;
 }
@@ -455,4 +394,37 @@ double Spaceship::GetHealth() const
 bool Spaceship::IsDead() const
 {
     return m_health <= 0;
+}
+
+void Spaceship::Explode()
+{
+    Deactivate();
+    IsDead();
+    HtAudio::instance.Stop(m_engineSoundChannel);
+    Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
+    p_Explosion->Initialise(m_position);
+    ObjectManager::instance.AddItem(p_Explosion);
+    m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+
+    Event evt;
+    evt.type = EventType::OBJECTDESTROYED;
+    evt.pSource = this;
+    evt.position = m_position;
+    ObjectManager::instance.HandleEvent(evt);
+}
+
+void Spaceship::Shoot()
+{
+    m_bulletPosition.setBearing(m_angle, BULLET_MAGNITUDE);
+    m_bulletPosition = m_bulletPosition + m_position;
+    Bullet* pBullet;
+    pBullet = new Bullet(ObjectType::BULLET);
+    Vector2D bulletPosition = m_bulletPosition;
+    m_bulletSpeed.setBearing(m_angle, BULLET_SPEED);
+    m_bulletSpeed = m_bulletSpeed + m_velocity;
+    Vector2D bulletVelocity = m_bulletSpeed;
+    pBullet->Initialise(bulletPosition, bulletVelocity);
+    ObjectManager::instance.AddItem(pBullet);
+    m_shootdelay = m_dynamicbulletDelay;
+    m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
 }

@@ -150,6 +150,7 @@ void Missile::ProcessCollision(GameObject& other)
 {
     if (other.GetType() == ObjectType::FLARE)
     {
+        //This means that the missile will not respawn if destroyed by flares
         Deactivate();
         if (isMissilePlaying)
         {
