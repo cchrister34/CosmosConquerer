@@ -8,9 +8,9 @@
 #include "Rock.h"
 
 //Constants
-const Vector2D START_SPAWN_POS(0, 0);
+const Vector2D START_SPAWN_POS(-300, 0);
 const Vector2D START_VELOCITY(0, 0);
-const Vector2D START_CAMERA_POS(0, 0);
+const Vector2D START_CAMERA_POS(-300, 0);
 const Vector2D START_CAMERA_VELOCITY(0, 0);
 const Vector2D STUCK_VELOCITY(0, 0);
 const double WIN_X_POS = 12000;
@@ -34,7 +34,7 @@ const double FLARE_SPREAD = 20;
 const double FLARE_SPEED = 75;
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
-const int BORDERLEFT = -250;
+const int BORDERLEFT = -450;
 const int BORDERRIGHT = 12500;
 const double SPEED_PICKUP_MULTIPLIER = 1.5;
 const double SHOOT_PICKUP_MULTIPLIER = 2.0;
@@ -42,8 +42,7 @@ const double PICK_UP_TIMER = 5.0;
 const double BASE_PICKUP_MULTIPLIER = 1.0;
 const double REDUCED_PULL_SPEED = 10;
 const double TRACTOR_BEAM_SPEED_REDUCTION = 0.3;
-const double IMMUNITY_TIMER = 3;
-const double FADE_IN_TIME = 2.5;
+const double IMMUNITY_TIMER = 2;
 const double IMMUNE_TRANSPARENCY = 0.5;
 const int SHIP_TRANSPARENCY = 0;
 const double ROCK_DAMAGE = 0.2;
@@ -74,11 +73,10 @@ void Spaceship::Update(double frametime)
     {
         m_transparency =  SHIP_TRANSPARENCY;
     }
-    if (m_spawnImmunity > FADE_IN_TIME)
+    else
     {
-        m_transparency = IMMUNE_TRANSPARENCY * (m_spawnImmunity / FADE_IN_TIME);
+        m_transparency = IMMUNE_TRANSPARENCY;
     }
-
     //Camera
     //Since the game is a sidescroller the camera boundaries should match that of the screen which in this case is between -1000 and 1000
     m_topCameraBorder = HtCamera::instance.GetTopOfCameraArea();

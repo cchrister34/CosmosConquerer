@@ -208,7 +208,7 @@ void GameManager::HandleEvent(Event evt)
         }
     }
     else if (evt.type == EventType::SHOTEXPLOSIVEROCK)
-        if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
+        if (evt.pSource && evt.pSource->GetType() == ObjectType::EXPLOSIVEROCK)
         {
             m_score += EXPLOSIVE_ROCK_SCORE_INCREASE;
         }

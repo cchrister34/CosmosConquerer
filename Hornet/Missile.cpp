@@ -4,7 +4,7 @@
 //Constans 
 const std::string MISSILE_IMAGE = "assets/missile.png";
 const std::string MISSILE_SOUND = "assets/missile.wav";
-const Vector2D OFF_SCREEN_SPAWN(-2000, 0);
+const Vector2D OFF_SCREEN_SPAWN(-2500, 0);
 const Vector2D MISSILE_SPAWN_OFFSET(-1700, 0);
 const double MISSILE_ANGLE = 90;
 const double MISSILE_SIZE = 3;
