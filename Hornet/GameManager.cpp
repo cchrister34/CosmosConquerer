@@ -176,6 +176,7 @@ void GameManager::HandleEvent(Event evt)
         {
             m_isGameWon = true;
             ObjectManager::instance.DeactivateType(ObjectType::SPACESHIP);
+            HtAudio::instance.StopAllChannels();
         }
     }
     else if (evt.type == EventType::OBJECTCOLLECTED)

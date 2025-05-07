@@ -37,6 +37,7 @@ void ExplosiveRock::Initialise()
     m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND);
 
     SetCollidable();
+    SetHandleEvents();
     m_collisionShape.PlaceAt(m_position, ROCKRADIUS);
 }
 
@@ -52,8 +53,6 @@ void ExplosiveRock::Update(double frametime)
     if (m_pTarget == nullptr)
     {
         Deactivate();
-        m_isActive = false;
-        return;
     }
 
     //A check to see if spaceship is within a specific distance before becoming active 
@@ -70,10 +69,6 @@ void ExplosiveRock::Update(double frametime)
             m_isActive = true;
         }
     }
-
-    //If inactive return to the start of Update()
-    else if (!m_isActive)
-        return;
 
     if (m_isActive)
     {
@@ -161,6 +156,7 @@ void ExplosiveRock::HandleEvent(Event evt)
         if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
         {
             m_pTarget = static_cast<Spaceship*>(evt.pSource);
+            m_isActive = false;
         }
     }
 
