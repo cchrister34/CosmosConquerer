@@ -9,7 +9,7 @@ const Vector2D MISSILE_SPAWN_OFFSET(-1700, 0);
 const double MISSILE_ANGLE = 90;
 const double MISSILE_SIZE = 3;
 const double TOP_SPEED = 500; 
-const double SPAWN_DELAY = 30;
+const double SPAWN_DELAY = 15;
 const double MISSILE_WIDTH = 128;
 const double MISSILE_HEIGHT = 64;
 const double HALF_MISSILE_WIDTH = MISSILE_WIDTH / 2.0;

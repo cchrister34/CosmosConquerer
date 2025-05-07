@@ -4,11 +4,10 @@
 #include "HtCamera.h"
 #include "PickUp.h"
 #include "Missile.h"
-#include <iostream>
 
 //Constants
 const int START_SCORE = 0;
-const int START_LIVES = 0;
+const int START_LIVES = 2;
 const double SHIP_HEALTH = 100;
 const double MAX_HP_BAR_WIDTH = 600;
 const double HP_BAR_TOP = 880;
@@ -27,11 +26,12 @@ const int TRACTOR_BEAM_SCORE_INCREASE = 300;
 const int ENEMY_SHIP_SCORE_INCREASE = 250;
 const int EXPLOSIVE_ROCK_SCORE_INCREASE = 150;
 const int DEATH_SCORE_PENALTY = 500;
-const Vector2D GAME_FINISHED_MSG_POS(50, 200);
+const Vector2D GAME_FINISHED_MSG_POS(-375, 400);
 const Vector2D RETURN_MESSAGE(75, 100);
 const Vector2D FINALSCORE_MESSAGE(-100, 250);
 const Vector2D FINALSCORE_POS(150, 250);
-const Vector2D WIN_MESSAGE_POS(-350, 500);
+const Vector2D WIN_MESSAGE_POS(-375, 500);
+const Vector2D LIVES_POS(1100, 950);
 const std::string SHIP_IMAGE = "assets/spaceship.png";
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
 const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
@@ -74,7 +74,7 @@ void GameManager::Render()
     HtGraphics::instance.WriteTextAligned(TOP_LEFT_HEALTH_TEXT, "Health: ", HtGraphics::WHITE, FONT, FONT_SIZE);
     HtGraphics::instance.WriteIntAligned(TOP_LEFT, m_score, HtGraphics::WHITE, FONT, FONT_SIZE);
 
-    Vector2D livesPos(1100, 950); //not a const because it needs to be changed from certain events
+    Vector2D livesPos(LIVES_POS);
     for (int i = 0; i < m_lives; i++)
     {
         HtGraphics::instance.DrawAt(livesPos, m_livesImage);
@@ -210,7 +210,7 @@ void GameManager::HandleEvent(Event evt)
 
 void GameManager::DisplayGameOver()
 {
-    HtGraphics::instance.WriteTextCentered(GAME_FINISHED_MSG_POS, " MISSION FAILED ", HtGraphics::DARKRED, FONT, END_MESSAGE_FONT_SIZE);
+    HtGraphics::instance.WriteTextAligned(GAME_FINISHED_MSG_POS, "MISSION FAILED", HtGraphics::DARKRED, FONT, END_MESSAGE_FONT_SIZE);
     HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, FONT);
 }
 
