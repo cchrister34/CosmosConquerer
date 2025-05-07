@@ -49,6 +49,11 @@ const int SHIP_TRANSPARENCY = 0;
 const double ROCK_DAMAGE = 0.2;
 const double BULLET_DAMAGE = 0.1;
 const double ENGINE_VOLUME = 0.3;
+const int NO_IMMUNITY = 0;
+const int FLARE_DELAY_RESET = 0;
+const int FLARE_CENTER_INDEX = 1;
+const int SHOOT_DELAY_RESET = 0;
+const int DEAD_HEALTH_AMOUNT = 0;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
 const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
@@ -65,7 +70,7 @@ void Spaceship::Update(double frametime)
     m_flareDelay -= frametime;
     m_spawnImmunity -= frametime;
 
-    if (m_spawnImmunity < 0)
+    if (m_spawnImmunity < NO_IMMUNITY)
     {
         m_transparency =  SHIP_TRANSPARENCY;
     }
@@ -138,13 +143,13 @@ void Spaceship::Update(double frametime)
     m_angle += m_angularVelocity * frametime;
 
     //Bullets
-    if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_SPACE) && m_shootdelay < 0)
+    if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_SPACE) && m_shootdelay < SHOOT_DELAY_RESET)
     {
         Shoot();
     }
 
     //Flares
-    if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_F) && m_flareDelay < 0)
+    if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_F) && m_flareDelay < FLARE_DELAY_RESET)
     {
         //Flares or stored in this vector, could be useful later for programming homing missile
         std::vector<Flare*> flares;
@@ -158,7 +163,7 @@ void Spaceship::Update(double frametime)
         for (int i = 0; i < FLARE_AMOUNT; i++)
         {
             //finds the angle of the ship and loops through the flares and adds flare spread between each flare
-            m_flareAngle = m_angle + (i - 1) * FLARE_SPREAD;
+            m_flareAngle = m_angle + (i - FLARE_CENTER_INDEX) * FLARE_SPREAD;
 
             m_flareVelocity.setBearing(m_flareAngle, FLARE_SPEED);
             //flares should travel in the opposite direction of the spaceship
@@ -228,7 +233,7 @@ void Spaceship::Update(double frametime)
 
 void Spaceship::ProcessCollision(GameObject& other)
 {
-    if (other.GetType() == ObjectType::ROCK && m_spawnImmunity <= 0)
+    if (other.GetType() == ObjectType::ROCK && m_spawnImmunity <= NO_IMMUNITY)
     {
         Rock* pOther = dynamic_cast<Rock*>(&other);
         if (pOther)
@@ -247,7 +252,7 @@ void Spaceship::ProcessCollision(GameObject& other)
           evt.position = m_position;
           ObjectManager::instance.HandleEvent(evt);
         }
-        if (m_health <= 0)
+        if (m_health <= DEAD_HEALTH_AMOUNT)
         {
             Explode();
         }
@@ -262,7 +267,7 @@ void Spaceship::ProcessCollision(GameObject& other)
         evt.position = m_position;
         ObjectManager::instance.HandleEvent(evt);
 
-        if (m_health <= 0)
+        if (m_health <= DEAD_HEALTH_AMOUNT)
         {
             Explode();
         }
@@ -393,7 +398,7 @@ double Spaceship::GetHealth() const
 
 bool Spaceship::IsDead() const
 {
-    return m_health <= 0;
+    return m_health <= DEAD_HEALTH_AMOUNT;
 }
 
 void Spaceship::Explode()
