@@ -4,6 +4,8 @@
 const double TIMER = 0.0;
 const double EXPLOSION_SIZE = 2.0;
 const int TIMERINCREASE = 4;
+const int MAX_TIME = 8;
+const int LOAD_FIRST_IMAGE = 0;
 
 Explosion::Explosion(ObjectType objType)
 {
@@ -14,7 +16,7 @@ void Explosion::Update(double frametime)
     m_timer = m_timer + TIMERINCREASE * frametime;
     m_imageNumber = static_cast<int>(m_timer);
 
-    if (m_timer >= 8)
+    if (m_timer >= MAX_TIME)
     {
         Deactivate();
     }
@@ -35,6 +37,6 @@ void Explosion::Initialise(Vector2D postion)
     LoadImage("assets/explosionA7.bmp");
     LoadImage("assets/explosionA8.bmp");
 
-    m_imageNumber = 0;
+    m_imageNumber = LOAD_FIRST_IMAGE;
 
 }

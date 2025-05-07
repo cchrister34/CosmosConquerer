@@ -13,6 +13,7 @@ public:
     void ProcessCollision(GameObject& other)override;
     IShape2D& GetCollisionShape() override;
     void HandleEvent(Event evt)override;
+    void Explode();
 private:
     Vector2D m_velocity;
     Circle2D m_collisionShape;

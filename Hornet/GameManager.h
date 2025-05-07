@@ -12,7 +12,7 @@ public:
     void Render()override;
     void HandleEvent(Event evt)override;
     void DisplayGameOver();
-    void DisplayLevelComplete();
+    void DisplayLevelComplete() const;
 private:
     int m_score;
     int m_lives;

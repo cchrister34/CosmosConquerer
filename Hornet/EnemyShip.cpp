@@ -18,6 +18,14 @@ const double SHOOT_RANGE = 750;
 const double BULLET_MAGNITUDE = 65;
 const double BULLET_SPEED = 700;
 const double SHOOT_DELAY = 2;
+const int RAND_SPAWN_XPOS_MIN = 3001;
+const int RAND_SPAWN_XPOS_MAX = 3001;
+const int RAND_SPAWN_YPOS_MAX = 2001;
+const int RAND_SPAWN_YPOS_MIN = 1000;
+const int RAND_SPEED_MIN = 51;
+const int RAND_SPEED_MAX = 100;
+const int RAND_ANGLE = 360;
+const int SHOT_DELAY_RESET = 0;
 
 
 EnemyShip::EnemyShip(ObjectType objType) : GameObject(ObjectType::ENEMYSHIP)
@@ -32,12 +40,12 @@ void EnemyShip::Initialise()
     m_scale = ENEMY_SIZE;
     m_isPlayerInRange = false;
 
-    m_enemySpawnXpos = rand() % 3001 + 3000;
-    m_enemySpawnYpos = rand() % 2001 - 1000;
+    m_enemySpawnXpos = rand() % RAND_SPAWN_XPOS_MIN + RAND_SPAWN_XPOS_MAX;
+    m_enemySpawnYpos = rand() % RAND_SPAWN_YPOS_MAX - RAND_SPAWN_YPOS_MIN;
     m_position.set(Vector2D(m_enemySpawnXpos, m_enemySpawnYpos));
 
-    m_enemySpeed = rand() % 51 + 100;
-    m_enemyVelAngle = rand() % 360;
+    m_enemySpeed = rand() % RAND_SPEED_MIN + RAND_SPEED_MAX;
+    m_enemyVelAngle = rand() % RAND_ANGLE;
     m_velocity.setBearing(m_enemyVelAngle, m_enemySpeed);
 
 
@@ -58,7 +66,7 @@ void EnemyShip::Initialise()
 void EnemyShip::Update(double frametime)
 {
     //Shoot delay reset
-    if (m_shootdelay > 0)
+    if (m_shootdelay > SHOT_DELAY_RESET)
     {
         m_shootdelay -= frametime;
     }
@@ -89,7 +97,7 @@ void EnemyShip::Update(double frametime)
             m_angle = (m_playerLocation - m_position).angle();
        
 
-            if (m_shootdelay <= 0 && m_isPlayerInRange)
+            if (m_shootdelay <= SHOT_DELAY_RESET && m_isPlayerInRange)
             {
                 Shoot();
             }
@@ -157,6 +165,7 @@ void EnemyShip::ProcessCollision(GameObject& other)
 {
     if (other.GetType() == ObjectType::BULLET)
     {
+        other.Deactivate();
         Deactivate();
         Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
         p_Explosion->Initialise(m_position);

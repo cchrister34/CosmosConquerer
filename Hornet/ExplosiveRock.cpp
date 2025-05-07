@@ -10,8 +10,15 @@ const double ROCKRADIUS = 36;
 const double EXPLOSIVE_ROCK_SIZE = 1.5;
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
-const int BORDERLEFT = -6000;
+const int BORDERLEFT = 4000;
 const int BORDERRIGHT = 9000;
+const int EXPLOSIVEROCK_RAND_X_POS_MIN = 4001;
+const int EXPLOSIVEROCK_RAND_X_POS_MAX = 8000;
+const int EXPLOSIVEROCK_RAND_Y_POS_MIN = 900;
+const int EXPLOSIVEROCK_RAND_Y_POS_MAX = 1801;
+const int RAND_ANGLE = 360;
+const int RAND_SPEED_MIN = 101;
+const int RAND_SPEED_MAX = 200;
 
 ExplosiveRock::ExplosiveRock(ObjectType objType) : GameObject(ObjectType::EXPLOSIVEROCK)
 {
@@ -24,12 +31,12 @@ void ExplosiveRock::Initialise()
     m_scale = EXPLOSIVE_ROCK_SIZE;
     m_isActive = false;
 
-    m_explosiveRockXpos = rand() % 4001 + 8000;
-    m_explosiveRockYpos = rand() % 1801 - 900;
+    m_explosiveRockXpos = rand() % EXPLOSIVEROCK_RAND_X_POS_MIN + EXPLOSIVEROCK_RAND_X_POS_MAX;
+    m_explosiveRockYpos = rand() % EXPLOSIVEROCK_RAND_Y_POS_MAX - EXPLOSIVEROCK_RAND_Y_POS_MIN;
     m_position.set(Vector2D(m_explosiveRockXpos, m_explosiveRockYpos));
 
-    m_explosiveRockSpeed = rand() % 101 + 200;
-    m_explosiveRockVelocityAngle = rand() % 360;
+    m_explosiveRockSpeed = rand() % RAND_SPEED_MIN + RAND_SPEED_MAX;
+    m_explosiveRockVelocityAngle = rand() % RAND_ANGLE;
     m_velocity.setBearing(m_explosiveRockVelocityAngle, m_explosiveRockSpeed);
 
     //Explosion
@@ -105,14 +112,7 @@ void ExplosiveRock::ProcessCollision(GameObject& other)
     ObjectType type = other.GetType();
     if (type == ObjectType::EXPLOSIVEROCK || type == ObjectType::TILE)
     {
-        Deactivate();
-        Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
-        p_Explosion->Initialise(m_position);
-        ObjectManager::instance.AddItem(p_Explosion);
-        if (!m_isExplosionSoundPlaying)
-        {
-            m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
-        }
+        Explode();
         Event evt;
         evt.type = EventType::OBJECTDESTROYED;
         evt.pSource = this;
@@ -121,14 +121,7 @@ void ExplosiveRock::ProcessCollision(GameObject& other)
     }
     else if (type == ObjectType::BULLET)
     {
-        Deactivate();
-        Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
-        p_Explosion->Initialise(m_position);
-        ObjectManager::instance.AddItem(p_Explosion);
-        if (!m_isExplosionSoundPlaying)
-        {
-            m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
-        }
+        Explode();
         Event evt;
         evt.type = EventType::SHOTEXPLOSIVEROCK;
         evt.pSource = this;
@@ -170,5 +163,17 @@ void ExplosiveRock::HandleEvent(Event evt)
     {
         m_pTarget = nullptr;
         m_isActive = false;
+    }
+}
+
+void ExplosiveRock::Explode()
+{
+    Deactivate();
+    Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
+    p_Explosion->Initialise(m_position);
+    ObjectManager::instance.AddItem(p_Explosion);
+    if (!m_isExplosionSoundPlaying)
+    {
+        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
     }
 }

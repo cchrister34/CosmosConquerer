@@ -151,12 +151,16 @@ void Game::CreateMissile()
 
 void Game::CreateTractorBeam()
 {
+    //Constants
+    const Vector2D TRACTORBEAM1_POS(4500, 1000);
+    const Vector2D TRACTORBEAM2_POS(7000, 1000);
+
     //Ideally this goes in the Scene class
     //But since the Tractor beam works by pulling the spaceship it needs to know about pSpaceship
     std::vector<Vector2D> tractorbeamPositions =
     {
-        Vector2D(4500, 1000),
-        Vector2D(7000, 1000)
+        Vector2D(TRACTORBEAM1_POS),
+        Vector2D(TRACTORBEAM2_POS)
     };
 
     for (const Vector2D& position : tractorbeamPositions)
@@ -174,7 +178,12 @@ void Game::CreateTractorBeam()
 
 void Game::CreateEnemyShip()
 {
-    int numEnemyShips = rand() % 11 + 15;
+    //Constants
+    const int ENEMYSHIP_MIN_AMOUNT = 11;
+    const int ENEMYSHIP_MAX_AMOUNT = 25;
+    const int RANGE_SIZE = ENEMYSHIP_MAX_AMOUNT - ENEMYSHIP_MIN_AMOUNT + 1;
+
+    int numEnemyShips = ENEMYSHIP_MIN_AMOUNT + rand() % RANGE_SIZE;
 
     for (int i = 0; i < numEnemyShips; i++)
     {
@@ -191,7 +200,12 @@ void Game::CreateEnemyShip()
 
 void Game::CreateExplosiveRock()
 {
-    int numExplosiveRocks = rand() % 11 + 15;
+    //Constants
+    const int EXPLOSIVEROCK_MIN_AMOUNT = 11;
+    const int EXPLOSIVEROCK_MAX_AMOUNT = 25;
+    const int ROCK_RANGE_SIZE = EXPLOSIVEROCK_MAX_AMOUNT - EXPLOSIVEROCK_MIN_AMOUNT + 1;
+
+    int numExplosiveRocks = EXPLOSIVEROCK_MIN_AMOUNT + rand() % ROCK_RANGE_SIZE;
 
     for (int i = 0; i < numExplosiveRocks; i++)
     {

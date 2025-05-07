@@ -16,6 +16,7 @@ const double HP_BAR_LEFT = 1400;
 const Vector2D TOP_LEFT_HEALTH_TEXT(-1600, 915);
 const Vector2D TOP_LEFT_SCORE_TEXT(-1600, 1000);
 const Vector2D TOP_LEFT(-1400, 1000);
+const Vector2D TOP_RIGHT(1000, -950);
 const int LIVES_GAP = 100;
 const int FONT = 0;
 const int END_MESSAGE_FONT_SIZE = 3;
@@ -26,6 +27,8 @@ const int TRACTOR_BEAM_SCORE_INCREASE = 300;
 const int ENEMY_SHIP_SCORE_INCREASE = 250;
 const int EXPLOSIVE_ROCK_SCORE_INCREASE = 150;
 const int DEATH_SCORE_PENALTY = 500;
+const int NO_LIVES_REMAINING = 0;
+const int DEATH_PENALTY_LIVES_VALUE = 1;
 const Vector2D GAME_FINISHED_MSG_POS(-375, 400);
 const Vector2D RETURN_MESSAGE(75, 100);
 const Vector2D FINALSCORE_MESSAGE(-100, 250);
@@ -61,7 +64,7 @@ void GameManager::Initialise()
 
 void GameManager::Update(double frametime)
 {
-    if (m_lives < 0)
+    if (m_lives < NO_LIVES_REMAINING)
     {
         m_isGameOver = true;
     }
@@ -98,7 +101,7 @@ void GameManager::Render()
     //Pickup
     if (m_hasPickup)
     {
-        Vector2D pickupPos(1000, 950);
+        Vector2D pickupPos(TOP_RIGHT);
         if (m_collectedPickup == PickUpType::SPEED)
         {
             HtGraphics::instance.DrawAt(pickupPos, m_speedImage);
@@ -142,14 +145,14 @@ void GameManager::HandleEvent(Event evt)
             m_score += TRACTOR_BEAM_SCORE_INCREASE;
         else if (type == ObjectType::SPACESHIP)
         {
-            if (!m_isGameOver && m_lives > 0)
+            if (!m_isGameOver && m_lives > NO_LIVES_REMAINING)
             {
                 Spaceship* pSpaceship = nullptr;
                 pSpaceship = new Spaceship(ObjectType::SPACESHIP);
                 pSpaceship->Initialise();
                 ObjectManager::instance.AddItem(pSpaceship);
 
-                m_lives -= 1;
+                m_lives -= DEATH_PENALTY_LIVES_VALUE;
                 m_score -= DEATH_SCORE_PENALTY;
                 m_hasPickup = false;
                 m_dynamicShipHealth = SHIP_HEALTH;
@@ -161,7 +164,7 @@ void GameManager::HandleEvent(Event evt)
             }
             else
             {
-                m_lives = 0;
+                m_lives = NO_LIVES_REMAINING;
                 m_isGameOver = true;
                 Event evt;
                 evt.type = EventType::GAMEOVER;
@@ -217,7 +220,7 @@ void GameManager::DisplayGameOver()
     HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, FONT);
 }
 
-void GameManager::DisplayLevelComplete()
+void GameManager::DisplayLevelComplete() const
 {
     HtGraphics::instance.WriteTextAligned(WIN_MESSAGE_POS, "MISSION COMPLETE", HtGraphics::PURPLE, FONT, END_MESSAGE_FONT_SIZE);
     HtGraphics::instance.WriteTextAligned(FINALSCORE_MESSAGE, "Final Score: ", HtGraphics::PURPLE, FONT);

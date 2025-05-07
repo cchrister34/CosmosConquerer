@@ -116,9 +116,8 @@ void Missile::HandleEvent(Event evt)
         if (evt.pSource && evt.pSource->GetType() == ObjectType::SPACESHIP)
         {
             m_pTarget = static_cast<Spaceship*>(evt.pSource);
-            m_pTarget = static_cast<Spaceship*>(evt.pSource);
             m_hasMissileSpawned = false;
-            m_spawnDelay = 0.0;
+            m_spawnDelay = SPAWN_DELAY_RESET;
             m_position = OFF_SCREEN_SPAWN;
             if (isMissilePlaying)
             {

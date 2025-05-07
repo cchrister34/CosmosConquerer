@@ -7,6 +7,7 @@ const double FLARE_SCALE = 1.0;
 const double RADIUS = 12;
 const double FADEOUT_TIME = 1.0;
 const int FLARE_TRANSPARENCY = 1; 
+const int FADEOUT = 0;
 
 
 
@@ -18,7 +19,7 @@ void Flare::Update(double frametime)
 {
     m_position = m_position + m_velocity * frametime;
     m_lifetime -= frametime;
-    if (m_lifetime <= 0)
+    if (m_lifetime <= FADEOUT)
     {
         Deactivate();
     }

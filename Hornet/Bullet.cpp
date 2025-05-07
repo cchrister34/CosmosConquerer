@@ -8,6 +8,7 @@ const double BULLET_SCALE = 1;
 const int BULLET_TRANSPARENCY = 1;
 const std::string BULLET_IMAGE = "assets/beams.png";
 const std::string ENEMY_BULLET = "assets/enemybullet.png";
+const int MIN_LIFETIME = 0;
 
 Bullet::Bullet(ObjectType objType) : GameObject(objType)
 {
@@ -17,7 +18,7 @@ void Bullet::Update(double frametime)
 {
     m_position = m_position + m_velocity * frametime;
     m_lifetime -= frametime;
-    if (m_lifetime <= 0)
+    if (m_lifetime <= MIN_LIFETIME)
     {
         Deactivate();
     }
