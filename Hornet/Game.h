@@ -64,7 +64,7 @@ private:
 
     //Game Objects
     Spaceship* pSpaceship = nullptr;
-    Rock* pTheRocks[12] = { nullptr };
+    Rock* pTheRocks[20] = { nullptr };
     GameManager* pGameManager = nullptr;
     Scene* pScene = nullptr;
     PickUp* pPickUp = nullptr;

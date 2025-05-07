@@ -6,7 +6,7 @@
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
 const int BORDERLEFT = -1600;
-const int BORDERRIGHT = 1600;
+const int BORDERRIGHT = 2200;
 const double ROCKRADIUS = 52;
 const double ROCKSIZE = 0.75;
 const double ROCKFRAGMENT = 0.3;
@@ -55,7 +55,7 @@ void Rock::Initialise()
     m_scale = ROCKSIZE;
 
     int posAngle = rand() % 360;
-    int posDistance = rand() % 401 + 600;
+    int posDistance = rand() % 2201 -200;
     m_position.setBearing(posAngle, posDistance);
 
     int angle = rand() % 360;
@@ -128,7 +128,8 @@ void Rock::ProcessCollision(GameObject& other)
         ObjectManager::instance.HandleEvent(evt);
     }
 
-    if (other.GetType() == ObjectType::ROCK)
+    ObjectType type = other.GetType();
+    if (type == ObjectType::TILE || type == ObjectType::ROCK)
     {
         //Subtratcs a rock's position from anothers, returning a vector that points from one rock to another.
         Vector2D collisionVector = m_position - other.GetPosition();

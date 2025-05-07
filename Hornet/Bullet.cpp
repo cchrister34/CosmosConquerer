@@ -4,7 +4,7 @@
 const double FADEOUT_TIME = 0.5;
 const double BULLET_LIFETIME = 1.0;
 const double RADIUS = 12;
-const double BULLET_SCALE = 1.25;
+const double BULLET_SCALE = 1;
 const int BULLET_TRANSPARENCY = 1;
 const std::string BULLET_IMAGE = "assets/beams.png";
 const std::string ENEMY_BULLET = "assets/enemybullet.png";
@@ -68,7 +68,7 @@ void Bullet::ProcessCollision(GameObject& other)
 {
     ObjectType type = other.GetType();
     if (type == ObjectType::TILE || type == ObjectType::ROCK || type == ObjectType::EXPLOSIVEROCK
-        || type == ObjectType::SPACESHIP || type == ObjectType::TRACTORBEAM)
+        || type == ObjectType::TRACTORBEAM)
     {
         Deactivate();
     }

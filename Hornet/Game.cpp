@@ -174,7 +174,7 @@ void Game::CreateTractorBeam()
 
 void Game::CreateEnemyShip()
 {
-    int numEnemyShips = rand() % 11 + 10;
+    int numEnemyShips = rand() % 11 + 15;
 
     for (int i = 0; i < numEnemyShips; i++)
     {
@@ -191,7 +191,7 @@ void Game::CreateEnemyShip()
 
 void Game::CreateExplosiveRock()
 {
-    int numExplosiveRocks = rand() % 20 + 15;
+    int numExplosiveRocks = rand() % 11 + 15;
 
     for (int i = 0; i < numExplosiveRocks; i++)
     {

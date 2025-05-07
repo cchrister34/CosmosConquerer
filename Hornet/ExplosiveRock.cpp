@@ -10,7 +10,7 @@ const double ROCKRADIUS = 36;
 const double EXPLOSIVE_ROCK_SIZE = 1.5;
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
-const int BORDERLEFT = -5000;
+const int BORDERLEFT = -6000;
 const int BORDERRIGHT = 9000;
 
 ExplosiveRock::ExplosiveRock(ObjectType objType) : GameObject(ObjectType::EXPLOSIVEROCK)
@@ -25,7 +25,7 @@ void ExplosiveRock::Initialise()
     m_isActive = false;
 
     m_explosiveRockXpos = rand() % 4001 + 8000;
-    m_explosiveRockYpos = rand() % 2001 - 1000;
+    m_explosiveRockYpos = rand() % 1801 - 900;
     m_position.set(Vector2D(m_explosiveRockXpos, m_explosiveRockYpos));
 
     m_explosiveRockSpeed = rand() % 101 + 200;
@@ -33,6 +33,7 @@ void ExplosiveRock::Initialise()
     m_velocity.setBearing(m_explosiveRockVelocityAngle, m_explosiveRockSpeed);
 
     //Explosion
+    m_isExplosionSoundPlaying = false;
     m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND);
 
     SetCollidable();
@@ -47,10 +48,12 @@ void ExplosiveRock::FindPlayer(Spaceship* pTarget)
 
 void ExplosiveRock::Update(double frametime)
 {
+
     if (m_pTarget == nullptr)
     {
         Deactivate();
         m_isActive = false;
+        return;
     }
 
     //A check to see if spaceship is within a specific distance before becoming active 
@@ -72,31 +75,38 @@ void ExplosiveRock::Update(double frametime)
     else if (!m_isActive)
         return;
 
-    m_position = m_position + m_velocity * frametime;
+    if (m_isActive)
+    {
+        m_position = m_position + m_velocity * frametime;
 
-    if (m_position.XValue < BORDERLEFT)
-    {
-        m_velocity.XValue = -m_velocity.XValue;
-    }
-    else if (m_position.XValue > BORDERRIGHT)
-    {
-        m_velocity.XValue = -m_velocity.XValue;
-    }
+        //Wrapping
+        if (m_position.XValue < BORDERLEFT)
+        {
+            m_velocity.XValue = -m_velocity.XValue;
+        }
+        else if (m_position.XValue > BORDERRIGHT)
+        {
+            m_velocity.XValue = -m_velocity.XValue;
+        }
 
-    if (m_position.YValue > TOPBORDER)
-    {
-        m_velocity.YValue = -m_velocity.YValue;
-    }
-    else if (m_position.YValue < BOTTOMBORDER)
-    {
-        m_velocity.YValue = -m_velocity.YValue;
-    }
+        if (m_position.YValue > TOPBORDER)
+        {
+            m_velocity.YValue = -m_velocity.YValue;
+        }
+        else if (m_position.YValue < BOTTOMBORDER)
+        {
+            m_velocity.YValue = -m_velocity.YValue;
+        }
 
+    }
     m_collisionShape.PlaceAt(m_position, ROCKRADIUS);
 }
 
 void ExplosiveRock::ProcessCollision(GameObject& other)
 {
+    if (!m_isActive)
+        return;
+
     ObjectType type = other.GetType();
     if (type == ObjectType::EXPLOSIVEROCK || type == ObjectType::TILE)
     {
@@ -104,7 +114,10 @@ void ExplosiveRock::ProcessCollision(GameObject& other)
         Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
         p_Explosion->Initialise(m_position);
         ObjectManager::instance.AddItem(p_Explosion);
-        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+        if (!m_isExplosionSoundPlaying)
+        {
+            m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+        }
         Event evt;
         evt.type = EventType::OBJECTDESTROYED;
         evt.pSource = this;
@@ -117,7 +130,10 @@ void ExplosiveRock::ProcessCollision(GameObject& other)
         Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
         p_Explosion->Initialise(m_position);
         ObjectManager::instance.AddItem(p_Explosion);
-        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+        if (!m_isExplosionSoundPlaying)
+        {
+            m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+        }
         Event evt;
         evt.type = EventType::SHOTEXPLOSIVEROCK;
         evt.pSource = this;

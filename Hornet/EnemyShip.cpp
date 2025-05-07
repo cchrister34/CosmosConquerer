@@ -42,6 +42,7 @@ void EnemyShip::Initialise()
 
 
     //Bullet
+    m_isBulletSoundPlaying = false;
     m_shootdelay = SHOOT_DELAY;
     m_bulletSound = HtAudio::instance.LoadSound(ENEMY_BULLET_SOUND.c_str());
 
@@ -141,7 +142,10 @@ void EnemyShip::Shoot()
     pBullet->InitialiseEnemyBullet(bulletPos, bulletVel);
     ObjectManager::instance.AddItem(pBullet);
     m_shootdelay = SHOOT_DELAY;
-    m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
+    if (!m_isBulletSoundPlaying)
+    {
+        m_bulletSoundChannel = HtAudio::instance.Play(m_bulletSound);
+    }
 }
 
 IShape2D& EnemyShip::GetCollisionShape()

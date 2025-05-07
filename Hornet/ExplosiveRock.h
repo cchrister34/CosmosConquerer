@@ -26,5 +26,6 @@ private:
     bool m_isActive;
     SoundIndex m_explosionBang;
     int m_explosionSoundChannel;
+    bool m_isExplosionSoundPlaying;
 };
 

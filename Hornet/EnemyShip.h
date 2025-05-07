@@ -36,5 +36,6 @@ private:
     int m_bulletSoundChannel;
     SoundIndex m_explosionBang;
     int m_explosionSoundChannel;
+    bool m_isBulletSoundPlaying;
 };
 
