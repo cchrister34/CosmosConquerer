@@ -8,7 +8,7 @@
 
 //Constants
 const int START_SCORE = 0;
-const int START_LIVES = 3;
+const int START_LIVES = 0;
 const double SHIP_HEALTH = 100;
 const double MAX_HP_BAR_WIDTH = 600;
 const double HP_BAR_TOP = 880;
@@ -19,6 +19,7 @@ const Vector2D TOP_LEFT_SCORE_TEXT(-1600, 1000);
 const Vector2D TOP_LEFT(-1400, 1000);
 const int LIVES_GAP = 100;
 const int FONT = 0;
+const int END_MESSAGE_FONT_SIZE = 3;
 const double FONT_SIZE = 1.25;
 const int ROCK_SCORE_INCREASE = 100;
 const int MISSILE_SCORE_INCREASE = 500;
@@ -26,7 +27,7 @@ const int TRACTOR_BEAM_SCORE_INCREASE = 300;
 const int ENEMY_SHIP_SCORE_INCREASE = 250;
 const int EXPLOSIVE_ROCK_SCORE_INCREASE = 150;
 const int DEATH_SCORE_PENALTY = 500;
-const Vector2D GAME_FINISHED_MSG_POS(0, 300);
+const Vector2D GAME_FINISHED_MSG_POS(50, 200);
 const Vector2D RETURN_MESSAGE(75, 100);
 const Vector2D FINALSCORE_MESSAGE(-100, 250);
 const Vector2D FINALSCORE_POS(150, 250);
@@ -209,13 +210,13 @@ void GameManager::HandleEvent(Event evt)
 
 void GameManager::DisplayGameOver()
 {
-    HtGraphics::instance.WriteTextCentered(GAME_FINISHED_MSG_POS, "GAME OVER", HtGraphics::DARKRED, FONT);
+    HtGraphics::instance.WriteTextCentered(GAME_FINISHED_MSG_POS, " MISSION FAILED ", HtGraphics::DARKRED, FONT, END_MESSAGE_FONT_SIZE);
     HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, FONT);
 }
 
 void GameManager::DisplayLevelComplete()
 {
-    HtGraphics::instance.WriteTextAligned(WIN_MESSAGE_POS, "MISSION COMPLETE", HtGraphics::PURPLE, FONT, 2);
+    HtGraphics::instance.WriteTextAligned(WIN_MESSAGE_POS, "MISSION COMPLETE", HtGraphics::PURPLE, FONT, END_MESSAGE_FONT_SIZE);
     HtGraphics::instance.WriteTextAligned(FINALSCORE_MESSAGE, "Final Score: ", HtGraphics::PURPLE, FONT);
     HtGraphics::instance.WriteIntAligned(FINALSCORE_POS, m_score, HtGraphics::PURPLE, FONT);
     HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, FONT);

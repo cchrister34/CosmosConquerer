@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Angle.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="BeamPull.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="ErrorLogger.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="Angle.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="BeamPull.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="ErrorLogger.h" />

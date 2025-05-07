@@ -42,12 +42,13 @@ const double PICK_UP_TIMER = 5.0;
 const double BASE_PICKUP_MULTIPLIER = 1.0;
 const double REDUCED_PULL_SPEED = 10;
 const double TRACTOR_BEAM_SPEED_REDUCTION = 0.3;
-const double IMMUNITY_TIMER = 5;
+const double IMMUNITY_TIMER = 3;
 const double FADE_IN_TIME = 2.5;
 const double IMMUNE_TRANSPARENCY = 0.5;
 const int SHIP_TRANSPARENCY = 0;
 const double ROCK_DAMAGE = 0.2;
 const double BULLET_DAMAGE = 0.1;
+const double ENGINE_VOLUME = 0.3;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
 const std::string ENGINE_SOUND = "assets/thrustloop.wav";
 const std::string BULLET_SOUND = "assets/zap.wav";
@@ -100,6 +101,7 @@ void Spaceship::Update(double frametime)
         if (!isEnginePlaying)
         {
             m_engineSoundChannel = HtAudio::instance.Play(m_engineSound, true);
+            HtAudio::instance.SetChannelVolume(m_engineSoundChannel, ENGINE_VOLUME);
             isEnginePlaying = true;
         }
 

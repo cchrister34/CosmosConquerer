@@ -33,5 +33,6 @@ private:
     bool m_isPullingEffectPlaying;
     SoundIndex m_explosionBang;
     int m_explosionSoundChannel;
+    Vector2D m_beamPullPos;
 };
 

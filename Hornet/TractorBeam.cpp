@@ -1,6 +1,7 @@
 #include "TractorBeam.h"
 #include "ObjectManager.h"
 #include "Explosion.h"
+#include "BeamPull.h"
 
 //Constants
 const std::string TRACTOR_BEAM_IMAGE = "assets/tractorbeam.png";
@@ -12,7 +13,7 @@ const double HALF_BEAM_HEIGHT = TRACTOR_BEAM_HEIGHT / 2;
 const double HALF_BEAM_WIDTH = TRACTOR_BEAM_WIDTH / 2;
 const double TRACTOR_BEAM_SIZE = 2.5;
 const double PULL_RANGE = 1000;
-const double PULL_STRENGTH = 50;
+const double PULL_STRENGTH = 150;
 const double PULL_MAGNETISM = 1;
 const double TRAP_RANGE = 300;
 const int HIT_RELEASE_AMOUNT = 5;
@@ -76,6 +77,11 @@ void TractorBeam::Update(double frametime)
             m_pullForce = m_direction * m_pullMagnitude;
             //Apply the pull force onto the spaceship object
             m_pTarget->TractorBeamPull(m_pullForce * frametime);
+            m_beamPullPos.setBearing(m_angle, -300.0);
+            m_beamPullPos = m_beamPullPos + m_position;
+            BeamPull* pBeamPull = new BeamPull(ObjectType::BEAMPULL);
+            pBeamPull->Initialise(m_beamPullPos);
+            ObjectManager::instance.AddItem(pBeamPull);
 
             //Sound
             if (!m_isPullingEffectPlaying)
@@ -98,7 +104,6 @@ void TractorBeam::Update(double frametime)
             m_isTrapped = true;
             m_pTarget->Trap();
         }
-
     }
 }
 
