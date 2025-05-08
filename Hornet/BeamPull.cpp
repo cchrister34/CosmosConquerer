@@ -4,7 +4,7 @@
 const double TIMER = 0.0;
 const double PULL_SIZE = 2;
 const double TIMERINCREASE = 1.5;
-const int MAX_TIME = 3;
+const int IMAGE_AMOUNT = 3;
 const int LOAD_FIRST_IMAGE = 0;
 const int DRAWDEPTH_AMOUNT = -1;
 
@@ -15,7 +15,9 @@ BeamPull::BeamPull(ObjectType objType) : GameObject(ObjectType::BEAMPULL)
 void BeamPull::Update(double frametime)
 {
     m_timer = m_timer + TIMERINCREASE * frametime;
-    m_imageNumber = static_cast<int>(m_timer) % 3;
+    //Loops through the images 0,1,2 constantly when object is initialised
+    //Tractor beam class in responsible for deactivation
+    m_imageNumber = static_cast<int>(m_timer) % IMAGE_AMOUNT;
 }
 
 void BeamPull::Initialise(Vector2D postion)
