@@ -110,6 +110,13 @@ void HornetMenus::UpdateMain(double frameTime, HornetApp* pOwner)
     bool cameraActive = HtCamera::instance.IsCameraActive();
     HtCamera::instance.UseCamera(false);
 
+    //Constants
+    const Vector2D BG_IMAGE_POS(0, 0);
+    const double BG_IMG_SIZE = 2.5;
+
+    PictureIndex bgscreen = HtGraphics::instance.LoadPicture("assets/starsbg.png");
+    HtGraphics::instance.DrawAt(BG_IMAGE_POS, bgscreen, BG_IMG_SIZE);
+
     HtGraphics::instance.WriteTextAligned(Vector2D(-400, 500), APPNAME, HtGraphics::PURPLE, m_MenuFont, 3.0);
 
     for (int i = 0; i < m_mainOptionText.size(); ++i)
