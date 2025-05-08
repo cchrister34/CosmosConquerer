@@ -10,16 +10,16 @@ const int START_SCORE = 0;
 const int START_LIVES = 2;
 const double SHIP_HEALTH = 100;
 const double MAX_HP_BAR_WIDTH = 600;
-const double HP_BAR_TOP = 880;
-const double HP_BAR_BOTTOM = 860;
+const double HP_BAR_TOP = 910;
+const double HP_BAR_BOTTOM = 880;
 const double HP_BAR_LEFT = 1400;
 const Vector2D TOP_LEFT_HEALTH_TEXT(-1600, 915);
 const Vector2D TOP_LEFT_SCORE_TEXT(-1600, 1000);
 const Vector2D TOP_LEFT(-1400, 1000);
 const Vector2D TOP_RIGHT(1000, 950);
 const int LIVES_GAP = 100;
-const int FONT = 0;
 const int END_MESSAGE_FONT_SIZE = 3;
+const int END_SCORE_FONT_SIZE = 2;
 const double FONT_SIZE = 1.25;
 const int ROCK_SCORE_INCREASE = 100;
 const int MISSILE_SCORE_INCREASE = 500;
@@ -38,6 +38,8 @@ const Vector2D LIVES_POS(1100, 950);
 const std::string SHIP_IMAGE = "assets/spaceship.png";
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
 const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
+const std::string MESSAGE_FONT = "fonts/kenpixel_future.ttf";
+const int MESSAGE_FONT_SIZE = 24;
 
 
 GameManager::GameManager(ObjectType objType)
@@ -58,6 +60,10 @@ void GameManager::Initialise()
     m_livesImage = HtGraphics::instance.LoadPicture(SHIP_IMAGE.c_str()); 
     m_speedImage = HtGraphics::instance.LoadPicture(SPEED_PICKUP_IMAGE.c_str());
     m_shootImage = HtGraphics::instance.LoadPicture(SHOOT_PICKUP_IMAGE.c_str());
+
+    m_MessageFont = HtGraphics::instance.LoadFont(MESSAGE_FONT, MESSAGE_FONT_SIZE);
+
+
     SetDrawDepth(2);
     SetHandleEvents();
 }
@@ -73,9 +79,9 @@ void GameManager::Update(double frametime)
 void GameManager::Render()
 {
     HtCamera::instance.UseCamera(false);
-    HtGraphics::instance.WriteTextAligned(TOP_LEFT_SCORE_TEXT, "Score: ", HtGraphics::WHITE, FONT, FONT_SIZE);
-    HtGraphics::instance.WriteTextAligned(TOP_LEFT_HEALTH_TEXT, "Health: ", HtGraphics::WHITE, FONT, FONT_SIZE);
-    HtGraphics::instance.WriteIntAligned(TOP_LEFT, m_score, HtGraphics::WHITE, FONT, FONT_SIZE);
+    HtGraphics::instance.WriteTextAligned(TOP_LEFT_SCORE_TEXT, "Score: ", HtGraphics::WHITE, m_MessageFont, FONT_SIZE);
+    HtGraphics::instance.WriteTextAligned(TOP_LEFT_HEALTH_TEXT, "Health: ", HtGraphics::WHITE, m_MessageFont, FONT_SIZE);
+    HtGraphics::instance.WriteIntAligned(TOP_LEFT, m_score, HtGraphics::WHITE, m_MessageFont, FONT_SIZE);
 
     Vector2D livesPos(LIVES_POS);
     for (int i = 0; i < m_lives; i++)
@@ -216,16 +222,16 @@ void GameManager::HandleEvent(Event evt)
 
 void GameManager::DisplayGameOver()
 {
-    HtGraphics::instance.WriteTextAligned(GAME_FINISHED_MSG_POS, "MISSION FAILED", HtGraphics::DARKRED, FONT, END_MESSAGE_FONT_SIZE);
-    HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, FONT);
+    HtGraphics::instance.WriteTextAligned(GAME_FINISHED_MSG_POS, "MISSION FAILED", HtGraphics::DARKRED, m_MessageFont, END_MESSAGE_FONT_SIZE);
+    HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, m_MessageFont);
 }
 
 void GameManager::DisplayLevelComplete() const
 {
-    HtGraphics::instance.WriteTextAligned(WIN_MESSAGE_POS, "MISSION COMPLETE", HtGraphics::PURPLE, FONT, END_MESSAGE_FONT_SIZE);
-    HtGraphics::instance.WriteTextAligned(FINALSCORE_MESSAGE, "Final Score: ", HtGraphics::PURPLE, FONT);
-    HtGraphics::instance.WriteIntAligned(FINALSCORE_POS, m_score, HtGraphics::PURPLE, FONT);
-    HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, FONT);
+    HtGraphics::instance.WriteTextAligned(WIN_MESSAGE_POS, "MISSION COMPLETE", HtGraphics::PURPLE, m_MessageFont, END_MESSAGE_FONT_SIZE);
+    HtGraphics::instance.WriteTextAligned(FINALSCORE_MESSAGE, "Final Score: ", HtGraphics::PURPLE, m_MessageFont);
+    HtGraphics::instance.WriteIntAligned(FINALSCORE_POS, m_score, HtGraphics::PURPLE, m_MessageFont, END_SCORE_FONT_SIZE);
+    HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, m_MessageFont);
 }
 
 

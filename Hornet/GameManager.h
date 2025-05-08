@@ -14,6 +14,7 @@ public:
     void DisplayGameOver();
     void DisplayLevelComplete() const;
 private:
+    FontIndex m_MessageFont;
     int m_score;
     int m_lives;
     PictureIndex m_livesImage;

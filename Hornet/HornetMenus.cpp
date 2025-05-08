@@ -18,6 +18,10 @@ void HornetMenus::Initialise()
     m_pauseOptionText.push_back("Resume");
     m_pauseOptionText.push_back("Exit");
 
+    const std::string FONT_FILE = "fonts/kenpixel_future.ttf";
+    const int FONT_SIZE = 24;
+    m_MenuFont = HtGraphics::instance.LoadFont(FONT_FILE, FONT_SIZE);
+
     std::ifstream file;
     file.open(DOCS+"credits.txt");
     if (!file.is_open())
@@ -83,7 +87,7 @@ void HornetMenus::DisplayLoadScreen()
 {
     HtGraphics::instance.Present();
     HtGraphics::instance.WriteTextAligned(Vector2D(-200, 50), "LOADING",
-        HtGraphics::RED, 4, 3.0);
+        HtGraphics::RED, m_MenuFont, 3.0);
 
     HtGraphics::instance.Present();
 }
@@ -106,19 +110,19 @@ void HornetMenus::UpdateMain(double frameTime, HornetApp* pOwner)
     bool cameraActive = HtCamera::instance.IsCameraActive();
     HtCamera::instance.UseCamera(false);
 
-    HtGraphics::instance.WriteTextAligned(Vector2D(-1000, 750), APPNAME, HtGraphics::RED, 0, 2.0);
+    HtGraphics::instance.WriteTextAligned(Vector2D(-400, 500), APPNAME, HtGraphics::PURPLE, m_MenuFont, 3.0);
 
     for (int i = 0; i < m_mainOptionText.size(); ++i)
     {
         if (i == m_currentOption)
         {
-            HtGraphics::instance.WriteTextAligned(Vector2D(-1000.0, double(625.0-120.0*i)), m_mainOptionText[i],
-                HtGraphics::BLUE, 0, 2.4f);
+            HtGraphics::instance.WriteTextAligned(Vector2D(-70.0, double(150.0-120.0*i)), m_mainOptionText[i],
+                HtGraphics::LIGHTGREEN, m_MenuFont, 2.4f);
         }
         else
         {
-            HtGraphics::instance.WriteTextAligned(Vector2D(-1000.0, double(600.0-120.0 * i)), m_mainOptionText[i],
-                HtGraphics::LIGHTBLUE, 0, 2.0);
+            HtGraphics::instance.WriteTextAligned(Vector2D(-70.0, double(150.0-120.0 * i)), m_mainOptionText[i],
+                HtGraphics::LIGHTGREEN, m_MenuFont, 2.0);
         }
     }
 
@@ -172,19 +176,20 @@ void HornetMenus::UpdatePause(double frametime, HornetApp* pOwner)
 {
     bool cameraActive = HtCamera::instance.IsCameraActive();
     HtCamera::instance.UseCamera(false);
-    HtGraphics::instance.WriteTextAligned(Vector2D(-1000, 750), "PAUSED", HtGraphics::RED, 0, 2.0);
+
+    HtGraphics::instance.WriteTextAligned(Vector2D(-1000, 750), "PAUSED", HtGraphics::RED, m_MenuFont, 2.0);
 
     for (int i = 0; i < m_pauseOptionText.size(); ++i)
     {
         if (i == m_currentOption)
         {
             HtGraphics::instance.WriteTextAligned(Vector2D(-1000.0, 625.0 - double(120.0 * i)), m_pauseOptionText[i],
-                HtGraphics::BLUE, 0, 2.4f);
+                HtGraphics::BLUE, m_MenuFont, 2.4f);
         }
         else
         {
             HtGraphics::instance.WriteTextAligned(Vector2D(-1000.0, 600.0 - double(120.0 * i)), m_pauseOptionText[i],
-                HtGraphics::LIGHTBLUE,0, 2.0);
+                HtGraphics::LIGHTBLUE, m_MenuFont, 2.0);
         }
     }
 

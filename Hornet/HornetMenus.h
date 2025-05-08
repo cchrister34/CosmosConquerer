@@ -41,5 +41,6 @@ private:
 
     SoundIndex m_clickSound;
     SoundIndex m_selectSound;
+    FontIndex m_MenuFont;
 };
 
