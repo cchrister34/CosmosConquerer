@@ -8,19 +8,14 @@ const int MAX_TIME = 3;
 const int LOAD_FIRST_IMAGE = 0;
 const int DRAWDEPTH_AMOUNT = -1;
 
-BeamPull::BeamPull(ObjectType objType)
+BeamPull::BeamPull(ObjectType objType) : GameObject(ObjectType::BEAMPULL)
 {
 }
 
 void BeamPull::Update(double frametime)
 {
     m_timer = m_timer + TIMERINCREASE * frametime;
-    m_imageNumber = static_cast<int>(m_timer);
-
-    if (m_timer >= MAX_TIME)
-    {
-        Deactivate();
-    }
+    m_imageNumber = static_cast<int>(m_timer) % 3;
 }
 
 void BeamPull::Initialise(Vector2D postion)

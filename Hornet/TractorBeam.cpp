@@ -134,10 +134,17 @@ void TractorBeam::Update(double frametime)
             }
         }
 
-        if (m_distance < TRAP_RANGE && m_isPullingAnimated)
+        if (m_distance < TRAP_RANGE)
         {
             m_isTrapped = true;
             m_pTarget->Trap();
+            //Hacky way to avoid an animation system
+            ObjectManager::instance.DeactivateType(ObjectType::BEAMPULL);
+        }
+
+        if (m_isPullingAnimated && m_distance > PULL_RANGE)
+        {
+            m_isPullingAnimated = false;
             ObjectManager::instance.DeactivateType(ObjectType::BEAMPULL);
         }
     }
@@ -184,6 +191,8 @@ void TractorBeam::ProcessCollision(GameObject& other)
         {
             Deactivate();
             m_pTarget->Release();
+            //To avoid dangling pointers
+            ObjectManager::instance.DeactivateType(ObjectType::BEAMPULL);
             m_hitCount = HIT_RELEASE_RESET;
             HtAudio::instance.Stop(m_pullingEffectChannel);
             m_isPullingEffectPlaying = false;
