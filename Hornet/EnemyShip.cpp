@@ -156,6 +156,20 @@ void EnemyShip::Shoot()
     }
 }
 
+void EnemyShip::Explode()
+{
+    Deactivate();
+    Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
+    p_Explosion->Initialise(m_position);
+    ObjectManager::instance.AddItem(p_Explosion);
+    m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+    Event evt;
+    evt.type = EventType::OBJECTDESTROYED;
+    evt.pSource = this;
+    evt.position = m_position;
+    ObjectManager::instance.HandleEvent(evt);
+}
+
 IShape2D& EnemyShip::GetCollisionShape()
 {
     return m_collisionShape;
@@ -166,13 +180,18 @@ void EnemyShip::ProcessCollision(GameObject& other)
     if (other.GetType() == ObjectType::BULLET)
     {
         other.Deactivate();
-        Deactivate();
-        Explosion* p_Explosion = new Explosion(ObjectType::EXPLOSION);
-        p_Explosion->Initialise(m_position);
-        ObjectManager::instance.AddItem(p_Explosion);
-        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+        Explode();
+    }
+
+    ObjectType type = other.GetType();
+    if (type == ObjectType::TILE || type == ObjectType::ENEMYSHIP)
+    {
+        Vector2D collisionVector = m_position - other.GetPosition();
+        Vector2D direction = collisionVector.unitVector();
+        double speed = m_velocity.magnitude();
+        m_velocity = direction * speed;
         Event evt;
-        evt.type = EventType::OBJECTDESTROYED;
+        evt.type = EventType::OBJECTCOLLIDED;
         evt.pSource = this;
         evt.position = m_position;
         ObjectManager::instance.HandleEvent(evt);

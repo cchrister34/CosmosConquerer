@@ -11,6 +11,7 @@ public:
     void Update(double frametime);
     void FindPlayer(Spaceship* pTarget);
     void Shoot();
+    void Explode();
     IShape2D& GetCollisionShape() override;
     void ProcessCollision(GameObject& other)override;
     void HandleEvent(Event evt)override;

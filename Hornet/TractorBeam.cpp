@@ -18,6 +18,7 @@ const double PULL_MAGNETISM = 1;
 const double TRAP_RANGE = 300;
 const int HIT_RELEASE_AMOUNT = 5;
 const int HIT_RELEASE_RESET = 0;
+const int BOTTOM_TRACTORBEAM_ROTATION = 180;
 
 TractorBeam::TractorBeam(ObjectType objType) : GameObject(ObjectType::TRACTORBEAM)
 {
@@ -29,6 +30,29 @@ void TractorBeam::Initialise(Vector2D position)
     m_position = position;
     m_tractorBeam = HtGraphics::instance.LoadPicture(TRACTOR_BEAM_IMAGE.c_str());
     m_scale = TRACTOR_BEAM_SIZE;
+    m_isSpaceshipInRange = false;
+    m_isTrapped = false;
+
+    Vector2D bottomLeft = m_position - Vector2D(HALF_BEAM_WIDTH, HALF_BEAM_HEIGHT);
+    Vector2D topRight = m_position + Vector2D(HALF_BEAM_WIDTH, HALF_BEAM_HEIGHT);
+    m_collisionShape.PlaceAt(bottomLeft, topRight);
+
+    //Sounds
+    m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND.c_str());
+    m_pullingSoundEffect = HtAudio::instance.LoadSound(PULLING_SOUND.c_str());
+    m_isPullingEffectPlaying = false;
+
+    SetCollidable();
+    SetHandleEvents();
+}
+
+//Used to create tractor beams along the bottom of the screen
+void TractorBeam::InitialiseFloorTractorBeam(Vector2D position)
+{
+    m_position = position;
+    m_tractorBeam = HtGraphics::instance.LoadPicture(TRACTOR_BEAM_IMAGE.c_str());
+    m_scale = TRACTOR_BEAM_SIZE;
+    m_angle = BOTTOM_TRACTORBEAM_ROTATION;
     m_isSpaceshipInRange = false;
     m_isTrapped = false;
 

@@ -154,19 +154,39 @@ void Game::CreateTractorBeam()
     //Constants
     const Vector2D TRACTORBEAM1_POS(4500, 1000);
     const Vector2D TRACTORBEAM2_POS(7000, 1000);
+    const Vector2D TRACTORBEAM3_POS(8500, -1000);
+    const Vector2D TRACTORBEAM4_POS(10500, -1000);
 
     //Ideally this goes in the Scene class
     //But since the Tractor beam works by pulling the spaceship it needs to know about pSpaceship
-    std::vector<Vector2D> tractorbeamPositions =
+    std::vector<Vector2D> tractorbeamRoofPositions =
     {
         Vector2D(TRACTORBEAM1_POS),
-        Vector2D(TRACTORBEAM2_POS)
+        Vector2D(TRACTORBEAM2_POS),
     };
 
-    for (const Vector2D& position : tractorbeamPositions)
+    for (const Vector2D& position : tractorbeamRoofPositions)
     {
         TractorBeam* pTractorBeam = new TractorBeam(ObjectType::TRACTORBEAM);
         pTractorBeam->Initialise(position);
+        if (pSpaceship != nullptr)
+        {
+            //Very important line, cannot be used in scene.cpp without causing dependencies
+            pTractorBeam->PullTarget(pSpaceship);
+        }
+        ObjectManager::instance.AddItem(pTractorBeam);
+    }
+
+    std::vector<Vector2D> tractorbeamFloorPositions =
+    {
+        Vector2D(TRACTORBEAM3_POS),
+        Vector2D(TRACTORBEAM4_POS),
+    };
+
+    for (const Vector2D& position : tractorbeamFloorPositions)
+    {
+        TractorBeam* pTractorBeam = new TractorBeam(ObjectType::TRACTORBEAM);
+        pTractorBeam->InitialiseFloorTractorBeam(position);
         if (pSpaceship != nullptr)
         {
             //Very important line, cannot be used in scene.cpp without causing dependencies

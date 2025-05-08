@@ -110,7 +110,7 @@ void ExplosiveRock::ProcessCollision(GameObject& other)
         return;
 
     ObjectType type = other.GetType();
-    if (type == ObjectType::EXPLOSIVEROCK || type == ObjectType::TILE)
+    if (type == ObjectType::EXPLOSIVEROCK || type == ObjectType::TILE || type == ObjectType::TRACTORBEAM)
     {
         Explode();
         Event evt;

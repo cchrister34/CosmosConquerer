@@ -6,7 +6,6 @@ const Vector2D TILE_POS_2(3200, 400);
 const Vector2D TILE_POS_3(5000, -650);
 const Vector2D TILE_POS_4(6300, -500);
 const Vector2D TILE_POS_5(7300, 300);
-const Vector2D TILE_POS_6(8500, -350);
 
 
 Scene::Scene(ObjectType objType)
@@ -28,7 +27,6 @@ void Scene::Initialise()
         Vector2D(TILE_POS_3),
         Vector2D(TILE_POS_4),
         Vector2D(TILE_POS_5),
-        Vector2D(TILE_POS_6)
     };
 
     //Cycle through the tile locations and create a tile object at the set coordinates

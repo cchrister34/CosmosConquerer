@@ -16,7 +16,7 @@ const double HP_BAR_LEFT = 1400;
 const Vector2D TOP_LEFT_HEALTH_TEXT(-1600, 915);
 const Vector2D TOP_LEFT_SCORE_TEXT(-1600, 1000);
 const Vector2D TOP_LEFT(-1400, 1000);
-const Vector2D TOP_RIGHT(1000, -950);
+const Vector2D TOP_RIGHT(1000, 950);
 const int LIVES_GAP = 100;
 const int FONT = 0;
 const int END_MESSAGE_FONT_SIZE = 3;

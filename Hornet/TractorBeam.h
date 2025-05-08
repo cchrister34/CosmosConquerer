@@ -8,6 +8,7 @@ class TractorBeam : public GameObject
 public:
     TractorBeam(ObjectType objType);
     void Initialise(Vector2D position);
+    void InitialiseFloorTractorBeam(Vector2D position);
     void PullTarget(Spaceship* pTarget);
     void Update(double frametime);
     void HandleEvent(Event evt) override;
