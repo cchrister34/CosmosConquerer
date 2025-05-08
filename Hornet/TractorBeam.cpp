@@ -32,6 +32,7 @@ void TractorBeam::Initialise(Vector2D position)
     m_scale = TRACTOR_BEAM_SIZE;
     m_isSpaceshipInRange = false;
     m_isTrapped = false;
+    m_isPullingAnimated = false;
 
     Vector2D bottomLeft = m_position - Vector2D(HALF_BEAM_WIDTH, HALF_BEAM_HEIGHT);
     Vector2D topRight = m_position + Vector2D(HALF_BEAM_WIDTH, HALF_BEAM_HEIGHT);
@@ -55,6 +56,7 @@ void TractorBeam::InitialiseFloorTractorBeam(Vector2D position)
     m_angle = BOTTOM_TRACTORBEAM_ROTATION;
     m_isSpaceshipInRange = false;
     m_isTrapped = false;
+
 
     Vector2D bottomLeft = m_position - Vector2D(HALF_BEAM_WIDTH, HALF_BEAM_HEIGHT);
     Vector2D topRight = m_position + Vector2D(HALF_BEAM_WIDTH, HALF_BEAM_HEIGHT);
@@ -101,11 +103,20 @@ void TractorBeam::Update(double frametime)
             m_pullForce = m_direction * m_pullMagnitude;
             //Apply the pull force onto the spaceship object
             m_pTarget->TractorBeamPull(m_pullForce * frametime);
-            m_beamPullPos.setBearing(m_angle, -300.0);
-            m_beamPullPos = m_beamPullPos + m_position;
-            BeamPull* pBeamPull = new BeamPull(ObjectType::BEAMPULL);
-            pBeamPull->Initialise(m_beamPullPos);
-            ObjectManager::instance.AddItem(pBeamPull);
+            //Pulling animation
+            //Last minute addition so functionality is not perfect, if planned earlier I would have used an animation system
+            //Functionality is still ok but not ideal.
+            //Ideally the animation repeats if the player escapes and re-enters the pull range.
+            if (!m_isPullingAnimated && !m_isTrapped)
+            {
+                m_beamPullPos.setBearing(m_angle, -300.0);
+                m_beamPullPos = m_beamPullPos + m_position;
+                BeamPull* pBeamPull = new BeamPull(ObjectType::BEAMPULL);
+                pBeamPull->Initialise(m_beamPullPos);
+                m_isPullingAnimated = true;
+                ObjectManager::instance.AddItem(pBeamPull);
+            }
+
 
             //Sound
             if (!m_isPullingEffectPlaying)
@@ -123,10 +134,11 @@ void TractorBeam::Update(double frametime)
             }
         }
 
-        if (m_distance < TRAP_RANGE)
+        if (m_distance < TRAP_RANGE && m_isPullingAnimated)
         {
             m_isTrapped = true;
             m_pTarget->Trap();
+            ObjectManager::instance.DeactivateType(ObjectType::BEAMPULL);
         }
     }
 }
