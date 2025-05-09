@@ -86,6 +86,9 @@ void Game::EndOfGame()
 
     //This line automatically deletes all managed objects
     ObjectManager::instance.DeleteAllObjects();
+    pTractorBeam.clear();
+    m_enemyShip.clear();
+    m_explosiveRock.clear();
 }
 
 void Game::EndOfProgram()

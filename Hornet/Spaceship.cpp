@@ -46,7 +46,7 @@ const double IMMUNITY_TIMER = 2;
 const double IMMUNE_TRANSPARENCY = 0.5;
 const int SHIP_TRANSPARENCY = 0;
 const double ROCK_DAMAGE = 0.2;
-const double BULLET_DAMAGE = 0.1;
+const double BULLET_DAMAGE = 0.07;
 const double ENGINE_VOLUME = 0.3;
 const int NO_IMMUNITY = 0;
 const int FLARE_DELAY_RESET = 0;
@@ -96,7 +96,6 @@ void Spaceship::Update(double frametime)
     m_cameraPosition = m_cameraPosition + m_cameraVelocity * frametime;
     HtCamera::instance.PlaceAt(Vector2D(m_cameraPosition));
 
-
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_W))
     {
         //Sound
@@ -126,6 +125,7 @@ void Spaceship::Update(double frametime)
         m_velocity = m_velocity - m_friction * frametime;
     }
     m_position = m_position + m_velocity * frametime;
+
 
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_A))
     {
