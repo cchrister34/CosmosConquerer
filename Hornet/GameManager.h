@@ -11,7 +11,7 @@ public:
     void Update(double frametime)override;
     void Render()override;
     void HandleEvent(Event evt)override;
-    void DisplayGameOver();
+    void DisplayGameOver() const;
     void DisplayLevelComplete() const;
 private:
     FontIndex m_MessageFont;
@@ -31,4 +31,7 @@ private:
     bool m_isGameOver;
     bool m_isGameWon;
     Spaceship* m_respawnedSpaceship;
+    bool m_shipHasBeenHit;
+    int m_displayHealth;
+    Vector2D m_healthNumberPos;
 };

@@ -68,4 +68,7 @@ private:
     double m_findRockSize;
     double m_rockCollisionDamage;
     bool hasReachedWinPos;
+    Vector2D m_collisionVector;
+    Vector2D m_direction;
+    double m_speed;
 };

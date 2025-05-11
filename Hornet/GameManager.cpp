@@ -15,6 +15,7 @@ const double HP_BAR_BOTTOM = 880;
 const double HP_BAR_LEFT = 1400;
 const Vector2D TOP_LEFT_HEALTH_TEXT(-1600, 915);
 const Vector2D TOP_LEFT_SCORE_TEXT(-1600, 1000);
+const Vector2D HEALTH_BAR_NUMBER_POS(-1150, 915);
 const Vector2D TOP_LEFT(-1400, 1000);
 const Vector2D TOP_RIGHT(1000, 950);
 const int LIVES_GAP = 100;
@@ -53,6 +54,7 @@ void GameManager::Initialise()
     m_dynamicShipHealth = SHIP_HEALTH;
     m_isGameOver = false;
     m_isGameWon = false;
+    m_shipHasBeenHit = false;
     
     m_hasPickup = false;
     m_collectedPickup = PickUpType::NONE;
@@ -116,6 +118,13 @@ void GameManager::Render()
         {
             HtGraphics::instance.DrawAt(pickupPos, m_shootImage);
         }
+    }
+
+    if (m_shipHasBeenHit)
+    {
+        m_healthBarPos.set(HEALTH_BAR_NUMBER_POS);
+        m_displayHealth = static_cast<int>(m_dynamicShipHealth);
+        HtGraphics::instance.WriteIntAligned(m_healthBarPos, m_displayHealth, HtGraphics::WHITE, m_MessageFont, FONT_SIZE);
     }
 
     //Game Over
@@ -211,6 +220,8 @@ void GameManager::HandleEvent(Event evt)
         if (pShip)
         {
             m_dynamicShipHealth = pShip->GetHealth();
+            m_shipHasBeenHit = true;
+
         }
     }
     else if (evt.type == EventType::SHOTEXPLOSIVEROCK)
@@ -220,7 +231,7 @@ void GameManager::HandleEvent(Event evt)
         }
 }
 
-void GameManager::DisplayGameOver()
+void GameManager::DisplayGameOver() const
 {
     HtGraphics::instance.WriteTextAligned(GAME_FINISHED_MSG_POS, "MISSION FAILED", HtGraphics::DARKRED, m_MessageFont, END_MESSAGE_FONT_SIZE);
     HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, m_MessageFont);

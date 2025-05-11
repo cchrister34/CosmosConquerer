@@ -45,7 +45,7 @@ const double TRACTOR_BEAM_SPEED_REDUCTION = 0.3;
 const double IMMUNITY_TIMER = 2;
 const double IMMUNE_TRANSPARENCY = 0.5;
 const int SHIP_TRANSPARENCY = 0;
-const double ROCK_DAMAGE = 0.2;
+const double ROCK_DAMAGE = 0.15;
 const double BULLET_DAMAGE = 0.07;
 const double ENGINE_VOLUME = 0.3;
 const int NO_IMMUNITY = 0;
@@ -236,6 +236,7 @@ void Spaceship::ProcessCollision(GameObject& other)
         Rock* pOther = dynamic_cast<Rock*>(&other);
         if (pOther)
         {
+        //Code to calculate the speed of the collision to scale the damage higher for head on and faster collisions
           m_findRockVelocity = pOther->GetVelocity();
           m_relativeVelocity = m_findRockVelocity - m_velocity;
           m_relativeSpeed = m_relativeVelocity.magnitude();
@@ -244,6 +245,13 @@ void Spaceship::ProcessCollision(GameObject& other)
           m_rockCollisionDamage = m_relativeSpeed * m_findRockSize * ROCK_DAMAGE;
 
           m_health -= m_rockCollisionDamage;
+
+          //Code to give a visual indicator of the ship taking damage via a collision by affecting the ships velocity in the opposite direction. 
+          m_collisionVector = m_position - pOther->GetPosition();
+          m_direction = m_collisionVector.unitVector();
+          m_speed = m_velocity.magnitude();
+          m_velocity = m_direction * m_speed;
+
           Event evt;
           evt.type = EventType::SHIPDAMAGED;
           evt.pSource = this;
@@ -259,6 +267,7 @@ void Spaceship::ProcessCollision(GameObject& other)
     if (other.GetType() == ObjectType::ENEMYBULLET)
     {
         m_health -= BULLET_DAMAGE;
+
         Event evt;
         evt.type = EventType::SHIPDAMAGED;
         evt.pSource = this;

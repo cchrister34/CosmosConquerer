@@ -140,7 +140,7 @@ void Rock::ProcessCollision(GameObject& other)
     ObjectType type = other.GetType();
     if (type == ObjectType::TILE || type == ObjectType::ROCK)
     {
-        //Subtratcs a rock's position from anothers, returning a vector that points from one rock to another.
+        //Subtratcs one objects' position from anothers, returning a vector that points from one object to another.
         Vector2D collisionVector = m_position - other.GetPosition();
         //Uses the collision vector to calculate the direction they are colliding from
         Vector2D direction = collisionVector.unitVector();
