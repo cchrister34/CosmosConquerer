@@ -12,7 +12,6 @@
 #include "Tile.h"
 #include "PickUp.h"
 #include "Missile.h"
-#include "Scene.h"
 #include "TractorBeam.h"
 #include "EnemyShip.h"
 #include "ExplosiveRock.h"
@@ -66,9 +65,10 @@ private:
     Spaceship* pSpaceship = nullptr;
     Rock* pTheRocks[20] = { nullptr };
     GameManager* pGameManager = nullptr;
-    Scene* pScene = nullptr;
     PickUp* pPickUp = nullptr;
     Missile* pMissile = nullptr;
+    Background* pBackGround = nullptr;
+    std::vector<Tile*> pTile;
     std::vector<TractorBeam*> pTractorBeam;
     std::vector<EnemyShip*> m_enemyShip;
     std::vector<ExplosiveRock*> m_explosiveRock;
@@ -79,9 +79,10 @@ private:
     void CreatePlayer();
     void CreateRocks();
     void CreateGameManager();
-    void CreateScene();
     void CreatePickups();
     void CreateMissile();
+    void CreateBackground();
+    void CreateTile();
     void CreateTractorBeam();
     void CreateEnemyShip();
     void CreateExplosiveRock();

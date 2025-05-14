@@ -6,6 +6,7 @@ const double TILE_HEIGHT = 150;
 const double HALF_TILE_WIDTH = TILE_WIDTH / 2.0;
 const double HALF_TILE_HEIGHT = TILE_HEIGHT / 2.0;
 const std::string TILE_IMAGE = "assets/tilelayer.png";
+const int TILE_DRAW_DEPTH = 2;
 
 Tile::Tile(ObjectType objType) : GameObject(ObjectType::TILE)
 {
@@ -23,6 +24,7 @@ void Tile::Initialise(Vector2D position)
    Vector2D topRight = m_position + Vector2D(HALF_TILE_WIDTH, HALF_TILE_HEIGHT);
    m_collisionShape.PlaceAt(bottomLeft, topRight);
    SetCollidable();
+   SetDrawDepth(TILE_DRAW_DEPTH);
 }
 
 void Tile::Update(double frametime)

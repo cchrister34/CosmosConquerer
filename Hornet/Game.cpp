@@ -18,9 +18,10 @@ void Game::StartOfGame()
     CreatePlayer();
     CreateRocks();
     CreateGameManager();
-    CreateScene();
     CreatePickups();
     CreateMissile();
+    CreateBackground();
+    CreateTile();
     CreateTractorBeam();
     CreateEnemyShip();
     CreateExplosiveRock();
@@ -121,13 +122,6 @@ void Game::CreateGameManager()
     ObjectManager::instance.AddItem(pGameManager);
 }
 
-void Game::CreateScene()
-{
-    //Scene class hosts the background, tile and tractor beam objects to keep the game loop cleaner
-    pScene = new Scene(ObjectType::SCENE);
-    pScene->Initialise();
-    ObjectManager::instance.AddItem(pScene);
-}
 
 void Game::CreatePickups()
 {
@@ -152,6 +146,41 @@ void Game::CreateMissile()
     ObjectManager::instance.AddItem(pMissile);
 }
 
+void Game::CreateBackground()
+{
+    pBackGround = new Background(ObjectType::BACKGROUND);
+    pBackGround->Initialise();
+    ObjectManager::instance.AddItem(pBackGround);
+}
+
+void Game::CreateTile()
+{
+    //Constants
+    const Vector2D TILE_POS_1(2000, 0);
+    const Vector2D TILE_POS_2(3200, 400);
+    const Vector2D TILE_POS_3(5000, -650);
+    const Vector2D TILE_POS_4(6300, -500);
+    const Vector2D TILE_POS_5(7300, 300);
+
+    std::vector<Vector2D> tilePositions =
+    {
+        Vector2D(TILE_POS_1),
+        Vector2D(TILE_POS_2),
+        Vector2D(TILE_POS_3),
+        Vector2D(TILE_POS_4),
+        Vector2D(TILE_POS_5),
+    };
+
+    //Cycle through the tile locations and create a tile object at the set coordinates
+    for (const Vector2D& position : tilePositions)
+    {
+        Tile* pTile = new Tile(ObjectType::TILE);
+        pTile->Initialise(position);
+        ObjectManager::instance.AddItem(pTile);
+    };
+
+}
+
 void Game::CreateTractorBeam()
 {
     //Constants
@@ -160,7 +189,7 @@ void Game::CreateTractorBeam()
     const Vector2D TRACTORBEAM3_POS(8500, -1000);
     const Vector2D TRACTORBEAM4_POS(10500, -1000);
 
-    //Ideally this goes in the Scene class
+    //Ideally this goes in a seperate class class for less cohesion
     //But since the Tractor beam works by pulling the spaceship it needs to know about pSpaceship
     std::vector<Vector2D> tractorbeamRoofPositions =
     {
@@ -174,7 +203,7 @@ void Game::CreateTractorBeam()
         pTractorBeam->Initialise(position);
         if (pSpaceship != nullptr)
         {
-            //Very important line, cannot be used in scene.cpp without causing dependencies
+            //Very important line, cannot be used in a sepeate without causing dependencies
             pTractorBeam->PullTarget(pSpaceship);
         }
         ObjectManager::instance.AddItem(pTractorBeam);
