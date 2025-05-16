@@ -1,7 +1,8 @@
 #pragma once
 #include "GameObject.h"
-#include "Spaceship.h"
+#include "HtAudio.h"
 
+class Spaceship;
 
 class ExplosiveRock : public GameObject
 {
@@ -25,7 +26,7 @@ private:
     Vector2D m_playerLocation;
     double m_distance;
     bool m_isActive;
-    SoundIndex m_explosionBang;
+    SoundIndex m_explosionSound;
     int m_explosionSoundChannel;
     bool m_isExplosionSoundPlaying;
 };

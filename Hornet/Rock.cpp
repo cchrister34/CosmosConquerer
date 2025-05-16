@@ -19,7 +19,7 @@ const int RAND_SPEED1 = 111;
 const int RAND_SPEED2 = 40;
 const int RAND_FRAG_SPEED1 = 51;
 const int RAND_FRAG_SPEED2 = 20;
-const int ROCK_AMOUNT = 3;
+const int ROCK_AMOUNT = 3; 
 
 Rock::Rock(ObjectType objType) : GameObject(ObjectType::ROCK)
 {

@@ -1,7 +1,8 @@
 #pragma once
 #include "GameObject.h"
-#include "Spaceship.h"
+#include "HtAudio.h"
 
+class Spaceship;
 
 class EnemyShip : public GameObject
 {
@@ -18,8 +19,6 @@ public:
 private:
     double m_enemySpawnXpos;
     double m_enemySpawnYpos;
-    Vector2D m_enemySpawnRange;
-    double m_enemyObjectDistance;
     double m_enemySpeed;
     double m_enemyPosAngle;
     double m_enemyVelAngle;

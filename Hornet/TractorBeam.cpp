@@ -2,6 +2,7 @@
 #include "ObjectManager.h"
 #include "Explosion.h"
 #include "BeamPull.h"
+#include "Spaceship.h"
 
 //Constants
 const std::string TRACTOR_BEAM_IMAGE = "assets/tractorbeam.png";

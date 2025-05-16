@@ -1,7 +1,8 @@
 #pragma once
 #include "GameObject.h"
 #include "pickuptypes.h"
-#include "Spaceship.h"
+
+class Spaceship;
 
 class GameManager : public GameObject
 {

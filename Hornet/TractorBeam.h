@@ -1,7 +1,8 @@
 #pragma once
 #include "GameObject.h"
-#include "Spaceship.h"
 #include "HtAudio.h"
+
+class Spaceship;
 
 class TractorBeam : public GameObject
 {

@@ -1,9 +1,9 @@
- #include "GameManager.h"
-#include "Spaceship.h"
+#include "GameManager.h"
 #include "ObjectManager.h"
 #include "HtCamera.h"
 #include "PickUp.h"
-#include "Missile.h"
+#include "Spaceship.h"
+
 
 //Constants
 const int START_SCORE = 0;

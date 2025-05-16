@@ -1,5 +1,6 @@
 #include "Missile.h"
 #include "ObjectManager.h"
+#include "Spaceship.h"
 
 //Constans 
 const std::string MISSILE_IMAGE = "assets/missile.png";
@@ -30,11 +31,13 @@ void Missile::Initialise()
     m_scale = MISSILE_SIZE;
     //Dummy spawn
     m_position.set(OFF_SCREEN_SPAWN);
+    m_spawnDelay = SPAWN_DELAY_RESET;
     m_hasMissileSpawned = false;
     m_missileSound = HtAudio::instance.LoadSound(MISSILE_SOUND.c_str());
     SetCollidable();
     SetHandleEvents();
 }
+
 
 void Missile::SetTarget(Spaceship* pTarget)
 {
@@ -149,13 +152,13 @@ void Missile::ProcessCollision(GameObject& other)
 {
     if (other.GetType() == ObjectType::FLARE)
     {
-        //This means that the missile will not respawn if destroyed by flares
-        Deactivate();
         if (isMissilePlaying)
         {
             HtAudio::instance.Stop(m_missileSoundChannel);
             isMissilePlaying = false;
         }
+        //This means that the missile will not respawn if destroyed by flares
+        Deactivate();
         Event evt;
         evt.type = EventType::OBJECTDESTROYED;
         evt.pSource = this;

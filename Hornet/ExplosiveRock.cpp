@@ -1,4 +1,5 @@
 #include "ExplosiveRock.h"
+#include "Spaceship.h"
 #include "Explosion.h"
 #include "ObjectManager.h"
 
@@ -41,7 +42,7 @@ void ExplosiveRock::Initialise()
 
     //Explosion
     m_isExplosionSoundPlaying = false;
-    m_explosionBang = HtAudio::instance.LoadSound(EXPLOSION_SOUND);
+    m_explosionSound = HtAudio::instance.LoadSound(EXPLOSION_SOUND);
 
     SetCollidable();
     SetHandleEvents();
@@ -174,6 +175,6 @@ void ExplosiveRock::Explode()
     ObjectManager::instance.AddItem(p_Explosion);
     if (!m_isExplosionSoundPlaying)
     {
-        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionBang);
+        m_explosionSoundChannel = HtAudio::instance.Play(m_explosionSound);
     }
 }

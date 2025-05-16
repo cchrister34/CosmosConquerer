@@ -2,6 +2,8 @@
 #include "Bullet.h"
 #include "ObjectManager.h"
 #include "Explosion.h"
+#include "Spaceship.h"
+
 
 //Constants
 const std::string ENEMY_SHIP_IMAGE = "assets/enemyship.png";
