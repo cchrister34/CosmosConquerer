@@ -12,21 +12,8 @@ const std::string EXPLOSION_SOUND = "assets/explosion3.wav";
 const int ENEMY_SHIP_DRAW_DEPTH = 2;
 const double ENEMY_RADIUS = 48;
 const double ENEMY_SIZE = 1.5;
-const int TOPBORDER = 900;
-const int BOTTOMBORDER = -900;
-const int LEFTBORDER = 3000;
-const int RIGHTBORDER = 6000;
 const double SHOOT_RANGE = 750;
-const double BULLET_MAGNITUDE = 65;
-const double BULLET_SPEED = 700;
 const double SHOOT_DELAY = 2;
-const int RAND_SPAWN_XPOS_MIN = 3001;
-const int RAND_SPAWN_XPOS_MAX = 3001;
-const int RAND_SPAWN_YPOS_MAX = 2001;
-const int RAND_SPAWN_YPOS_MIN = 1000;
-const int RAND_SPEED_MIN = 51;
-const int RAND_SPEED_MAX = 100;
-const int RAND_ANGLE = 360;
 const int SHOT_DELAY_RESET = 0;
 
 
@@ -41,6 +28,15 @@ void EnemyShip::Initialise()
     m_angle = m_velocity.angle();
     m_scale = ENEMY_SIZE;
     m_isPlayerInRange = false;
+
+    //Spawn Constants 
+    const int RAND_SPAWN_XPOS_MIN = 3001;
+    const int RAND_SPAWN_XPOS_MAX = 3001;
+    const int RAND_SPAWN_YPOS_MAX = 2001;
+    const int RAND_SPAWN_YPOS_MIN = 1000;
+    const int RAND_SPEED_MIN = 51;
+    const int RAND_SPEED_MAX = 100;
+    const int RAND_ANGLE = 360;
 
     m_enemySpawnXpos = rand() % RAND_SPAWN_XPOS_MIN + RAND_SPAWN_XPOS_MAX;
     m_enemySpawnYpos = rand() % RAND_SPAWN_YPOS_MAX - RAND_SPAWN_YPOS_MIN;
@@ -106,6 +102,14 @@ void EnemyShip::Update(double frametime)
         }
 
         //Wrapping 
+        //Wrapping Constants 
+
+        const int TOPBORDER = 900;
+        const int BOTTOMBORDER = -900;
+        const int LEFTBORDER = 3000;
+        const int RIGHTBORDER = 6000;
+
+
         if (m_position.YValue > TOPBORDER)
         {
             m_position.YValue = TOPBORDER;
@@ -141,6 +145,10 @@ void EnemyShip::FindPlayer(Spaceship* pTarget)
 
 void EnemyShip::Shoot()
 {
+    //Shoot Constants
+    const double BULLET_MAGNITUDE = 65;
+    const double BULLET_SPEED = 700;
+
     m_bulletPosition.setBearing(m_angle, BULLET_MAGNITUDE);
     m_bulletPosition = m_bulletPosition + m_position;
     Vector2D bulletPos = m_bulletPosition;

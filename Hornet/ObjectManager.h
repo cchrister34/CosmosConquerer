@@ -22,7 +22,7 @@ private:
 	// Sets up the object and sets the currentScene to zero
 	// Also sets the gametimer
 	ObjectManager();
-	// Deletes all objects
+	// Deletes all objects      
 	~ObjectManager();
 	ObjectManager(const ObjectManager& other) = delete;
 	ObjectManager(ObjectManager&& other) = delete;

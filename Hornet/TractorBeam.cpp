@@ -13,12 +13,6 @@ const double TRACTOR_BEAM_WIDTH = 182 * 2.5;
 const double HALF_BEAM_HEIGHT = TRACTOR_BEAM_HEIGHT / 2;
 const double HALF_BEAM_WIDTH = TRACTOR_BEAM_WIDTH / 2;
 const double TRACTOR_BEAM_SIZE = 2.5;
-const double PULL_RANGE = 1000;
-const double PULL_STRENGTH = 200;
-const double PULL_MAGNETISM = 1;
-const double TRAP_RANGE = 300;
-const int HIT_RELEASE_AMOUNT = 5;
-const int HIT_RELEASE_RESET = 0;
 const int BOTTOM_TRACTORBEAM_ROTATION = 180;
 
 TractorBeam::TractorBeam(ObjectType objType) : GameObject(ObjectType::TRACTORBEAM)
@@ -79,6 +73,13 @@ void TractorBeam::PullTarget(Spaceship* pTarget)
 
 void TractorBeam::Update(double frametime)
 {
+    //Pulling Constants 
+    const double PULL_RANGE = 1000;
+    const double PULL_STRENGTH = 200;
+    const double PULL_MAGNETISM = 1;
+    const double TRAP_RANGE = 300;
+
+
     m_isSpaceshipInRange = false;
     m_isTrapped = false;
 
@@ -182,6 +183,10 @@ void TractorBeam::HandleEvent(Event evt)
 
 void TractorBeam::ProcessCollision(GameObject& other)
 {
+    //Releasing Constants 
+    const int HIT_RELEASE_AMOUNT = 5;
+    const int HIT_RELEASE_RESET = 0;
+
     if (other.GetType() == ObjectType::BULLET && m_isTrapped)
     {
         m_hitCount++;

@@ -17,21 +17,11 @@ const double WIN_X_POS = 12000;
 const double SHIP_HIT_POINTS = 100;
 const double CAMERA_VELOCITY = 3.0;
 const double CAMERA_FRICTION = 2.0;
-const double THRUST_STRENGTH = 220.0;
-const int ROTATION_SPEED = 180;
-const double ANGULAR_FRICTION = 0.6;
 const double BULLET_DELAY = 0.3;
 const double SHIP_SIZE = 1.3;
 const double SHIP_RADIUS = 48;
 const double SHIP_ANGLE = 90;
-const double FRICTION_STRENGTH = 0.5;
-const double BULLET_MAGNITUDE = 80;
-const double BULLET_SPEED = 800.0;
 const double FLARE_DELAY = 15;
-const double FLARE_MAGNITUTE = -20;
-const int FLARE_AMOUNT = 3;
-const double FLARE_SPREAD = 20;
-const double FLARE_SPEED = 75;
 const int TOPBORDER = 1000;
 const int BOTTOMBORDER = -1000;
 const int BORDERLEFT = -450;
@@ -40,17 +30,11 @@ const double SPEED_PICKUP_MULTIPLIER = 1.5;
 const double SHOOT_PICKUP_MULTIPLIER = 2.0;
 const double PICK_UP_TIMER = 5.0;
 const double BASE_PICKUP_MULTIPLIER = 1.0;
-const double REDUCED_PULL_SPEED = 10;
-const double TRACTOR_BEAM_SPEED_REDUCTION = 0.3;
 const double IMMUNITY_TIMER = 2;
 const double IMMUNE_TRANSPARENCY = 0.5;
 const int SHIP_TRANSPARENCY = 0;
-const double ROCK_DAMAGE = 0.15;
-const double BULLET_DAMAGE = 0.07;
-const double ENGINE_VOLUME = 0.3;
 const int NO_IMMUNITY = 0;
 const int FLARE_DELAY_RESET = 0;
-const int FLARE_CENTER_INDEX = 1;
 const int SHOOT_DELAY_RESET = 0;
 const int DEAD_HEALTH_AMOUNT = 0;
 const std::string SHIP_IMAGE = "assets/spaceship.png"; //Cannot use const char* because of one definition rule 
@@ -65,6 +49,13 @@ Spaceship::Spaceship(ObjectType objType) : GameObject(ObjectType::SPACESHIP)
 
 void Spaceship::Update(double frametime)
 {
+    //Movement Constants 
+    const double THRUST_STRENGTH = 220.0;
+    const int ROTATION_SPEED = 180;
+    const double ANGULAR_FRICTION = 0.6;
+    const double FRICTION_STRENGTH = 0.5;
+    const double ENGINE_VOLUME = 0.3;
+
     m_shootdelay -= frametime;
     m_flareDelay -= frametime;
     m_spawnImmunity -= frametime;
@@ -149,6 +140,13 @@ void Spaceship::Update(double frametime)
     //Flares
     if (HtKeyboard::instance.KeyPressed(SDL_SCANCODE_F) && m_flareDelay < FLARE_DELAY_RESET)
     {
+        //Flare Constants
+        const double FLARE_MAGNITUTE = -20;
+        const int FLARE_AMOUNT = 3;
+        const double FLARE_SPREAD = 20;
+        const double FLARE_SPEED = 75;
+        const int FLARE_CENTER_INDEX = 1;
+
         //Flares or stored in this vector, could be useful later for programming homing missile
         std::vector<Flare*> flares;
 
@@ -231,6 +229,11 @@ void Spaceship::Update(double frametime)
 
 void Spaceship::ProcessCollision(GameObject& other)
 {
+    //Damage Constants 
+    const double ROCK_DAMAGE = 0.15;
+    const double BULLET_DAMAGE = 0.07;
+
+
     if (other.GetType() == ObjectType::ROCK && m_spawnImmunity <= NO_IMMUNITY)
     {
         Rock* pOther = dynamic_cast<Rock*>(&other);
@@ -427,6 +430,10 @@ void Spaceship::Explode()
 
 void Spaceship::Shoot()
 {
+    //Shoot Constants 
+    const double BULLET_MAGNITUDE = 80;
+    const double BULLET_SPEED = 800.0;
+
     m_bulletPosition.setBearing(m_angle, BULLET_MAGNITUDE);
     m_bulletPosition = m_bulletPosition + m_position;
     Bullet* pBullet;

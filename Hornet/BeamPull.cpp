@@ -7,6 +7,9 @@ const double TIMERINCREASE = 1.5;
 const int IMAGE_AMOUNT = 3;
 const int LOAD_FIRST_IMAGE = 0;
 const int DRAWDEPTH_AMOUNT = -1;
+const std::string BEAM_IMAGE_1 = "assets/beampull1.png";
+const std::string BEAM_IMAGE_2 = "assets/beampull2.png";
+const std::string BEAM_IMAGE_3 = "assets/beampull3.png";
 
 BeamPull::BeamPull(ObjectType objType) : GameObject(ObjectType::BEAMPULL)
 {
@@ -27,9 +30,9 @@ void BeamPull::Initialise(Vector2D postion)
     m_scale = PULL_SIZE;
     SetDrawDepth(DRAWDEPTH_AMOUNT);
 
-    LoadImage("assets/beampull1.png");
-    LoadImage("assets/beampull2.png");
-    LoadImage("assets/beampull3.png");
+    LoadImage(BEAM_IMAGE_1.c_str());
+    LoadImage(BEAM_IMAGE_2.c_str());
+    LoadImage(BEAM_IMAGE_3.c_str());
 
     m_imageNumber = LOAD_FIRST_IMAGE;
 }

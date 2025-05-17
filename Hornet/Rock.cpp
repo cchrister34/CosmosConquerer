@@ -3,10 +3,6 @@
 #include "HtCamera.h"
 
 //Constants
-const int TOPBORDER = 1000;
-const int BOTTOMBORDER = -1000;
-const int BORDERLEFT = -1600;
-const int BORDERRIGHT = 2200;
 const double ROCKRADIUS = 52;
 const double ROCKSIZE = 0.75;
 const double ROCKFRAGMENT = 0.3;
@@ -16,10 +12,8 @@ const int RAND_ANGLE = 360;
 const int RAND_X_POS1 = 2200;
 const int RAND_X_POS2 = 200;
 const int RAND_SPEED1 = 111;
-const int RAND_SPEED2 = 40;
-const int RAND_FRAG_SPEED1 = 51;
-const int RAND_FRAG_SPEED2 = 20;
-const int ROCK_AMOUNT = 3; 
+const int RAND_SPEED2 = 40; 
+const int ROCK_AMOUNT = 3;
 
 Rock::Rock(ObjectType objType) : GameObject(ObjectType::ROCK)
 {
@@ -28,6 +22,13 @@ Rock::Rock(ObjectType objType) : GameObject(ObjectType::ROCK)
 void Rock::Update(double frametime)
 {
     m_position = m_position + m_velocity * frametime;
+
+    //Wrapping
+    //Wrapping Constants 
+    const int TOPBORDER = 1000;
+    const int BOTTOMBORDER = -1000;
+    const int BORDERLEFT = -1600;
+    const int BORDERRIGHT = 2200;
 
     if (m_position.XValue < BORDERLEFT)
     {
@@ -83,6 +84,10 @@ IShape2D& Rock::GetCollisionShape()
 
 void Rock::InitialiseRockFragment(const Vector2D& position)
 {
+    //Fragment constants
+    const int RAND_FRAG_SPEED1 = 51;
+    const int RAND_FRAG_SPEED2 = 20;
+
     const char* rockImages[RAND_IMAGE] =
     {
         "assets/asteroid1.png",

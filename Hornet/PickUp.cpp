@@ -6,7 +6,6 @@
 //Constants
 const Vector2D SPEED_PICKUP_POS(3200, 550);
 const Vector2D SHOOT_PICKUP_POS(5000, -500);
-const Vector2D HEALTH_PICKUP_POS(6500, 0);
 double PICKUP_RADIUS = 64;
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
 const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
@@ -61,6 +60,7 @@ void PickUp::ProcessCollision(GameObject& other)
 
 void PickUp::Render()
 {
+
     //uses the enum class to set the position of the image
     if (m_pickupType == PickUpType::SPEED)
     {

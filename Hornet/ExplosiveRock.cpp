@@ -9,17 +9,7 @@ const std::string EXPLOSION_SOUND = "assets/explosion3.wav";
 const double ACTIVE_RANGE = 1500;
 const double ROCKRADIUS = 36;
 const double EXPLOSIVE_ROCK_SIZE = 1.5;
-const int TOPBORDER = 1000;
-const int BOTTOMBORDER = -1000;
-const int BORDERLEFT = 4000;
-const int BORDERRIGHT = 9000;
-const int EXPLOSIVEROCK_RAND_X_POS_MIN = 4001;
-const int EXPLOSIVEROCK_RAND_X_POS_MAX = 8000;
-const int EXPLOSIVEROCK_RAND_Y_POS_MIN = 900;
-const int EXPLOSIVEROCK_RAND_Y_POS_MAX = 1801;
-const int RAND_ANGLE = 360;
-const int RAND_SPEED_MIN = 101;
-const int RAND_SPEED_MAX = 200;
+
 
 ExplosiveRock::ExplosiveRock(ObjectType objType) : GameObject(ObjectType::EXPLOSIVEROCK)
 {
@@ -31,6 +21,15 @@ void ExplosiveRock::Initialise()
     LoadImage(EXPLOSIVE_ROCK_IMAGE.c_str());
     m_scale = EXPLOSIVE_ROCK_SIZE;
     m_isActive = false;
+
+    //Spawn Constants 
+    const int EXPLOSIVEROCK_RAND_X_POS_MIN = 4001;
+    const int EXPLOSIVEROCK_RAND_X_POS_MAX = 8000;
+    const int EXPLOSIVEROCK_RAND_Y_POS_MIN = 900;
+    const int EXPLOSIVEROCK_RAND_Y_POS_MAX = 1801;
+    const int RAND_ANGLE = 360;
+    const int RAND_SPEED_MIN = 101;
+    const int RAND_SPEED_MAX = 200;
 
     m_explosiveRockXpos = rand() % EXPLOSIVEROCK_RAND_X_POS_MIN + EXPLOSIVEROCK_RAND_X_POS_MAX;
     m_explosiveRockYpos = rand() % EXPLOSIVEROCK_RAND_Y_POS_MAX - EXPLOSIVEROCK_RAND_Y_POS_MIN;
@@ -83,6 +82,13 @@ void ExplosiveRock::Update(double frametime)
         m_position = m_position + m_velocity * frametime;
 
         //Wrapping
+        //Wrapping constants 
+        const int TOPBORDER = 1000;
+        const int BOTTOMBORDER = -1000;
+        const int BORDERLEFT = 4000;
+        const int BORDERRIGHT = 9000;
+
+
         if (m_position.XValue < BORDERLEFT)
         {
             m_velocity.XValue = -m_velocity.XValue;

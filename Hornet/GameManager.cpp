@@ -9,38 +9,18 @@
 const int START_SCORE = 0;
 const int START_LIVES = 2;
 const double SHIP_HEALTH = 100;
-const double MAX_HP_BAR_WIDTH = 600;
-const double HP_BAR_TOP = 910;
-const double HP_BAR_BOTTOM = 880;
-const double HP_BAR_LEFT = 1400;
-const Vector2D TOP_LEFT_HEALTH_TEXT(-1600, 915);
-const Vector2D TOP_LEFT_SCORE_TEXT(-1600, 1000);
-const Vector2D HEALTH_BAR_NUMBER_POS(-1150, 915);
-const Vector2D TOP_LEFT(-1400, 1000);
-const Vector2D TOP_RIGHT(1000, 950);
-const int LIVES_GAP = 100;
+const int NO_LIVES_REMAINING = 0;
 const int END_MESSAGE_FONT_SIZE = 3;
 const int END_SCORE_FONT_SIZE = 2;
+const int MESSAGE_FONT_SIZE = 24;
 const double FONT_SIZE = 1.25;
-const int ROCK_SCORE_INCREASE = 100;
-const int MISSILE_SCORE_INCREASE = 500;
-const int TRACTOR_BEAM_SCORE_INCREASE = 300;
-const int ENEMY_SHIP_SCORE_INCREASE = 250;
-const int EXPLOSIVE_ROCK_SCORE_INCREASE = 150;
-const int DEATH_SCORE_PENALTY = 100;
-const int NO_LIVES_REMAINING = 0;
-const int DEATH_PENALTY_LIVES_VALUE = 1;
-const Vector2D GAME_FINISHED_MSG_POS(-375, 400);
+const int UI_DRAW_DEPTH = 2;
 const Vector2D RETURN_MESSAGE(75, 100);
-const Vector2D FINALSCORE_MESSAGE(-100, 250);
-const Vector2D FINALSCORE_POS(150, 250);
-const Vector2D WIN_MESSAGE_POS(-375, 500);
-const Vector2D LIVES_POS(1100, 950);
 const std::string SHIP_IMAGE = "assets/spaceship.png";
 const std::string SPEED_PICKUP_IMAGE = "assets/powerup1.png";
 const std::string SHOOT_PICKUP_IMAGE = "assets/powerup2.png";
 const std::string MESSAGE_FONT = "fonts/kenpixel_future.ttf";
-const int MESSAGE_FONT_SIZE = 24;
+
 
 
 GameManager::GameManager(ObjectType objType)
@@ -66,7 +46,7 @@ void GameManager::Initialise()
     m_MessageFont = HtGraphics::instance.LoadFont(MESSAGE_FONT, MESSAGE_FONT_SIZE);
 
 
-    SetDrawDepth(2);
+    SetDrawDepth(UI_DRAW_DEPTH);
     SetHandleEvents();
 }
 
@@ -80,6 +60,16 @@ void GameManager::Update(double frametime)
 
 void GameManager::Render()
 {
+    //Render Constants 
+    const Vector2D TOP_LEFT_HEALTH_TEXT(-1600, 915);
+    const Vector2D TOP_LEFT_SCORE_TEXT(-1600, 1000);
+    const Vector2D HEALTH_BAR_NUMBER_POS(-1150, 915);
+    const Vector2D TOP_LEFT(-1400, 1000);
+    const Vector2D TOP_RIGHT(1000, 950);
+    const Vector2D LIVES_POS(1100, 950);
+    const int LIVES_GAP = 100;
+
+
     HtCamera::instance.UseCamera(false);
     HtGraphics::instance.WriteTextAligned(TOP_LEFT_SCORE_TEXT, "Score: ", HtGraphics::WHITE, m_MessageFont, FONT_SIZE);
     HtGraphics::instance.WriteTextAligned(TOP_LEFT_HEALTH_TEXT, "Health: ", HtGraphics::WHITE, m_MessageFont, FONT_SIZE);
@@ -93,6 +83,13 @@ void GameManager::Render()
     }
 
     //HealthBar
+    //Constants 
+    const double MAX_HP_BAR_WIDTH = 600;
+    const double HP_BAR_TOP = 910;
+    const double HP_BAR_BOTTOM = 880;
+    const double HP_BAR_LEFT = 1400;
+
+
     double width = MAX_HP_BAR_WIDTH;
     double top = HP_BAR_TOP;
     double bottom = HP_BAR_BOTTOM;
@@ -144,6 +141,15 @@ void GameManager::Render()
 
 void GameManager::HandleEvent(Event evt)
 {
+    //Event Constants 
+    const int ROCK_SCORE_INCREASE = 100;
+    const int MISSILE_SCORE_INCREASE = 500;
+    const int TRACTOR_BEAM_SCORE_INCREASE = 300;
+    const int ENEMY_SHIP_SCORE_INCREASE = 250;
+    const int EXPLOSIVE_ROCK_SCORE_INCREASE = 150;
+    const int DEATH_SCORE_PENALTY = 100;
+    const int DEATH_PENALTY_LIVES_VALUE = 1;
+
     if (evt.type == EventType::OBJECTDESTROYED)
     {
         if (!evt.pSource) return;
@@ -233,12 +239,21 @@ void GameManager::HandleEvent(Event evt)
 
 void GameManager::DisplayGameOver() const
 {
+    //Constants
+    const Vector2D GAME_FINISHED_MSG_POS(-375, 400);
+
     HtGraphics::instance.WriteTextAligned(GAME_FINISHED_MSG_POS, "MISSION FAILED", HtGraphics::DARKRED, m_MessageFont, END_MESSAGE_FONT_SIZE);
     HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, m_MessageFont);
 }
 
 void GameManager::DisplayLevelComplete() const
 {
+    //Constants 
+    const Vector2D FINALSCORE_MESSAGE(-100, 250);
+    const Vector2D FINALSCORE_POS(150, 250);
+    const Vector2D WIN_MESSAGE_POS(-375, 500);
+
+
     HtGraphics::instance.WriteTextAligned(WIN_MESSAGE_POS, "MISSION COMPLETE", HtGraphics::PURPLE, m_MessageFont, END_MESSAGE_FONT_SIZE);
     HtGraphics::instance.WriteTextAligned(FINALSCORE_MESSAGE, "Final Score: ", HtGraphics::PURPLE, m_MessageFont);
     HtGraphics::instance.WriteIntAligned(FINALSCORE_POS, m_score, HtGraphics::PURPLE, m_MessageFont, END_SCORE_FONT_SIZE);
