@@ -75,7 +75,7 @@ void TractorBeam::Update(double frametime)
 {
     //Pulling Constants 
     const double PULL_RANGE = 1000;
-    const double PULL_STRENGTH = 200;
+    const double PULL_STRENGTH = 250;
     const double PULL_MAGNETISM = 1;
     const double TRAP_RANGE = 300;
 

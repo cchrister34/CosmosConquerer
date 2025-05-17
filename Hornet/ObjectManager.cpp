@@ -383,4 +383,3 @@ void ObjectManager::RenderDebugObject()
 		m_debugTarget->RenderDebug();
 	}
 }
-

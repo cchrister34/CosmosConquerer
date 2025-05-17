@@ -11,7 +11,6 @@ const int START_LIVES = 2;
 const double SHIP_HEALTH = 100;
 const int NO_LIVES_REMAINING = 0;
 const int END_MESSAGE_FONT_SIZE = 3;
-const int END_SCORE_FONT_SIZE = 2;
 const int MESSAGE_FONT_SIZE = 24;
 const double FONT_SIZE = 1.25;
 const int UI_DRAW_DEPTH = 2;
@@ -256,7 +255,7 @@ void GameManager::DisplayLevelComplete() const
 
     HtGraphics::instance.WriteTextAligned(WIN_MESSAGE_POS, "MISSION COMPLETE", HtGraphics::PURPLE, m_MessageFont, END_MESSAGE_FONT_SIZE);
     HtGraphics::instance.WriteTextAligned(FINALSCORE_MESSAGE, "Final Score: ", HtGraphics::PURPLE, m_MessageFont);
-    HtGraphics::instance.WriteIntAligned(FINALSCORE_POS, m_score, HtGraphics::PURPLE, m_MessageFont, END_SCORE_FONT_SIZE);
+    HtGraphics::instance.WriteIntAligned(FINALSCORE_POS, m_score, HtGraphics::PURPLE, m_MessageFont, FONT_SIZE);
     HtGraphics::instance.WriteTextCentered(RETURN_MESSAGE, "Press Esc to return to the menu ", HtGraphics::GREY, m_MessageFont);
 }
 
