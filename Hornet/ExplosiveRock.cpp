@@ -6,7 +6,7 @@
 //Constants
 const std::string EXPLOSIVE_ROCK_IMAGE = "assets/Asteroids_Explosive.png";
 const std::string EXPLOSION_SOUND = "assets/explosion3.wav";
-const double ACTIVE_RANGE = 1500;
+const double ACTIVE_RANGE = 1750;
 const double ROCKRADIUS = 36;
 const double EXPLOSIVE_ROCK_SIZE = 1.5;
 
@@ -28,8 +28,8 @@ void ExplosiveRock::Initialise()
     const int EXPLOSIVEROCK_RAND_Y_POS_MIN = 900;
     const int EXPLOSIVEROCK_RAND_Y_POS_MAX = 1801;
     const int RAND_ANGLE = 360;
-    const int RAND_SPEED_MIN = 101;
-    const int RAND_SPEED_MAX = 200;
+    const int RAND_SPEED_MIN = 151;
+    const int RAND_SPEED_MAX = 250;
 
     m_explosiveRockXpos = rand() % EXPLOSIVEROCK_RAND_X_POS_MIN + EXPLOSIVEROCK_RAND_X_POS_MAX;
     m_explosiveRockYpos = rand() % EXPLOSIVEROCK_RAND_Y_POS_MAX - EXPLOSIVEROCK_RAND_Y_POS_MIN;

@@ -52,7 +52,7 @@ void Spaceship::Update(double frametime)
     //Movement Constants 
     const double THRUST_STRENGTH = 220.0;
     const int ROTATION_SPEED = 180;
-    const double ANGULAR_FRICTION = 0.6;
+    const double ANGULAR_FRICTION = 0.5;
     const double FRICTION_STRENGTH = 0.5;
     const double ENGINE_VOLUME = 0.3;
 
@@ -231,7 +231,7 @@ void Spaceship::ProcessCollision(GameObject& other)
 {
     //Damage Constants 
     const double ROCK_DAMAGE = 0.15;
-    const double BULLET_DAMAGE = 0.07;
+    const double BULLET_DAMAGE = 10;
 
 
     if (other.GetType() == ObjectType::ROCK && m_spawnImmunity <= NO_IMMUNITY)
@@ -270,7 +270,7 @@ void Spaceship::ProcessCollision(GameObject& other)
     if (other.GetType() == ObjectType::ENEMYBULLET)
     {
         m_health -= BULLET_DAMAGE;
-
+        other.Deactivate();
         Event evt;
         evt.type = EventType::SHIPDAMAGED;
         evt.pSource = this;
